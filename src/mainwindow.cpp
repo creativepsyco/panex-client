@@ -1,6 +1,7 @@
 #include <QtGui>
 #include "qpanexapp.h"
 #include "mainwindow.h"
+#include "aboutdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -8,8 +9,15 @@ MainWindow::MainWindow(QWidget *parent)
 	setupUi(this);
 	// setup connections
 	// setup services sidebar
+	
 	setupServiceSideBar();
+	setUpConnections();
 	QPanexApp::registerMainWindow(this);
+}
+
+void MainWindow::setUpConnections()
+{
+	connect(actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 }
 
 void MainWindow::setupServiceSideBar()
@@ -38,3 +46,10 @@ void MainWindow::populateServices(QWidget *sidebar)
 	sidebar->show();
 }
 
+// ALL THE SLOTS
+void MainWindow::about()
+{
+	AboutDialog *dlg = new AboutDialog(this);
+	dlg->exec();
+	dlg->deleteLater();
+}

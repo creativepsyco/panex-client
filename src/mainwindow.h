@@ -12,20 +12,24 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
 {
     Q_OBJECT
 
+public slots:
+    void about();
+
 public:
     MainWindow( QWidget *parent = 0 );
 
-protected:    
+protected:
 
 private slots:
-    
-private:
-	void populateServices(QWidget *widget);
-	void setupServiceSideBar();
-	QAction *aboutAction;
 
-	QWidget *servicesSideBar;
-	QList<QPushButton*> serviceButtonList;
+private:
+    void setUpConnections();
+    void populateServices(QWidget *widget);
+    void setupServiceSideBar();
+    QAction *aboutAction;
+
+    QWidget *servicesSideBar;
+    QList<QPushButton *> serviceButtonList;
 };
 
 #endif //MAINWINDOW_H
