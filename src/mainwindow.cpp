@@ -5,6 +5,7 @@
 #include "aboutdialog.h"
 #include "ui/addpatient.h"
 #include "ui/patientview.h"
+#include "ui/settingsdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -76,4 +77,11 @@ void MainWindow::on_actionPatient_View_triggered()
 {
     PatientView *patientView = new PatientView(frame_2);
     patientView->show();
+}
+
+void MainWindow::on_actionSettings_triggered()
+{
+    SettingsDialog *settingsDialog = new SettingsDialog(this);
+    settingsDialog->exec();
+    settingsDialog->deleteLater();
 }

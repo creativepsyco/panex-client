@@ -28,6 +28,8 @@ private slots:
 
     void on_actionPatient_View_triggered();
 
+    void on_actionSettings_triggered();
+
 private:
     void setUpConnections();
     void populateServices(QWidget *widget);
