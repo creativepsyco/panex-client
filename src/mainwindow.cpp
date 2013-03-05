@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::setUpConnections()
 {
 	connect(actionAbout, SIGNAL(triggered()), this, SLOT(about()));
+	connect(action_About, SIGNAL(triggered()), this, SLOT(about()));
 }
 
 void MainWindow::setupServiceSideBar()

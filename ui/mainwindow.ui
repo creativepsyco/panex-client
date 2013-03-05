@@ -20,8 +20,8 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -119,6 +119,9 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionNew_Patient"/>
+   <addaction name="actionUpload_Data"/>
+   <addaction name="actionDelete"/>
    <addaction name="actionSettings"/>
    <addaction name="actionAbout"/>
    <addaction name="actionExit"/>
@@ -165,6 +168,39 @@
   <action name="actionSettings_2">
    <property name="text">
     <string>Settings...</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Trash_Delete.png</normaloff>:/icons/Trash_Delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>delete</string>
+   </property>
+  </action>
+  <action name="actionNew_Patient">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Add_Symbol.png</normaloff>:/icons/Add_Symbol.png</iconset>
+   </property>
+   <property name="text">
+    <string>New Patient</string>
+   </property>
+   <property name="toolTip">
+    <string>New Patient</string>
+   </property>
+  </action>
+  <action name="actionUpload_Data">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Button_Up.png</normaloff>:/icons/Button_Up.png</iconset>
+   </property>
+   <property name="text">
+    <string>Upload Data</string>
+   </property>
+   <property name="toolTip">
+    <string>Upload Data</string>
    </property>
   </action>
  </widget>
