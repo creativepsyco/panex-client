@@ -22,6 +22,8 @@ protected:
 
 private slots:
 
+    void on_actionDo_something_triggered();
+
 private:
     void setUpConnections();
     void populateServices(QWidget *widget);

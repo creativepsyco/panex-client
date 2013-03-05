@@ -1,4 +1,5 @@
 #include <QtGui>
+#include <QtCore>
 #include "qpanexapp.h"
 #include "mainwindow.h"
 #include "aboutdialog.h"
@@ -55,4 +56,9 @@ void MainWindow::about()
 	AboutDialog *dlg = new AboutDialog(this);
 	dlg->exec();
 	dlg->deleteLater();
+}
+
+void MainWindow::on_actionDo_something_triggered()
+{
+    this->statusbar->showMessage(tr("This is it"));
 }
