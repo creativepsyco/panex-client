@@ -7,6 +7,9 @@ QPanexApp::QPanexApp( int & argc, char **argv ) :
         QApplication( argc, argv ),
         m_mainWindow(0)
 {
+    // Init settings
+    // Some config etc. 
+    
     // m_core = new Core( this );
     // m_settingsDialog = new Settings( m_core );
 

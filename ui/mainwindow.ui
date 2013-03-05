@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1213</width>
-    <height>671</height>
+    <width>1336</width>
+    <height>668</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,11 +55,8 @@
        </property>
       </widget>
       <widget class="QFrame" name="frame_3">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+       <property name="enabled">
+        <bool>true</bool>
        </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
@@ -77,7 +74,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1213</width>
+     <width>1336</width>
      <height>22</height>
     </rect>
    </property>
@@ -88,6 +85,7 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="action_About"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -127,6 +125,11 @@
    </property>
    <property name="text">
     <string>E&amp;xit</string>
+   </property>
+  </action>
+  <action name="action_About">
+   <property name="text">
+    <string>&amp;About</string>
    </property>
   </action>
  </widget>
