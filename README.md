@@ -9,5 +9,5 @@ QT Desktop Client for Panex
 
 ###App Screenshots
 
-![Screenshot](doc/images/screenShot.png "Screenshot")
+![Screenshot](doc/images/screenShot1.png "Screenshot")
 
