@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1336</width>
+    <width>1137</width>
     <height>668</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Panex</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
@@ -32,6 +32,12 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
        </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
@@ -58,11 +64,17 @@
        <property name="enabled">
         <bool>true</bool>
        </property>
+       <property name="minimumSize">
+        <size>
+         <width>130</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
        </property>
        <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
+        <enum>QFrame::Plain</enum>
        </property>
       </widget>
      </widget>
@@ -74,7 +86,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1336</width>
+     <width>1137</width>
      <height>22</height>
     </rect>
    </property>
@@ -91,6 +103,7 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionSettings_2"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuHelp"/>
@@ -106,13 +119,14 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionSettings"/>
    <addaction name="actionAbout"/>
    <addaction name="actionExit"/>
   </widget>
   <action name="actionAbout">
    <property name="icon">
     <iconset resource="../res/panexres.qrc">
-     <normaloff>:/icons/Help.png</normaloff>:/icons/Help.png</iconset>
+     <normaloff>:/icons/Info.png</normaloff>:/icons/Info.png</iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>
@@ -128,8 +142,29 @@
    </property>
   </action>
   <action name="action_About">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Info.png</normaloff>:/icons/Info.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Gear.png</normaloff>:/icons/Gear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
+   </property>
+   <property name="toolTip">
+    <string>Change Settings</string>
+   </property>
+  </action>
+  <action name="actionSettings_2">
+   <property name="text">
+    <string>Settings...</string>
    </property>
   </action>
  </widget>
