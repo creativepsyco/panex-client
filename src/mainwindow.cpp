@@ -3,6 +3,7 @@
 #include "qpanexapp.h"
 #include "mainwindow.h"
 #include "aboutdialog.h"
+#include "ui/addpatient.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -61,4 +62,11 @@ void MainWindow::about()
 void MainWindow::on_actionDo_something_triggered()
 {
     this->statusbar->showMessage(tr("This is it"));
+}
+
+void MainWindow::on_actionNew_Patient_triggered()
+{
+
+    AddPatient *addPatientView = new AddPatient(frame_2);
+    addPatientView->show();
 }

@@ -8,7 +8,10 @@ DEPENDPATH += . res src ui
 INCLUDEPATH += . src
 
 # Input
-HEADERS += src/aboutdialog.h src/mainwindow.h src/qpanexapp.h
-FORMS += ui/aboutdialog.ui ui/mainwindow.ui
-SOURCES += src/aboutdialog.cpp src/main.cpp src/mainwindow.cpp src/qpanexapp.cpp
+HEADERS += src/aboutdialog.h src/mainwindow.h src/qpanexapp.h \
+    ui/addpatient.h
+FORMS += ui/aboutdialog.ui ui/mainwindow.ui \
+    ui/addpatient.ui
+SOURCES += src/aboutdialog.cpp src/main.cpp src/mainwindow.cpp src/qpanexapp.cpp \
+    ui/addpatient.cpp
 RESOURCES += res/panexres.qrc
