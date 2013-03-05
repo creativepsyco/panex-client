@@ -119,6 +119,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionBack"/>
+   <addaction name="actionForward"/>
    <addaction name="actionNew_Patient"/>
    <addaction name="actionUpload_Data"/>
    <addaction name="actionDelete"/>
@@ -194,13 +196,37 @@
   <action name="actionUpload_Data">
    <property name="icon">
     <iconset resource="../res/panexres.qrc">
-     <normaloff>:/icons/Button_Up.png</normaloff>:/icons/Button_Up.png</iconset>
+     <normaloff>:/icons/Folder_Upload.png</normaloff>:/icons/Folder_Upload.png</iconset>
    </property>
    <property name="text">
     <string>Upload Data</string>
    </property>
    <property name="toolTip">
     <string>Upload Data</string>
+   </property>
+  </action>
+  <action name="actionBack">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Button_Back.png</normaloff>:/icons/Button_Back.png</iconset>
+   </property>
+   <property name="text">
+    <string>Back</string>
+   </property>
+   <property name="toolTip">
+    <string>Go Back</string>
+   </property>
+  </action>
+  <action name="actionForward">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Button_Next.png</normaloff>:/icons/Button_Next.png</iconset>
+   </property>
+   <property name="text">
+    <string>Forward</string>
+   </property>
+   <property name="toolTip">
+    <string>Forward</string>
    </property>
   </action>
  </widget>

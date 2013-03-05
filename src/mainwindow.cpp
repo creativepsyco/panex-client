@@ -19,6 +19,8 @@ void MainWindow::setUpConnections()
 {
 	connect(actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 	connect(action_About, SIGNAL(triggered()), this, SLOT(about()));
+
+	connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
 }
 
 void MainWindow::setupServiceSideBar()

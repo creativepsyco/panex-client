@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     MainWindow qpanex;
 
     qApp->setWindowIcon(QIcon(":/icons/Blueprint.png"));
-    qApp->setQuitOnLastWindowClosed(false);
+    //qApp->setQuitOnLastWindowClosed(false);
 
     qpanex.show();
 
