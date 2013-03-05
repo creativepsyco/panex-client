@@ -4,21 +4,23 @@
 
 #include <QMainWindow>
 
-class MainWindow : public QMainWindow
+class QAction;
+class QLabel;
+
+class MainWindow : public QMainWindow, public Ui::MainWindow
 {
     Q_OBJECT
 
 public:
     MainWindow( QWidget *parent = 0 );
 
-protected:
-    void closeEvent(QCloseEvent *event);
+protected:    
 
 private slots:
-    void about();
+    
 private:
+
 	QAction *aboutAction;
-	QToolBar *toolBar;
 };
 
 #endif //MAINWINDOW_H

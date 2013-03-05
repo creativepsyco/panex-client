@@ -1,15 +1,20 @@
 #include <QApplication>
 #include <QWidget>
+#include <QIcon>
 
-#include "ui_mainwindow.h"
+#include "mainwindow.h"
+#include "qpanexapp.h"
+
 
 int main(int argc, char *argv[])
 {
-	QApplication app(argc, argv);
-	Ui::MainWindow ui;
-	QMainWindow *mainWindow = new QMainWindow;
-	ui.setupUi(mainWindow);
-	mainWindow->show();
+    QPanexApp app(argc, argv);
+    MainWindow qpanex;
 
-	return app.exec();
+    qApp->setWindowIcon(QIcon(":/icons/Blueprint.png"));
+    qApp->setQuitOnLastWindowClosed(false);
+
+    qpanex.show();
+
+    return app.exec();
 }
