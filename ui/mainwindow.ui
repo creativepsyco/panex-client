@@ -105,6 +105,7 @@
     </property>
     <addaction name="actionSettings_2"/>
     <addaction name="actionDo_something"/>
+    <addaction name="actionPatient_View"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuHelp"/>
@@ -233,6 +234,11 @@
   <action name="actionDo_something">
    <property name="text">
     <string>Do something</string>
+   </property>
+  </action>
+  <action name="actionPatient_View">
+   <property name="text">
+    <string>Patient View</string>
    </property>
   </action>
  </widget>

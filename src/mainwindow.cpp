@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "aboutdialog.h"
 #include "ui/addpatient.h"
+#include "ui/patientview.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -69,4 +70,10 @@ void MainWindow::on_actionNew_Patient_triggered()
 
     AddPatient *addPatientView = new AddPatient(frame_2);
     addPatientView->show();
+}
+
+void MainWindow::on_actionPatient_View_triggered()
+{
+    PatientView *patientView = new PatientView(frame_2);
+    patientView->show();
 }
