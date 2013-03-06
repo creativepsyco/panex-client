@@ -119,16 +119,18 @@ void MainWindow::on_viewPatientsCommand_clicked()
     QWidget *viewPatientsView = new QWidget(this);
     QGridLayout *gridLayout = new QGridLayout(viewPatientsView);
     QFileSystemModel *model = new QFileSystemModel;
-    model->setRootPath(QDir::currentPath());
-    QTreeView *tree = new QTreeView(this);
-    tree->setModel(model);
-    tree->setRootIndex(model->index(QDir::currentPath()));
-    gridLayout->addWidget(tree);
+    model->setRootPath(QDir::rootPath());
+    QListView *list = new QListView(this);
+    list->setModel(model);
+    list->setRootIndex(model->index(QDir::rootPath()));
+    gridLayout->addWidget(list);
     int index = stackedWidget->indexOf(viewPatientsView);
     if (index==-1)
         stackedWidget->addWidget(viewPatientsView);
     stackedWidget->setCurrentWidget(viewPatientsView);
-    tree->show();
+    list->setIconSize(QSize(40,40));
+    list->setViewMode(QListView::IconMode);
+    list->show();
 }
 
 void MainWindow::on_actionBack_triggered()
@@ -142,5 +144,5 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
     previous_widget_id = current_widget_id;
     current_widget_id = arg1;
     QString s = QString("Current: %1 New: %2").arg(stackedWidget->currentIndex()).arg(arg1);
-    statusbar->showMessage(s);
+    statusbar->showMessage(s, 2000);
 }
