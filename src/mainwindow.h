@@ -30,10 +30,13 @@ private slots:
 
     void on_actionSettings_triggered();
 
+    void on_viewPatientsCommand_clicked();
+
 private:
     void setUpConnections();
     void populateServices(QWidget *widget);
     void setupServiceSideBar();
+    void clearLayout(QLayout *layout);
     QAction *aboutAction;
 
     QWidget *servicesSideBar;

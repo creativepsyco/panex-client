@@ -45,6 +45,65 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QCommandLinkButton" name="viewPatientsCommand">
+          <property name="text">
+           <string>Patients</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../res/panexres.qrc">
+            <normaloff>:/icons/User2.png</normaloff>:/icons/User2.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCommandLinkButton" name="commandLinkButton_2">
+          <property name="text">
+           <string>Notifications</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../res/panexres.qrc">
+            <normaloff>:/icons/Info_Light.png</normaloff>:/icons/Info_Light.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCommandLinkButton" name="commandLinkButton_3">
+          <property name="text">
+           <string>Services</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../res/panexres.qrc">
+            <normaloff>:/icons/Button_Sync.png</normaloff>:/icons/Button_Sync.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCommandLinkButton" name="commandLinkButton_4">
+          <property name="text">
+           <string>Apps</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../res/panexres.qrc">
+            <normaloff>:/icons/Button_Sync.png</normaloff>:/icons/Button_Sync.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </widget>
       <widget class="QFrame" name="frame_2">
        <property name="sizePolicy">
@@ -59,6 +118,14 @@
        <property name="frameShadow">
         <enum>QFrame::Plain</enum>
        </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QStackedWidget" name="stackedWidget">
+          <widget class="QWidget" name="page"/>
+          <widget class="QWidget" name="page_2"/>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QFrame" name="frame_3">
        <property name="enabled">
