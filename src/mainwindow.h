@@ -32,6 +32,10 @@ private slots:
 
     void on_viewPatientsCommand_clicked();
 
+    void on_actionBack_triggered();
+
+    void on_stackedWidget_currentChanged(int arg1);
+
 private:
     void setUpConnections();
     void populateServices(QWidget *widget);
@@ -41,6 +45,9 @@ private:
 
     QWidget *servicesSideBar;
     QList<QPushButton *> serviceButtonList;
+
+    int current_widget_id;
+    int previous_widget_id;
 };
 
 #endif //MAINWINDOW_H

@@ -130,3 +130,17 @@ void MainWindow::on_viewPatientsCommand_clicked()
     stackedWidget->setCurrentWidget(viewPatientsView);
     tree->show();
 }
+
+void MainWindow::on_actionBack_triggered()
+{
+    if (previous_widget_id != -1)
+        stackedWidget->setCurrentIndex(previous_widget_id);
+}
+
+void MainWindow::on_stackedWidget_currentChanged(int arg1)
+{
+    previous_widget_id = current_widget_id;
+    current_widget_id = arg1;
+    QString s = QString("Current: %1 New: %2").arg(stackedWidget->currentIndex()).arg(arg1);
+    statusbar->showMessage(s);
+}
