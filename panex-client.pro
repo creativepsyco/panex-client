@@ -15,7 +15,8 @@ HEADERS += src/aboutdialog.h src/mainwindow.h src/qpanexapp.h \
 FORMS += ui/aboutdialog.ui ui/mainwindow.ui \
     ui/addpatient.ui \
     ui/patientview.ui \
-    ui/settingsdialog.ui
+    ui/settingsdialog.ui \
+    ui/settings.ui
 SOURCES += src/aboutdialog.cpp src/main.cpp src/mainwindow.cpp src/qpanexapp.cpp \
     ui/addpatient.cpp \
     ui/patientview.cpp \
