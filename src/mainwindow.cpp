@@ -130,6 +130,7 @@ void MainWindow::on_viewPatientsCommand_clicked()
     stackedWidget->setCurrentWidget(viewPatientsView);
     list->setIconSize(QSize(40,40));
     list->setViewMode(QListView::IconMode);
+    list->setGridSize(QSize(100,100));
     list->show();
 }
 
