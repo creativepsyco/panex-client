@@ -91,6 +91,28 @@
          </widget>
         </item>
         <item>
+         <widget class="QCommandLinkButton" name="commandLinkButton">
+          <property name="text">
+           <string>Recent</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../res/panexres.qrc">
+            <normaloff>:/icons/Calendar.png</normaloff>:/icons/Calendar.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCommandLinkButton" name="commandLinkButton_5">
+          <property name="text">
+           <string>Favorite</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../res/panexres.qrc">
+            <normaloff>:/icons/Fav.png</normaloff>:/icons/Fav.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
