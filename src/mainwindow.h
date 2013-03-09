@@ -14,6 +14,7 @@ class MainWindow : public QMainWindow, public Ui::MainWindow
 
 public slots:
     void about();
+    void loginDialogEvent(bool result);
 
 public:
     MainWindow( QWidget *parent = 0 );
@@ -41,6 +42,8 @@ private:
     void populateServices(QWidget *widget);
     void setupServiceSideBar();
     void clearLayout(QLayout *layout);
+
+    void showSignInWindow();
     QAction *aboutAction;
 
     QWidget *servicesSideBar;

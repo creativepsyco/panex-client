@@ -6,6 +6,7 @@
 #include "ui/addpatient.h"
 #include "ui/patientview.h"
 #include "ui/settingsdialog.h"
+#include "ui/logindialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     setupServiceSideBar();
     setUpConnections();
     QPanexApp::registerMainWindow(this);
+    this->hide();
+    showSignInWindow();
 }
 
 void MainWindow::setUpConnections()
@@ -25,6 +28,13 @@ void MainWindow::setUpConnections()
     connect(action_About, SIGNAL(triggered()), this, SLOT(about()));
 
     connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
+}
+
+void MainWindow::showSignInWindow()
+{
+    LoginDialog *loginDialog = new LoginDialog(this);
+    loginDialog->exec();
+    loginDialog->deleteLater();
 }
 
 void MainWindow::setupServiceSideBar()
@@ -59,6 +69,15 @@ void MainWindow::about()
     AboutDialog *dlg = new AboutDialog(this);
     dlg->exec();
     dlg->deleteLater();
+}
+
+void MainWindow::loginDialogEvent(bool result)
+{
+    if(!result)
+    {
+        // Just Quit the App
+        this->close();
+    }
 }
 
 void MainWindow::on_actionDo_something_triggered()
