@@ -82,7 +82,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEdit"/>
+        <widget class="QLineEdit" name="txt_name"/>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_2">
@@ -92,7 +92,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLineEdit" name="lineEdit_2"/>
+        <widget class="QLineEdit" name="txt_email"/>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_3">
@@ -102,7 +102,7 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QLineEdit" name="lineEdit_3">
+        <widget class="QLineEdit" name="txt_password">
          <property name="echoMode">
           <enum>QLineEdit::Password</enum>
          </property>
@@ -116,7 +116,7 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QLineEdit" name="lineEdit_4">
+        <widget class="QLineEdit" name="txt_confirm_password">
          <property name="echoMode">
           <enum>QLineEdit::Password</enum>
          </property>
@@ -130,7 +130,7 @@
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QComboBox" name="comboBox">
+        <widget class="QComboBox" name="choice_role">
          <item>
           <property name="text">
            <string>Clinician</string>
@@ -177,7 +177,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="btn_cancel">
          <property name="text">
           <string>Cancel</string>
          </property>

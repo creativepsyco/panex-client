@@ -21,12 +21,51 @@ UserSignupDialog::~UserSignupDialog()
 void UserSignupDialog::on_btn_sign_up_clicked()
 {
     // do the signup
-    QMessageBox msgBox;
-    msgBox.setText("Signed Up Successfully now login");
-    msgBox.exec();
+
+    // Validate as well
+    if (validate())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Signed Up Successfully now login");
+        msgBox.exec();
+        this->close();
+        LoginDialog *loginDialog = new LoginDialog(this->parentWidget());
+        loginDialog->exec();
+        loginDialog->deleteLater();
+    }
+
+}
+
+void UserSignupDialog::on_btn_cancel_clicked()
+{
     this->close();
     LoginDialog *loginDialog = new LoginDialog(this->parentWidget());
     loginDialog->exec();
     loginDialog->deleteLater();
+}
 
+/* Returns true if validation succeeds */
+bool UserSignupDialog::validate()
+{
+    // Check that none of the fields are empty
+    if (ui->txt_email->text().isEmpty()
+            || ui->txt_name->text().isEmpty()
+            || ui->txt_password->text().isEmpty()
+            || ui->txt_confirm_password->text().isEmpty())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Please fill all the fields");
+        msgBox.exec();
+        return false;
+    }
+    // Password check
+    if (this->ui->txt_password->text() != this->ui->txt_confirm_password->text())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Please check the password and confirm password match.");
+        msgBox.exec();
+        return false;
+    }
+
+    return true;
 }

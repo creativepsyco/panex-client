@@ -18,8 +18,11 @@ public:
 private slots:
     void on_btn_sign_up_clicked();
 
+    void on_btn_cancel_clicked();
+
 private:
     Ui::UserSignupDialog *ui;
+    bool validate();
 };
 
 #endif // USERSIGNUPDIALOG_H
