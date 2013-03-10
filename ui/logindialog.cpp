@@ -7,6 +7,9 @@ LoginDialog::LoginDialog(QWidget *parent) :
     ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
+    setFixedSize(width(), height());
+    // Removes maximize button
+    setWindowFlags( (windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowMaximizeButtonHint);
 }
 
 LoginDialog::~LoginDialog()
@@ -29,7 +32,7 @@ void LoginDialog::on_buttonBox_rejected()
     qApp->exit(0);
 }
 
-void LoginDialog::on_lbl_sign_up_linkActivated(const QString &link)
+void LoginDialog::on_btn_sign_up_clicked()
 {
     QMessageBox msgBox;
     msgBox.setText("The document has been modified.");

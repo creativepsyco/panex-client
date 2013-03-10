@@ -20,7 +20,7 @@ private slots:
 
     void on_buttonBox_rejected();
 
-    void on_lbl_sign_up_linkActivated(const QString &link);
+    void on_btn_sign_up_clicked();
 
 private:
     Ui::LoginDialog *ui;
