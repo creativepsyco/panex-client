@@ -1,6 +1,7 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 #include <QDebug>
+#include "QsLog.h"
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
@@ -17,7 +18,7 @@ SettingsDialog::~SettingsDialog()
 void SettingsDialog::loadConfig()
 {
     // Read the settings and apply them to the UI
-    qDebug() << "settings loaded and applied";
+    QLOG_INFO() << "settings loaded and applied";
 }
 
 void SettingsDialog::saveConfig(int quitting)
