@@ -1,6 +1,6 @@
 #include "aboutdialog.h"
 // to be replaced
-#define APP_VERSION 1
+#include "configfile.h"
 
 AboutDialog::AboutDialog( QWidget *parent ) :
     QDialog( parent ),
@@ -75,7 +75,7 @@ void AboutDialog::displayAbout()
                      "<p>by <a href=\"http://twitter.com/mohitkanwal\"><span style=\" text-decoration: underline; color:#0000ff;\">Mohit Kanwal</span></a></p>"
                      "<p style=\"-qt-paragraph-type:empty; \"></p>"
                      "<p>Distributed under the LGPL license</p>"
-                     "<p>version 2.1 or later</p>" ).arg( APP_VERSION ) );
+                     "<p>version 2.1 or later</p>" ).arg( ConfigFile::APP_VERSION) );
 
     html.append(   "</body>"
                    "</html>" );

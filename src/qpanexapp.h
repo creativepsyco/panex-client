@@ -2,7 +2,7 @@
 #define QPANEXAPP_H
 
 #include <QApplication>
-
+#include "ui/settingsdialog.h"
 class MainWindow;
 
 class QPanexApp : public QApplication
@@ -15,6 +15,7 @@ public:
     virtual ~QPanexApp();
 
     static MainWindow* mainWindow();
+    void loadConfig();
 
 public slots:
     // void openSettings();
@@ -25,7 +26,7 @@ private:
     static void unregisterMainWindow( MainWindow *mainWindow );
 
     MainWindow *m_mainWindow;
-    //Settings *m_settingsDialog;
+    SettingsDialog *m_settingsDialog;
 
     friend class MainWindow;
 };

@@ -48,3 +48,8 @@ void QPanexApp::unregisterMainWindow( MainWindow *mainWindow )
         // instance()->m_core->storeSession();
     }
 }
+
+void QPanexApp::loadConfig()
+{
+    m_settingsDialog->loadConfig();
+}

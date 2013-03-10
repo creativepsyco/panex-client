@@ -15,7 +15,8 @@ HEADERS += src/aboutdialog.h \
            ui/patientview.h \
            ui/settingsdialog.h \
     ui/logindialog.h \
-    ui/usersignupdialog.h
+    ui/usersignupdialog.h \
+    src/configfile.h
 FORMS += ui/aboutdialog.ui \
          ui/addpatient.ui \
          ui/mainwindow.ui \
@@ -33,5 +34,6 @@ SOURCES += src/aboutdialog.cpp \
            ui/settingsdialog.cpp \
     ui/logindialog.cpp \
     ui/usersignupdialog.cpp \
-    ui/utils.cpp
+    ui/utils.cpp \
+    src/configfile.cpp
 RESOURCES += res/panexres.qrc
