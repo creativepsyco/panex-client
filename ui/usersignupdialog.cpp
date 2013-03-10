@@ -26,9 +26,7 @@ void UserSignupDialog::on_btn_sign_up_clicked()
     // Validate as well
     if (validate())
     {
-        QMessageBox msgBox;
-        msgBox.setText("Signed Up Successfully now login");
-        msgBox.exec();
+        DisplayMessageBox("", "Signed Up Successfully now login", QMessageBox::Information);
         this->close();
         LoginDialog *loginDialog = new LoginDialog(this->parentWidget());
         loginDialog->exec();
@@ -60,9 +58,7 @@ bool UserSignupDialog::validate()
     // Password check
     if (this->ui->txt_password->text() != this->ui->txt_confirm_password->text())
     {
-        QMessageBox msgBox;
-        msgBox.setText("Please check the password and confirm password match.");
-        msgBox.exec();
+        DisplayMessageBox("", "Please check the password and confirm password match.", QMessageBox::Critical);
         return false;
     }
 
