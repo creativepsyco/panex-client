@@ -14,6 +14,9 @@ class LoginDialog : public QDialog
 public:
     explicit LoginDialog(QWidget *parent = 0);
     ~LoginDialog();
+
+public slots:
+    void show();
     
 private slots:
     void on_buttonBox_accepted();

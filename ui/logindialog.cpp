@@ -40,3 +40,8 @@ void LoginDialog::on_btn_sign_up_clicked()
     usersignupdialog->exec();
     usersignupdialog->deleteLater();
 }
+
+void LoginDialog::show()
+{
+    this->show();
+}

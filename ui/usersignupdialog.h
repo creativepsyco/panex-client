@@ -15,6 +15,9 @@ public:
     explicit UserSignupDialog(QWidget *parent = 0);
     ~UserSignupDialog();
     
+private slots:
+    void on_btn_sign_up_clicked();
+
 private:
     Ui::UserSignupDialog *ui;
 };
