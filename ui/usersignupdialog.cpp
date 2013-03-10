@@ -54,7 +54,9 @@ bool UserSignupDialog::validate()
             || ui->txt_confirm_password->text().isEmpty())
     {
         QMessageBox msgBox;
-        msgBox.setText("Please fill all the fields");
+        msgBox.setText("Incomplete Fields Error");
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setInformativeText("Please complete all the fields in the form");
         msgBox.exec();
         return false;
     }
