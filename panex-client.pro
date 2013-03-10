@@ -32,5 +32,6 @@ SOURCES += src/aboutdialog.cpp \
            ui/patientview.cpp \
            ui/settingsdialog.cpp \
     ui/logindialog.cpp \
-    ui/usersignupdialog.cpp
+    ui/usersignupdialog.cpp \
+    ui/utils.cpp
 RESOURCES += res/panexres.qrc

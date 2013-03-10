@@ -2,6 +2,7 @@
 #include "ui_usersignupdialog.h"
 #include "logindialog.h"
 #include <QMessageBox>
+#include "utils.cpp"
 
 UserSignupDialog::UserSignupDialog(QWidget *parent) :
     QDialog(parent),
@@ -53,11 +54,7 @@ bool UserSignupDialog::validate()
             || ui->txt_password->text().isEmpty()
             || ui->txt_confirm_password->text().isEmpty())
     {
-        QMessageBox msgBox;
-        msgBox.setText("Incomplete Fields Error");
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setInformativeText("Please complete all the fields in the form");
-        msgBox.exec();
+        DisplayMessageBox("Incompleted Fields Error","Please Complete all the fields", QMessageBox::Critical);
         return false;
     }
     // Password check
