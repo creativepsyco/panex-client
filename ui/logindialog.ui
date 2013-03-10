@@ -151,7 +151,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="btn_sign_up">
        <property name="text">
         <string>Register for an account</string>
        </property>

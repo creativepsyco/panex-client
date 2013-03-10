@@ -1,6 +1,7 @@
 #include <QMessageBox>
 #include "logindialog.h"
 #include "ui_logindialog.h"
+#include "usersignupdialog.h"
 
 LoginDialog::LoginDialog(QWidget *parent) :
     QDialog(parent),
@@ -34,7 +35,8 @@ void LoginDialog::on_buttonBox_rejected()
 
 void LoginDialog::on_btn_sign_up_clicked()
 {
-    QMessageBox msgBox;
-    msgBox.setText("The document has been modified.");
-    msgBox.exec();
+    this->hide();
+    UserSignupDialog *usersignupdialog = new UserSignupDialog(this->parentWidget());
+    usersignupdialog->exec();
+    usersignupdialog->deleteLater();
 }
