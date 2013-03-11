@@ -7,6 +7,7 @@
 #include "ui/patientview.h"
 #include "ui/settingsdialog.h"
 #include "ui/logindialog.h"
+#include "global_include.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -32,9 +33,24 @@ void MainWindow::setUpConnections()
 
 void MainWindow::showSignInWindow()
 {
-    LoginDialog *loginDialog = new LoginDialog(this);
-    loginDialog->exec();
-    loginDialog->deleteLater();
+    QWidget *parent = 0;
+    if ( sender() ) {
+        parent = qobject_cast<QWidget*>( sender() );
+    }
+
+    LoginDialog *loginDialog = new LoginDialog(parent ? parent : QPanexApp::instance()->activeWindow() );
+    int result = loginDialog->exec();
+    QLOG_INFO() << "Dialog Result: " << result;
+    if(result == QDialog::Accepted)
+    {
+        // Load other stuff
+        this->show();
+    }
+    else
+    {
+        QLOG_INFO() << "Quitting App";
+        QApplication::quit();
+    }
 }
 
 void MainWindow::setupServiceSideBar()

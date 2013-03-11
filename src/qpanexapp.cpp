@@ -53,3 +53,8 @@ void QPanexApp::loadConfig()
 {
     m_settingsDialog->loadConfig();
 }
+
+void QPanexApp::openSettings()
+{
+    m_settingsDialog->exec();
+}

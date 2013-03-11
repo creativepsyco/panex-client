@@ -18,7 +18,7 @@ public:
     void loadConfig();
 
 public slots:
-    // void openSettings();
+    void openSettings();
     // void loadConfig();
 
 private:

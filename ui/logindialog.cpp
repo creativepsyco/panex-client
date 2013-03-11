@@ -25,12 +25,12 @@ void LoginDialog::on_buttonBox_accepted()
 
 void LoginDialog::on_buttonBox_rejected()
 {
-    QMessageBox msgBox;
-    msgBox.setText("The document has been modified.");
-    msgBox.exec();
-    // The main Window runs as a separate app
-    QApplication::quit();
-    qApp->exit(0);
+//    QMessageBox msgBox;
+//    msgBox.setText("The document has been modified.");
+//    msgBox.exec();
+//    // The main Window runs as a separate app
+//    QApplication::quit();
+//    qApp->exit(0);
 }
 
 void LoginDialog::on_btn_sign_up_clicked()
