@@ -1,6 +1,6 @@
 #include "panexapi.h"
 
-panexapi::panexapi(QObject *parent) :
+PanexApi::PanexApi(QObject *parent) :
     QObject(parent)
 {
 }
