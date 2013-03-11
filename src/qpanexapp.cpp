@@ -1,5 +1,5 @@
 #include "qpanexapp.h"
-
+#include "global_include.h"
 #include "mainwindow.h"
 #include <QSignalMapper>
 
@@ -15,7 +15,7 @@ QPanexApp::QPanexApp( int & argc, char **argv ) :
 
     // QSignalMapper *mapper = new QSignalMapper( this );
     // mapper->setMapping( qApp, 1 );
-    // connect( this, SIGNAL(aboutToQuit()), mapper, SLOT(map()) );
+    connect( this, SIGNAL(exitApp()), this, SLOT(exitAppSlot()) );
     // connect( mapper, SIGNAL(mapped(int)), m_settingsDialog, SLOT(saveConfig(int)) );
 }
 
@@ -57,4 +57,12 @@ void QPanexApp::loadConfig()
 void QPanexApp::openSettings()
 {
     m_settingsDialog->exec();
+}
+
+void QPanexApp::exitAppSlot()
+{
+    QLOG_INFO() << "Quitting Application";
+    // TODO: do something before exit?
+    this->exit(0);
+    qApp->exit(0);
 }

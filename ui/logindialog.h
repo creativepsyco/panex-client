@@ -15,6 +15,9 @@ public:
     explicit LoginDialog(QWidget *parent = 0);
     ~LoginDialog();
 
+signals:
+    void showRegisterDialogSignal();
+
 public slots:
     void show();
     

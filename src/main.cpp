@@ -30,14 +30,16 @@ int main(int argc, char *argv[])
     QLOG_INFO() << "Program started";
     QLOG_INFO() << "Built with Qt" << QT_VERSION_STR << "running on" << qVersion();
 
-    MainWindow qpanexMainWindow;
     app.loadConfig();
 
-    qApp->setWindowIcon(QIcon(":/icons/Blueprint.png"));
     qApp->setQuitOnLastWindowClosed(true);
+    MainWindow qpanexMainWindow;
+
+
+    qApp->setWindowIcon(QIcon(":/icons/Blueprint.png"));
+
 
 //    qpanexMainWindow.show();
-
     return app.exec();
 }
 

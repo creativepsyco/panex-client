@@ -16,6 +16,10 @@ public slots:
     void about();
     void loginDialogEvent(bool result);
 
+signals:
+    void showLoginDialog();
+    void showRegisterDialog();
+
 public:
     MainWindow( QWidget *parent = 0 );
 
@@ -36,6 +40,9 @@ private slots:
     void on_actionBack_triggered();
 
     void on_stackedWidget_currentChanged(int arg1);
+
+    void showLoginDialogBox();
+    void showRegisterDialogBox();
 
 private:
     void setUpConnections();

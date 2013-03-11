@@ -1,5 +1,7 @@
 #include <QMessageBox>
 #include "logindialog.h"
+#include "qpanexapp.h"
+#include "mainwindow.h"
 #include "ui_logindialog.h"
 #include "usersignupdialog.h"
 
@@ -35,10 +37,8 @@ void LoginDialog::on_buttonBox_rejected()
 
 void LoginDialog::on_btn_sign_up_clicked()
 {
-    this->hide();
-    UserSignupDialog *usersignupdialog = new UserSignupDialog(this->parentWidget());
-    usersignupdialog->exec();
-    usersignupdialog->deleteLater();
+    this->close();
+    emit this->showRegisterDialogSignal();
 }
 
 void LoginDialog::show()

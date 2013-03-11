@@ -17,8 +17,12 @@ public:
     static MainWindow* mainWindow();
     void loadConfig();
 
+signals:
+    void exitApp();
+
 public slots:
     void openSettings();
+    void exitAppSlot();
     // void loadConfig();
 
 private:

@@ -6,6 +6,7 @@
 #include "ui/addpatient.h"
 #include "ui/patientview.h"
 #include "ui/settingsdialog.h"
+#include "ui/usersignupdialog.h"
 #include "ui/logindialog.h"
 #include "global_include.h"
 
@@ -20,25 +21,22 @@ MainWindow::MainWindow(QWidget *parent)
     setUpConnections();
     QPanexApp::registerMainWindow(this);
     this->hide();
-    showSignInWindow();
+
+    emit showLoginDialog();
 }
 
-void MainWindow::setUpConnections()
+void MainWindow::showLoginDialogBox()
 {
-    connect(actionAbout, SIGNAL(triggered()), this, SLOT(about()));
-    connect(action_About, SIGNAL(triggered()), this, SLOT(about()));
 
-    connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
-}
 
-void MainWindow::showSignInWindow()
-{
     QWidget *parent = 0;
     if ( sender() ) {
         parent = qobject_cast<QWidget*>( sender() );
     }
 
     LoginDialog *loginDialog = new LoginDialog(parent ? parent : QPanexApp::instance()->activeWindow() );
+    connect(loginDialog, SIGNAL(showRegisterDialogSignal()), this, SLOT(showRegisterDialogBox()));
+
     int result = loginDialog->exec();
     QLOG_INFO() << "Dialog Result: " << result;
     if(result == QDialog::Accepted)
@@ -48,9 +46,45 @@ void MainWindow::showSignInWindow()
     }
     else
     {
+        emit QPanexApp::instance()->exitApp();
         QLOG_INFO() << "Quitting App";
-        QApplication::quit();
     }
+}
+
+void MainWindow::showRegisterDialogBox()
+{
+    QWidget *parent = 0;
+    if ( sender() ) {
+        parent = qobject_cast<QWidget*>( sender() );
+    }
+
+    UserSignupDialog *usersignupdialog = new UserSignupDialog(parent ? parent : QPanexApp::instance()->activeWindow() );
+    int result = usersignupdialog->exec();
+    if(result == QDialog::Accepted)
+    {
+        emit showLoginDialog();
+        // Show the LoginBox
+    }
+    else
+    {
+        emit QPanexApp::instance()->exitApp();
+        QLOG_INFO() << "Quitting App";
+    }
+}
+
+void MainWindow::setUpConnections()
+{
+    connect(actionAbout, SIGNAL(triggered()), this, SLOT(about()));
+    connect(action_About, SIGNAL(triggered()), this, SLOT(about()));
+
+    connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
+    connect(this, SIGNAL(showLoginDialog()), this, SLOT(showLoginDialogBox()));
+
+}
+
+void MainWindow::showSignInWindow()
+{
+
 }
 
 void MainWindow::setupServiceSideBar()
