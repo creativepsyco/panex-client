@@ -1,6 +1,8 @@
 #include "usersignupdialog.h"
 #include "ui_usersignupdialog.h"
 #include "logindialog.h"
+#include "panexapi.h"
+#include "global_include.h"
 #include <QMessageBox>
 #include "utils.cpp"
 
@@ -26,6 +28,9 @@ void UserSignupDialog::on_btn_sign_up_clicked()
     // Validate as well
     if (validate())
     {
+        PanexApi* instance = PanexApi::instance();
+        instance->SignUpUser(ui->txt_name->text(), ui->txt_password->text(), ui->choice_role->currentText(), ui->txt_email->text());
+
         DisplayMessageBox("", "Signed Up Successfully now login", QMessageBox::Information);
         this->close();
         LoginDialog *loginDialog = new LoginDialog(this->parentWidget());
