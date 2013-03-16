@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "ui_logindialog.h"
 #include "usersignupdialog.h"
+#include "global_include.h"
 
 LoginDialog::LoginDialog(QWidget *parent) :
     QDialog(parent),
@@ -22,7 +23,11 @@ LoginDialog::~LoginDialog()
 
 void LoginDialog::on_buttonBox_accepted()
 {
-    // Allow Login
+    // Do the Login Sequence
+    PanexApi *panexApi = PanexApi::instance();
+    // TODO: Validation
+    connect(panexApi, SIGNAL(LoginResult(QVariantMap)), this, SLOT(processLoginResult(QVariantMap)));
+    panexApi->LoginUser(ui->txt_username->text(), ui->txt_password->text());
 }
 
 void LoginDialog::on_buttonBox_rejected()
@@ -44,4 +49,20 @@ void LoginDialog::on_btn_sign_up_clicked()
 void LoginDialog::show()
 {
     this->show();
+}
+
+void LoginDialog::processLoginResult(QVariantMap aResult)
+{
+    QLOG_INFO() << "[Login Dialog] Processing Login Result" << aResult["result"].toString();
+    QString success = "success";
+    QString result  = aResult["result"].toString();
+    if (result.compare(success) == 0)
+    {
+        // emit the correct signal
+        QLOG_DEBUG() << "[Login Dialog] Success in getting reply";
+    }
+    else
+    {
+        this->show();
+    }
 }

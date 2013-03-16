@@ -2,6 +2,8 @@
 #define PANEXAPI_H
 
 #include <QObject>
+#include <QVariantMap>
+#include <QNetworkReply>
 #include "global_include.h"
 
 
@@ -12,10 +14,15 @@ public:
     explicit PanexApi(QObject *parent = 0);
     static PanexApi* instance();
     bool SignUpUser(QString userName, QString userPassword, QString userRole, QString userEmail);
+    bool LoginUser(QString userEmail, QString userPassword);
 
 signals:
-    
+    void LoginResult(QVariantMap dataMap);
+
 public slots:
+private slots:
+    void processLoginReply(QNetworkReply* aReply);
+
 private:
     static const QString UrlPanex;
     static const QString UrlUserSignUp;

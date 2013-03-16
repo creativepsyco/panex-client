@@ -2,7 +2,7 @@
 #define LOGINDIALOG_H
 
 #include <QDialog>
-
+#include <QVariantMap>
 namespace Ui {
 class LoginDialog;
 }
@@ -23,7 +23,7 @@ public slots:
     
 private slots:
     void on_buttonBox_accepted();
-
+    void processLoginResult(QVariantMap aResult);
     void on_buttonBox_rejected();
 
     void on_btn_sign_up_clicked();

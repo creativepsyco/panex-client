@@ -3,5 +3,6 @@
 #include "qslog/QsDebugOutput.h"
 #include "qslog/QsLog.h"
 #include "qslog/QsLogDest.h"
+#include "panexapi.h"
 
 #endif // GLOBAL_INCLUDE_H

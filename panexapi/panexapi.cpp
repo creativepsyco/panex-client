@@ -69,3 +69,62 @@ bool PanexApi::SignUpUser(QString userName, QString userPassword, QString userRo
     manager->post(request, jsonData);
     return true;
 }
+
+bool PanexApi::LoginUser(QString userEmail, QString userPassword)
+{
+    QUrl url(PanexApi::UrlUserLogin);
+    QNetworkRequest request(url);
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+
+    QVariantMap dataMap;
+    dataMap.insert("email", userEmail);
+    dataMap.insert("password", userPassword);
+
+    bool ok;
+    QByteArray jsonData = QtJson::serialize(dataMap, ok);
+    if (ok)
+    {
+        QLOG_INFO() << jsonData;
+    } else
+    {
+        QLOG_ERROR() << "Failed to convert data" << jsonData;
+    }
+
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(processLoginReply(QNetworkReply*)));
+    manager->post(request, jsonData);
+}
+
+void PanexApi::processLoginReply(QNetworkReply* aReply)
+{
+    bool ok;
+    QLOG_DEBUG() << "[PanexAPI] Network Reply Recieved";
+    QByteArray data=aReply->readAll();
+
+
+    // TODO: Error Checking
+    int statusCode = aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok);
+    if (ok && statusCode == 200)
+    {
+        // Success
+        QVariantMap dataMap = QtJson::parse(data, ok).toMap();
+
+        dataMap.insert("result", "success");
+        emit this->LoginResult(dataMap);
+    }
+    else
+    {
+        // Error
+        QVariantMap dataMap;
+        dataMap.insert("result", "error");
+        dataMap.insert("status", aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok));
+        dataMap.insert("errorString", aReply->errorString());
+
+        QLOG_ERROR() << "[PanexAPI] Error in HTTP request" << aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok)
+                     << aReply->errorString();
+
+        emit this->LoginResult(dataMap);
+    }
+}
