@@ -14,7 +14,9 @@ class UserSignupDialog : public QDialog
 public:
     explicit UserSignupDialog(QWidget *parent = 0);
     ~UserSignupDialog();
-    
+signals:
+    void showLoginBoxSignal();
+
 private slots:
     void on_btn_sign_up_clicked();
 

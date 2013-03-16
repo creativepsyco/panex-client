@@ -27,8 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::showLoginDialogBox()
 {
-
-
     QWidget *parent = 0;
     if ( sender() ) {
         parent = qobject_cast<QWidget*>( sender() );
@@ -59,6 +57,8 @@ void MainWindow::showRegisterDialogBox()
     }
 
     UserSignupDialog *usersignupdialog = new UserSignupDialog(parent ? parent : QPanexApp::instance()->activeWindow() );
+    connect(usersignupdialog, SIGNAL(showLoginBoxSignal()), this, SLOT(showLoginDialogBox()));
+
     int result = usersignupdialog->exec();
     if(result == QDialog::Accepted)
     {

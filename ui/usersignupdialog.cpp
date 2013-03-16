@@ -29,13 +29,15 @@ void UserSignupDialog::on_btn_sign_up_clicked()
     if (validate())
     {
         PanexApi* instance = PanexApi::instance();
-        instance->SignUpUser(ui->txt_name->text(), ui->txt_password->text(), ui->choice_role->currentText(), ui->txt_email->text());
+        bool result = instance->SignUpUser(ui->txt_name->text(), ui->txt_password->text(), ui->choice_role->currentText(), ui->txt_email->text());
 
-        DisplayMessageBox("", "Signed Up Successfully now login", QMessageBox::Information);
-        this->close();
-        LoginDialog *loginDialog = new LoginDialog(this->parentWidget());
-        loginDialog->exec();
-        loginDialog->deleteLater();
+        if (result)
+        {
+            DisplayMessageBox("", "Signed Up Successfully now login", QMessageBox::Information);
+            this->close();
+
+            emit this->showLoginBoxSignal();
+        }
     }
 
 }
@@ -43,9 +45,8 @@ void UserSignupDialog::on_btn_sign_up_clicked()
 void UserSignupDialog::on_btn_cancel_clicked()
 {
     this->close();
-    LoginDialog *loginDialog = new LoginDialog(this->parentWidget());
-    loginDialog->exec();
-    loginDialog->deleteLater();
+    emit this->showLoginBoxSignal();
+
 }
 
 /* Returns true if validation succeeds */
