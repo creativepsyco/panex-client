@@ -54,7 +54,7 @@ void LoginDialog::show()
 
 void LoginDialog::processLoginResult(QVariantMap aResult)
 {
-    QLOG_INFO() << "[Login Dialog] Processing Login Result" << aResult["result"].toString();
+    QLOG_INFO() << "[Login Dialog] Processing Login Result" << aResult;
     QString success = "success";
     QString result  = aResult["result"].toString();
     if (result.compare(success) == 0)
@@ -67,7 +67,7 @@ void LoginDialog::processLoginResult(QVariantMap aResult)
     {
         //this->show();
         QLOG_DEBUG() << "[LoginDialog] Error Recd. Therefore firing show logindialogboxsignal again";
-        Utils::DisplayMessageBox("Error Recd.", aResult["errorString"].toString(), QMessageBox::Information);
+        Utils::DisplayMessageBox(aResult["errorString"].toString(), aResult["message"].toString() , QMessageBox::Information);
         emit this->showLoginBoxSignal();
     }
 }

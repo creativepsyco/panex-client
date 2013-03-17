@@ -118,7 +118,7 @@ void PanexApi::processLoginReply(QNetworkReply* aReply)
     else
     {
         // Error
-        QVariantMap dataMap;
+        QVariantMap dataMap = QtJson::parse(data, ok).toMap();
         dataMap.insert("result", "error");
         dataMap.insert("status", aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok));
         dataMap.insert("errorString", aReply->errorString());
