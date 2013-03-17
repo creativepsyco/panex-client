@@ -29,7 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::showLoginDialogBox()
 {
-    QLOG_INFO() << "showing login box";
+    QLOG_DEBUG() << "[MainWindow showLoginBox] showing login box";
+
     QWidget *parent = 0;
     if ( sender() ) {
         parent = qobject_cast<QWidget*>( sender() );
@@ -47,14 +48,14 @@ void MainWindow::showLoginDialogBox()
         connect(loginDialog, SIGNAL(loginSucessSignal(QVariantMap)), this, SLOT(loginSuccessSlot(QVariantMap)));
     }
 
-    int result = loginDialog->exec();
+    loginDialog->open();
 
-    QLOG_INFO() << "Dialog Result: " << result;
-    if (result == QDialog::Rejected)
-    {
-        emit QPanexApp::instance()->exitApp();
-        QLOG_INFO() << "[MainWindow] Quitting App";
-    }
+//    QLOG_INFO() << "Dialog Result: " << result;
+//    if (result == QDialog::Rejected)
+//    {
+//        emit QPanexApp::instance()->exitApp();
+//        QLOG_INFO() << "[MainWindow] Quitting App";
+//    }
 }
 
 void MainWindow::loginSuccessSlot(QVariantMap aResult)
@@ -76,13 +77,13 @@ void MainWindow::showRegisterDialogBox()
         connect(userSignupDialog, SIGNAL(showLoginBoxSignal()), this, SLOT(showLoginDialogBox()));
     }
 
-    int result = userSignupDialog->exec();
-    if(result == QDialog::Rejected)
-    {
-        // XXX: should we exit? or should we show login
-        emit QPanexApp::instance()->exitApp();
-        QLOG_INFO() << "Quitting App";
-    }
+    userSignupDialog->open();
+//    if (result == QDialog::Rejected)
+//    {
+//        QLOG_DEBUG() << "[Mainwindow showRegisterDialog] Rejected";
+//        // What to do? Exit or show login?
+//        emit this->showLoginDialog();
+//    }
 }
 
 void MainWindow::setUpConnections()

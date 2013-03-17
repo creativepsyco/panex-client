@@ -79,7 +79,7 @@ void PanexApi::processSignupReply(QNetworkReply* aReply)
     QLOG_DEBUG() << "[PanexAPI] Network Reply Recieved";
     QByteArray data=aReply->readAll();
     int statusCode = aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok);
-    if (ok && statusCode == 200)
+    if (ok && (statusCode == 201 || statusCode==200))
     {
         // Success
         QVariantMap dataMap = QtJson::parse(data, ok).toMap();

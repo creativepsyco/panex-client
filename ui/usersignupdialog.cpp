@@ -33,13 +33,6 @@ void UserSignupDialog::on_btn_sign_up_clicked()
 
         bool result = instance->SignUpUser(ui->txt_name->text(), ui->txt_password->text(), ui->choice_role->currentText(), ui->txt_email->text());
 
-        if (result)
-        {
-            Utils::DisplayMessageBox("", "Signed Up Successfully now login", QMessageBox::Information);
-            this->close();
-
-            emit this->showLoginBoxSignal();
-        }
     }
 }
 
@@ -50,16 +43,19 @@ void UserSignupDialog::processSignUpResultSlot(QVariantMap aResult)
     QString result  = aResult["result"].toString();
     if (result.compare(success) == 0)
     {
+        Utils::DisplayMessageBox("", "Signed Up Successfully now login", QMessageBox::Information);
+        this->close();
+
         // emit the correct signal
         QLOG_DEBUG() << "[Signup Dialog] Success in getting reply. User Account Created";
+        this->close();
         emit this->showLoginBoxSignal();
     }
     else
     {
         //this->show();
         QLOG_DEBUG() << "[SignupDialog] Error Recd.";
-        Utils::DisplayMessageBox(aResult["errorString"].toString(), aResult["message"].toString() , QMessageBox::Information);
-        emit this->showLoginBoxSignal();
+        Utils::DisplayMessageBox(aResult["error"].toString(), aResult["errorString"].toString(), QMessageBox::Critical);
     }
 }
 
@@ -67,7 +63,6 @@ void UserSignupDialog::on_btn_cancel_clicked()
 {
     this->close();
     emit this->showLoginBoxSignal();
-
 }
 
 /* Returns true if validation succeeds */
