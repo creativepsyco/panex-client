@@ -86,11 +86,6 @@ void MainWindow::setUpConnections()
 
 }
 
-void MainWindow::showSignInWindow()
-{
-
-}
-
 void MainWindow::setupServiceSideBar()
 {
     servicesSideBar = new QWidget(frame_3); //this is parent

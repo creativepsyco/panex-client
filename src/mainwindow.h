@@ -54,7 +54,6 @@ private:
     void setupServiceSideBar();
     void clearLayout(QLayout *layout);
 
-    void showSignInWindow();
     QAction *aboutAction;
 
     QWidget *servicesSideBar;
