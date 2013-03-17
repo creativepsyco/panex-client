@@ -6,6 +6,7 @@
 #include <QVariantMap>
 #include "logindialog.h"
 #include "usersignupdialog.h"
+#include <QNetworkAccessManager>
 
 class QAction;
 class QLabel;
@@ -47,11 +48,14 @@ private slots:
     void showLoginDialogBox();
     void showRegisterDialogBox();
     void loginSuccessSlot(QVariantMap aResult);
+    void offlineStateChanged(QNetworkAccessManager::NetworkAccessibility access);
+    void offlineStateChanged(bool isOnline);
 
 private:
     void setUpConnections();
     void populateServices(QWidget *widget);
     void setupServiceSideBar();
+    void setupStatusBar();
     void clearLayout(QLayout *layout);
 
     QAction *aboutAction;

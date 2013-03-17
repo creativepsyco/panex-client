@@ -10,6 +10,7 @@
 #include "ui/logindialog.h"
 #include "global_include.h"
 #include <QVariantMap>
+#include <QNetworkConfigurationManager>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -22,10 +23,38 @@ MainWindow::MainWindow(QWidget *parent)
 
     setupServiceSideBar();
     setUpConnections();
+    setupStatusBar();
     QPanexApp::registerMainWindow(this);
     this->hide();
 
     emit showLoginDialog();
+}
+
+void MainWindow::setupStatusBar()
+{
+    QNetworkConfigurationManager *mgr = new QNetworkConfigurationManager(this);
+    connect(mgr, SIGNAL(onlineStateChanged(bool)), this, SLOT(offlineStateChanged(bool)));
+    QNetworkAccessManager *manager =new QNetworkAccessManager(this);;
+    connect(manager, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
+            this, SLOT(offlineStateChanged(QNetworkAccessManager::NetworkAccessibility) ));
+}
+
+void MainWindow::offlineStateChanged(bool isOnline)
+{
+    QLOG_INFO() << "[MainWindow] Network might not be accessible";
+    if(!isOnline)
+    {
+        this->statusbar->showMessage("Network is Offline, Cannot reach server");
+    }
+}
+
+void MainWindow::offlineStateChanged(QNetworkAccessManager::NetworkAccessibility access)
+{
+    QLOG_INFO() << "[MainWindow] Network might not be accessible";
+    if (access== QNetworkAccessManager::NotAccessible)
+    {
+        this->statusbar->showMessage("Network is Offline, Cannot reach server");
+    }
 }
 
 void MainWindow::showLoginDialogBox()
