@@ -83,10 +83,13 @@
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Preferred</enum>
+       </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>40</height>
+         <height>58</height>
         </size>
        </property>
       </spacer>
@@ -120,6 +123,13 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QCheckBox" name="checkRememberLogin">
+         <property name="text">
+          <string>Remember Login</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QDialogButtonBox" name="buttonBox">
