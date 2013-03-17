@@ -50,13 +50,6 @@ void MainWindow::showLoginDialogBox()
     }
 
     loginDialog->open();
-
-//    QLOG_INFO() << "Dialog Result: " << result;
-//    if (result == QDialog::Rejected)
-//    {
-//        emit QPanexApp::instance()->exitApp();
-//        QLOG_INFO() << "[MainWindow] Quitting App";
-//    }
 }
 
 void MainWindow::loginSuccessSlot(QVariantMap aResult)
@@ -81,12 +74,6 @@ void MainWindow::showRegisterDialogBox()
     }
 
     userSignupDialog->open();
-//    if (result == QDialog::Rejected)
-//    {
-//        QLOG_DEBUG() << "[Mainwindow showRegisterDialog] Rejected";
-//        // What to do? Exit or show login?
-//        emit this->showLoginDialog();
-//    }
 }
 
 void MainWindow::setUpConnections()
