@@ -58,7 +58,8 @@ void MainWindow::showLoginDialogBox()
 
 void MainWindow::loginSuccessSlot(QVariantMap aResult)
 {
-    //process login here
+    QLOG_DEBUG() << aResult;
+    this->show();
 }
 
 void MainWindow::showRegisterDialogBox()
