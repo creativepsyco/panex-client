@@ -2,6 +2,7 @@
 #define SETTINGSDIALOG_H
 
 #include <QDialog>
+#include<QVariantMap>
 #include "configfile.h"
 
 namespace Ui {
@@ -22,6 +23,7 @@ public slots:
 
 public:
     explicit SettingsDialog(QWidget *parent = 0);
+    void saveUserConfig(QVariantMap aUserData);
     ~SettingsDialog();
     void loadConfig();
 

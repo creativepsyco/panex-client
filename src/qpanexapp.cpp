@@ -11,7 +11,7 @@ QPanexApp::QPanexApp( int & argc, char **argv ) :
     // Some config etc. 
     
     // m_core = new Core( this );
-    // m_settingsDialog = new Settings( m_core );
+    m_settingsDialog = new SettingsDialog;
 
     // QSignalMapper *mapper = new QSignalMapper( this );
     // mapper->setMapping( qApp, 1 );
@@ -51,12 +51,12 @@ void QPanexApp::unregisterMainWindow( MainWindow *mainWindow )
 
 void QPanexApp::loadConfig()
 {
-    m_settingsDialog->loadConfig();
+    QPanexApp::settingsDialog() ->loadConfig();
 }
 
 void QPanexApp::openSettings()
 {
-    m_settingsDialog->exec();
+    QPanexApp::settingsDialog()->exec();
 }
 
 void QPanexApp::exitAppSlot()
@@ -65,4 +65,9 @@ void QPanexApp::exitAppSlot()
     // TODO: do something before exit?
     this->exit(0);
     qApp->exit(0);
+}
+
+SettingsDialog* QPanexApp::settingsDialog()
+{
+    return instance()->m_settingsDialog;
 }

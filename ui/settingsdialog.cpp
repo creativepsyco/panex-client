@@ -40,3 +40,14 @@ void SettingsDialog::applySettings()
 {
 
 }
+
+void SettingsDialog::saveUserConfig(QVariantMap aUserData)
+{
+    settings.beginGroup("accounts");
+    settings.setValue("auth_token", aUserData["auth_token"]);
+    settings.setValue("email", aUserData["email"]);
+    settings.setValue("user_id", aUserData["user_id"]);
+    settings.endGroup();
+
+    settings.sync();
+}

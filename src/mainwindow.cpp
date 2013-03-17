@@ -9,6 +9,7 @@
 #include "ui/usersignupdialog.h"
 #include "ui/logindialog.h"
 #include "global_include.h"
+#include <QVariantMap>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -61,6 +62,8 @@ void MainWindow::showLoginDialogBox()
 void MainWindow::loginSuccessSlot(QVariantMap aResult)
 {
     QLOG_DEBUG() << aResult;
+    QPanexApp::settingsDialog()->saveUserConfig(aResult);
+    QLOG_DEBUG() << "[MainWindow] Result saved to settings config";
     this->show();
 }
 

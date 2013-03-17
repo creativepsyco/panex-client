@@ -15,6 +15,7 @@ public:
     virtual ~QPanexApp();
 
     static MainWindow* mainWindow();
+    static SettingsDialog* settingsDialog();
     void loadConfig();
 
 signals:
