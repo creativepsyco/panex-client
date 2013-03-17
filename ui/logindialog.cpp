@@ -59,10 +59,13 @@ void LoginDialog::processLoginResult(QVariantMap aResult)
     if (result.compare(success) == 0)
     {
         // emit the correct signal
+        emit this->loginSucessSignal(aResult);
         QLOG_DEBUG() << "[Login Dialog] Success in getting reply";
     }
     else
     {
-        this->show();
+        //this->show();
+        QLOG_DEBUG() << "[LoginDialog] Error Recd. Therefore firing show logindialogboxsignal again";
+        emit this->showLoginBoxSignal();
     }
 }

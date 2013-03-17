@@ -17,6 +17,8 @@ public:
 
 signals:
     void showRegisterDialogSignal();
+    void showLoginBoxSignal();
+    void loginSucessSignal(QVariantMap aResult);
 
 public slots:
     void show();

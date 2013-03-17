@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupUi(this);
     // setup connections
     // setup services sidebar
+    loginDialog = NULL;
 
     setupServiceSideBar();
     setUpConnections();
@@ -27,26 +28,37 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::showLoginDialogBox()
 {
+    QLOG_INFO() << "showing login box";
     QWidget *parent = 0;
     if ( sender() ) {
         parent = qobject_cast<QWidget*>( sender() );
     }
 
-    LoginDialog *loginDialog = new LoginDialog(parent ? parent : QPanexApp::instance()->activeWindow() );
-    connect(loginDialog, SIGNAL(showRegisterDialogSignal()), this, SLOT(showRegisterDialogBox()));
-
-    int result = loginDialog->exec();
-    QLOG_INFO() << "Dialog Result: " << result;
-    if(result == QDialog::Accepted)
+    if (loginDialog != NULL)
     {
-        // Load other stuff
-        this->show();
+
     }
     else
     {
-        emit QPanexApp::instance()->exitApp();
-        QLOG_INFO() << "Quitting App";
+        loginDialog = new LoginDialog(parent ? parent : QPanexApp::instance()->activeWindow() );
+        connect(loginDialog, SIGNAL(showRegisterDialogSignal()), this, SLOT(showRegisterDialogBox()));
+        connect(loginDialog, SIGNAL(showLoginBoxSignal()), this, SLOT(showLoginDialogBox()));
+        connect(loginDialog, SIGNAL(loginSucessSignal(QVariantMap)), this, SLOT(loginSuccessSlot(QVariantMap)));
     }
+
+    int result = loginDialog->exec();
+
+    QLOG_INFO() << "Dialog Result: " << result;
+    if (result == QDialog::Rejected)
+    {
+        emit QPanexApp::instance()->exitApp();
+        QLOG_INFO() << "[MainWindow] Quitting App";
+    }
+}
+
+void MainWindow::loginSuccessSlot(QVariantMap aResult)
+{
+    //process login here
 }
 
 void MainWindow::showRegisterDialogBox()
@@ -183,7 +195,7 @@ void MainWindow::on_actionSettings_triggered()
 
 void MainWindow::on_viewPatientsCommand_clicked()
 {
-//    clearLayout(frame_2->layout());
+    //    clearLayout(frame_2->layout());
 
     QWidget *viewPatientsView = new QWidget(this);
     QGridLayout *gridLayout = new QGridLayout(viewPatientsView);

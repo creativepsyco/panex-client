@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 
     app.loadConfig();
 
-    qApp->setQuitOnLastWindowClosed(true);
+    qApp->setQuitOnLastWindowClosed(false);
     MainWindow qpanexMainWindow;
 
 

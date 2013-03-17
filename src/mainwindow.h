@@ -3,6 +3,8 @@
 #include "ui_mainwindow.h"
 
 #include <QMainWindow>
+#include <QVariantMap>
+#include "logindialog.h"
 
 class QAction;
 class QLabel;
@@ -43,6 +45,7 @@ private slots:
 
     void showLoginDialogBox();
     void showRegisterDialogBox();
+    void loginSuccessSlot(QVariantMap aResult);
 
 private:
     void setUpConnections();
@@ -55,6 +58,7 @@ private:
 
     QWidget *servicesSideBar;
     QList<QPushButton *> serviceButtonList;
+    LoginDialog *loginDialog;
 
     int current_widget_id;
     int previous_widget_id;

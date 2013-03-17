@@ -95,6 +95,7 @@ bool PanexApi::LoginUser(QString userEmail, QString userPassword)
 
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(processLoginReply(QNetworkReply*)));
     manager->post(request, jsonData);
+    return true;
 }
 
 void PanexApi::processLoginReply(QNetworkReply* aReply)
