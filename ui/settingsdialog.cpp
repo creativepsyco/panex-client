@@ -19,7 +19,12 @@ SettingsDialog::~SettingsDialog()
 void SettingsDialog::loadConfig()
 {
     // Read the settings and apply them to the UI
-    QLOG_INFO() << "settings loaded and applied";
+    settings.beginGroup("accounts");
+    ui->lblUserName->setText(settings.value("email").toString());
+    ui->lblAuthToken->setText(settings.value("auth_token").toString());
+    settings.endGroup();
+
+    QLOG_INFO() << "[SettingsDialog] settings loaded and applied";
 }
 
 void SettingsDialog::saveConfig(int quitting)

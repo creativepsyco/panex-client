@@ -176,9 +176,7 @@ void MainWindow::on_actionPatient_View_triggered()
 
 void MainWindow::on_actionSettings_triggered()
 {
-    SettingsDialog *settingsDialog = new SettingsDialog(this);
-    settingsDialog->exec();
-    settingsDialog->deleteLater();
+    QPanexApp::instance()->openSettings();
 }
 
 void MainWindow::on_viewPatientsCommand_clicked()
