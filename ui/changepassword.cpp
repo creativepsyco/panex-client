@@ -47,6 +47,6 @@ void ChangePassword::handleApiReply(QVariantMap aReply)
     }
     else
     {
-        Utils::DisplayMessageBox("Error Encountered", aReply["errorString"].toString(), QMessageBox::Information);
+        Utils::DisplayMessageBox("Error Encountered", "Please check that the passwords match and that it is more than 6 chars in length", QMessageBox::Information);
     }
 }

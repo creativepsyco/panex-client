@@ -225,10 +225,10 @@ void PanexApi::processEditUserReply(QNetworkReply *aReply)
 
         dataMap.insert("result", "error");
         dataMap.insert("status", aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok));
-        dataMap.insert("errorString", aReply->errorString());
+        dataMap.insert("errorString", "Please check the password, it should be more than 6 characters");
         if (statusCode == 422)
         {
-            dataMap.insert("errorString", Utils::ConvertMapToString(dataMap["errors"]));
+//            dataMap.insert("errorString", Utils::ConvertMapToString(dataMap["errors"]));
             // For now just keep the verbatim
             dataMap.insert("errorString", "Please check the password, it should be more than 6 characters");
         }
