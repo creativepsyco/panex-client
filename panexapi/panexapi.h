@@ -15,13 +15,18 @@ public:
     static PanexApi* instance();
     bool SignUpUser(QString userName, QString userPassword, QString userRole, QString userEmail);
     bool LoginUser(QString userEmail, QString userPassword);
+    // Patient Methods
+//    bool AddPatient(QVariantMap data);
 
 signals:
     void LoginResult(QVariantMap dataMap);
+    void SignUpResultSignal(QVariantMap dataMap);
+
 
 public slots:
 private slots:
     void processLoginReply(QNetworkReply* aReply);
+    void processSignupReply(QNetworkReply* aReply);
 
 private:
     static const QString UrlPanex;

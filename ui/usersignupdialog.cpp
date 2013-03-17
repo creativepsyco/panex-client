@@ -29,6 +29,8 @@ void UserSignupDialog::on_btn_sign_up_clicked()
     if (validate())
     {
         PanexApi* instance = PanexApi::instance();
+        connect(instance, SIGNAL(SignUpResultSignal(QVariantMap)), this, SLOT(processSignUpResultSlot(QVariantMap)));
+
         bool result = instance->SignUpUser(ui->txt_name->text(), ui->txt_password->text(), ui->choice_role->currentText(), ui->txt_email->text());
 
         if (result)
@@ -39,7 +41,26 @@ void UserSignupDialog::on_btn_sign_up_clicked()
             emit this->showLoginBoxSignal();
         }
     }
+}
 
+void UserSignupDialog::processSignUpResultSlot(QVariantMap aResult)
+{
+    QLOG_INFO() << "[Signup Dialog] Processing Signup Result" << aResult;
+    QString success = "success";
+    QString result  = aResult["result"].toString();
+    if (result.compare(success) == 0)
+    {
+        // emit the correct signal
+        QLOG_DEBUG() << "[Signup Dialog] Success in getting reply. User Account Created";
+        emit this->showLoginBoxSignal();
+    }
+    else
+    {
+        //this->show();
+        QLOG_DEBUG() << "[SignupDialog] Error Recd.";
+        Utils::DisplayMessageBox(aResult["errorString"].toString(), aResult["message"].toString() , QMessageBox::Information);
+        emit this->showLoginBoxSignal();
+    }
 }
 
 void UserSignupDialog::on_btn_cancel_clicked()

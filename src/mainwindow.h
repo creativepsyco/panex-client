@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QVariantMap>
 #include "logindialog.h"
+#include "usersignupdialog.h"
 
 class QAction;
 class QLabel;
@@ -59,6 +60,7 @@ private:
     QWidget *servicesSideBar;
     QList<QPushButton *> serviceButtonList;
     LoginDialog *loginDialog;
+    UserSignupDialog *userSignupDialog;
 
     int current_widget_id;
     int previous_widget_id;

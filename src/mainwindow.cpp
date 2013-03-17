@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     // setup connections
     // setup services sidebar
     loginDialog = NULL;
+    userSignupDialog = NULL;
 
     setupServiceSideBar();
     setUpConnections();
@@ -69,17 +70,16 @@ void MainWindow::showRegisterDialogBox()
         parent = qobject_cast<QWidget*>( sender() );
     }
 
-    UserSignupDialog *usersignupdialog = new UserSignupDialog(parent ? parent : QPanexApp::instance()->activeWindow() );
-    connect(usersignupdialog, SIGNAL(showLoginBoxSignal()), this, SLOT(showLoginDialogBox()));
-
-    int result = usersignupdialog->exec();
-    if(result == QDialog::Accepted)
+    if (userSignupDialog == NULL)
     {
-        emit showLoginDialog();
-        // Show the LoginBox
+        userSignupDialog = new UserSignupDialog(parent ? parent : QPanexApp::instance()->activeWindow() );
+        connect(userSignupDialog, SIGNAL(showLoginBoxSignal()), this, SLOT(showLoginDialogBox()));
     }
-    else
+
+    int result = userSignupDialog->exec();
+    if(result == QDialog::Rejected)
     {
+        // XXX: should we exit? or should we show login
         emit QPanexApp::instance()->exitApp();
         QLOG_INFO() << "Quitting App";
     }

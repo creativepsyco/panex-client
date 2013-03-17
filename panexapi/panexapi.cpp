@@ -1,7 +1,9 @@
 #include "panexapi.h"
 #include "global_include.h"
 #include "json.h"
+#include "utils.h"
 #include <QtNetwork>
+#include <QVariantMap>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -66,8 +68,42 @@ bool PanexApi::SignUpUser(QString userName, QString userPassword, QString userRo
     //    // FIXME for debug
     //    qDebug() << "Sync" << QString::fromUtf8(data.data(), data.size());
 
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(processSignupReply(QNetworkReply*)));
     manager->post(request, jsonData);
     return true;
+}
+
+void PanexApi::processSignupReply(QNetworkReply* aReply)
+{
+    bool ok;
+    QLOG_DEBUG() << "[PanexAPI] Network Reply Recieved";
+    QByteArray data=aReply->readAll();
+    int statusCode = aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok);
+    if (ok && statusCode == 200)
+    {
+        // Success
+        QVariantMap dataMap = QtJson::parse(data, ok).toMap();
+
+        dataMap.insert("result", "success");
+        emit this->SignUpResultSignal(dataMap);
+    }
+    else
+    {
+        QVariantMap dataMap = QtJson::parse(data, ok).toMap();
+        // Handle any errors here:
+        dataMap.insert("result", "error");
+        dataMap.insert("status", aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok));
+        dataMap.insert("errorString", aReply->errorString());
+
+        if (statusCode == 422)
+        {
+            dataMap.insert("errorString", Utils::ConvertMapToString(dataMap["errors"]));
+        }
+
+        QLOG_ERROR() << "[PanexAPI] Error in HTTP request" << aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok)
+                     << Utils::ConvertMapToString(dataMap["errors"]);
+        emit this->SignUpResultSignal(dataMap);
+    }
 }
 
 bool PanexApi::LoginUser(QString userEmail, QString userPassword)

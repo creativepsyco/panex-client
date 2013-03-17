@@ -1,6 +1,6 @@
 #ifndef USERSIGNUPDIALOG_H
 #define USERSIGNUPDIALOG_H
-
+#include <QVariantMap>
 #include <QDialog>
 
 namespace Ui {
@@ -19,7 +19,7 @@ signals:
 
 private slots:
     void on_btn_sign_up_clicked();
-
+    void processSignUpResultSlot(QVariantMap aResult);
     void on_btn_cancel_clicked();
 
 private:
