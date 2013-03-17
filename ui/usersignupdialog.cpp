@@ -4,7 +4,7 @@
 #include "panexapi.h"
 #include "global_include.h"
 #include <QMessageBox>
-#include "utils.cpp"
+#include "utils.h"
 
 UserSignupDialog::UserSignupDialog(QWidget *parent) :
     QDialog(parent),
@@ -33,7 +33,7 @@ void UserSignupDialog::on_btn_sign_up_clicked()
 
         if (result)
         {
-            DisplayMessageBox("", "Signed Up Successfully now login", QMessageBox::Information);
+            Utils::DisplayMessageBox("", "Signed Up Successfully now login", QMessageBox::Information);
             this->close();
 
             emit this->showLoginBoxSignal();
@@ -58,13 +58,13 @@ bool UserSignupDialog::validate()
             || ui->txt_password->text().isEmpty()
             || ui->txt_confirm_password->text().isEmpty())
     {
-        DisplayMessageBox("Incompleted Fields Error","Please Complete all the fields", QMessageBox::Critical);
+        Utils::DisplayMessageBox("Incompleted Fields Error","Please Complete all the fields", QMessageBox::Critical);
         return false;
     }
     // Password check
     if (this->ui->txt_password->text() != this->ui->txt_confirm_password->text())
     {
-        DisplayMessageBox("", "Please check the password and confirm password match.", QMessageBox::Critical);
+        Utils::DisplayMessageBox("", "Please check the password and confirm password match.", QMessageBox::Critical);
         return false;
     }
 

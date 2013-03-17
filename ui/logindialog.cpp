@@ -1,10 +1,11 @@
-#include <QMessageBox>
 #include "logindialog.h"
 #include "qpanexapp.h"
 #include "mainwindow.h"
 #include "ui_logindialog.h"
 #include "usersignupdialog.h"
 #include "global_include.h"
+#include <QMessageBox>
+#include "utils.h"
 
 LoginDialog::LoginDialog(QWidget *parent) :
     QDialog(parent),
@@ -66,6 +67,7 @@ void LoginDialog::processLoginResult(QVariantMap aResult)
     {
         //this->show();
         QLOG_DEBUG() << "[LoginDialog] Error Recd. Therefore firing show logindialogboxsignal again";
+        Utils::DisplayMessageBox("Error Recd.", aResult["errorString"].toString(), QMessageBox::Information);
         emit this->showLoginBoxSignal();
     }
 }

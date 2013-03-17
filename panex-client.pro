@@ -23,7 +23,8 @@ HEADERS += panexapi/panexapi.h \
            ui/patientview.h \
            ui/settingsdialog.h \
            ui/usersignupdialog.h \
-           ui/utils.cpp
+           ui/utils.cpp \
+    ui/utils.h
 FORMS += ui/aboutdialog.ui \
          ui/addpatient.ui \
          ui/logindialog.ui \
