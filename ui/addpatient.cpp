@@ -55,10 +55,21 @@ void AddPatient::handleAddPatientApiResult(QVariantMap aResult)
     {
         // emit the correct signal
         Utils::DisplayMessageBox("Success", "Successfully Added the Patient", QMessageBox::Information);
+        this->on_btnReset_clicked();
     }
     else
     {
         //this->show();
         Utils::DisplayMessageBox(aResult["error"].toString(), aResult["errorString"].toString(), QMessageBox::Critical);
     }
+}
+
+void AddPatient::on_btnReset_clicked()
+{
+    foreach(QLineEdit *widget, this->findChildren<QLineEdit*>()) {
+        widget->clear();
+    }
+
+    ui->txtAddress->clear();
+    ui->txtNotes->clear();
 }

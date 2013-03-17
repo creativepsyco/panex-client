@@ -20,6 +20,8 @@ private slots:
     void handleAddPatientApiResult(QVariantMap aResult);
     void on_btnAddPatient_clicked();
 
+    void on_btnReset_clicked();
+
 private:
     Ui::AddPatient *ui;
     bool validate();
