@@ -4,5 +4,6 @@
 #include "qslog/QsLog.h"
 #include "qslog/QsLogDest.h"
 #include "panexapi.h"
+#include "utils.h"
 
 #endif // GLOBAL_INCLUDE_H

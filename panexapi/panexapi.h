@@ -18,12 +18,13 @@ public:
     bool LoginUser(QString userEmail, QString userPassword);
     bool EditUser(QString userName, QString userPassword, QString userRole, QString userEmail, QVariantMap savedUserData);
     // Patient Methods
-//    bool AddPatient(QVariantMap data);
+    bool AddPatient(QVariantMap data);
 
 signals:
     void LoginResult(QVariantMap dataMap);
     void SignUpResultSignal(QVariantMap dataMap);
     void EditUserResultSignal(QVariantMap dataMap);
+    void AddPatientResultSignal(QVariantMap dataMap);
 
 
 public slots:
@@ -31,12 +32,14 @@ private slots:
     void processLoginReply(QNetworkReply* aReply);
     void processSignupReply(QNetworkReply* aReply);
     void processEditUserReply(QNetworkReply* aReply);
+    void processAddPatientReply(QNetworkReply* aReply);
 
 private:
     static const QString UrlPanex;
     static const QString UrlUserSignUp;
     static const QString UrlUserLogin;
     static const QString UrlUserEdit;
+    static const QString UrlPatientAdd;
     static const bool isDebug;
 
     // Singleton

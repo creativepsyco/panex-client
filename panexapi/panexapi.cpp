@@ -11,10 +11,12 @@
 
 using namespace QtJson;
 
+// XXX: Must be changed when deploying on the server
 const QString PanexApi::UrlPanex = "http://localhost:3000";
 const QString PanexApi::UrlUserSignUp = PanexApi::UrlPanex + "/users.json";
 const QString PanexApi::UrlUserLogin = PanexApi::UrlPanex + "/users/sign_in.json";
 const QString PanexApi::UrlUserEdit = PanexApi::UrlPanex + "/users/%1.json"; // http://localhost:3000/users/3.json
+const QString PanexApi::UrlPatientAdd = PanexApi::UrlPanex + "/patients.json";
 
 
 // Need this for singleton purposes
@@ -237,3 +239,68 @@ void PanexApi::processEditUserReply(QNetworkReply *aReply)
     }
     emit this->EditUserResultSignal(dataMap);
 }
+
+
+bool PanexApi::AddPatient(QVariantMap data)
+{
+    QUrl url(PanexApi::UrlPatientAdd);
+    QNetworkRequest request(url);
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+
+    QVariantMap dataMap;
+    dataMap.insert("auth_token", this->authToken);
+    dataMap.insert("patient", data);
+
+    bool ok;
+    QByteArray jsonData = QtJson::serialize(dataMap, ok);
+    if (ok)
+    {
+        QLOG_INFO() << jsonData;
+    } else
+    {
+        QLOG_ERROR() << "Failed to convert data" << jsonData;
+    }
+
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(processAddPatientReply(QNetworkReply*)));
+    manager->post(request, jsonData);
+    return true;
+}
+
+void PanexApi::processAddPatientReply(QNetworkReply *aReply)
+{
+    bool ok;
+    QLOG_DEBUG() << "[PanexAPI] Network Reply Recieved";
+
+    QByteArray data=aReply->readAll();
+    QVariantMap dataMap = QtJson::parse(data, ok).toMap();
+
+    // TODO: Error Checking
+    int statusCode = aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok);
+    if (statusCode == 204 || statusCode == 201 || statusCode == 200 || statusCode == 203)
+    {
+        dataMap.insert("result", "success");
+    }
+    else
+    {
+        // Error
+        QVariantMap dataMap;
+
+        dataMap.insert("result", "error");
+        dataMap.insert("status", aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok));
+        dataMap.insert("errorString", "An error occured with the request");
+        if (statusCode == 422)
+        {
+            dataMap.insert("errorString", Utils::ConvertMapToString(dataMap["errors"]));
+            // For now just keep the verbatim
+         //   dataMap.insert("errorString", "Please check the password, it should be more than 6 characters");
+        }
+        QLOG_ERROR() << "[PanexAPI] Error in HTTP request" << aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok)
+                     << aReply->errorString();
+    }
+    emit this->AddPatientResultSignal(dataMap);
+}
+
+
