@@ -24,10 +24,14 @@ public slots:
 public:
     explicit SettingsDialog(QWidget *parent = 0);
     void saveUserConfig(QVariantMap aUserData);
+    QVariantMap getUserData();
     ~SettingsDialog();
     void loadConfig();
 
     
+private slots:
+    void on_btnChangePassword_clicked();
+
 private:
     Ui::SettingsDialog *ui;
 };

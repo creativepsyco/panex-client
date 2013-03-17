@@ -1,5 +1,6 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
+#include "changepassword.h"
 #include <QDebug>
 #include "QsLog.h"
 
@@ -50,4 +51,22 @@ void SettingsDialog::saveUserConfig(QVariantMap aUserData)
     settings.endGroup();
 
     settings.sync();
+}
+
+QVariantMap SettingsDialog::getUserData()
+{
+    // TODO: Handle Empty values
+    QVariantMap userData;
+    settings.beginGroup("accounts");
+    userData.insert("auth_token", settings.value("auth_token"));
+    userData.insert("email", settings.value("email"));
+    userData.insert("user_id", settings.value("user_id"));
+    settings.endGroup();
+    return userData;
+}
+
+void SettingsDialog::on_btnChangePassword_clicked()
+{
+    ChangePassword *changePasswordDialog = new ChangePassword(this);
+    changePasswordDialog->open();
 }
