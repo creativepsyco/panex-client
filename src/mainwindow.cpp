@@ -211,7 +211,6 @@ void MainWindow::on_actionSettings_triggered()
 void MainWindow::on_viewPatientsCommand_clicked()
 {
     //    clearLayout(frame_2->layout());
-
     QWidget *viewPatientsView = new QWidget(this);
     QGridLayout *gridLayout = new QGridLayout(viewPatientsView);
     QFileSystemModel *model = new QFileSystemModel;

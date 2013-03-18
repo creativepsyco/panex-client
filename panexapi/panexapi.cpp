@@ -17,7 +17,7 @@ const QString PanexApi::UrlUserSignUp = PanexApi::UrlPanex + "/users.json";
 const QString PanexApi::UrlUserLogin = PanexApi::UrlPanex + "/users/sign_in.json";
 const QString PanexApi::UrlUserEdit = PanexApi::UrlPanex + "/users/%1.json"; // http://localhost:3000/users/3.json
 const QString PanexApi::UrlPatientAdd = PanexApi::UrlPanex + "/patients.json";
-
+const QString PanexApi::UrlPatientListGet = PanexApi::UrlPanex + "/patients.json";
 
 // Need this for singleton purposes
 PanexApi* PanexApi::m_panex_api=0;
@@ -301,6 +301,60 @@ void PanexApi::processAddPatientReply(QNetworkReply *aReply)
                      << aReply->errorString();
     }
     emit this->AddPatientResultSignal(dataMap);
+}
+
+// Patient Get List
+bool PanexApi::GetPatientList(int page)
+{
+    QUrl url(PanexApi::UrlPatientListGet);
+    url.addQueryItem("auth_token", authToken);
+    url.addQueryItem("page", QString(page));
+
+    QNetworkRequest request(url);
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(processGetPatientListReply(QNetworkReply*)));
+    manager->get(request);
+    return true;
+}
+
+void PanexApi::processGetPatientListReply(QNetworkReply *aReply)
+{
+    bool ok;
+    QLOG_DEBUG() << "[PanexAPI] Network Reply Recieved";
+
+    QByteArray data=aReply->readAll();
+    QVariantMap dataMap;
+    // TODO: Error Checking
+    int statusCode = aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok);
+    if (statusCode == 204 || statusCode == 201 || statusCode == 200 || statusCode == 203)
+    {
+        dataMap.insert("result", "success");
+        QVariantList patientList = QtJson::parse(data, ok).toList();
+        if (ok)
+        {
+            dataMap.insert("patients", patientList);
+            QLOG_INFO() << dataMap;
+        }
+        else
+        {
+            QLOG_ERROR() << "Error Occured in parsing data" << data;
+        }
+    }
+    else
+    {
+        // Error
+        dataMap.insert("result", "error");
+        dataMap.insert("status", aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok));
+        dataMap.insert("errorString", aReply->errorString());
+        QLOG_ERROR() << "[PanexAPI] Error in HTTP request" << aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok)
+                     << aReply->errorString();
+    }
+    emit this->GetPatientListResultSignal(dataMap);
+
 }
 
 

@@ -3,6 +3,7 @@
 #define PANEXAPI_H
 
 #include <QObject>
+#include <QVariantList>
 #include <QVariantMap>
 #include <QNetworkReply>
 #include "global_include.h"
@@ -22,12 +23,14 @@ public:
                   QString userRole, QString userEmail, QVariantMap savedUserData);
     // Patient Methods
     bool AddPatient(QVariantMap data);
+    bool GetPatientList(int page);
 
 signals:
     void LoginResult(QVariantMap dataMap);
     void SignUpResultSignal(QVariantMap dataMap);
     void EditUserResultSignal(QVariantMap dataMap);
     void AddPatientResultSignal(QVariantMap dataMap);
+    void GetPatientListResultSignal(QVariantMap dataList);
 
 
 public slots:
@@ -36,6 +39,7 @@ private slots:
     void processSignupReply(QNetworkReply* aReply);
     void processEditUserReply(QNetworkReply* aReply);
     void processAddPatientReply(QNetworkReply* aReply);
+    void processGetPatientListReply(QNetworkReply* aReply);
 
 private:
     static const QString UrlPanex;
@@ -43,6 +47,7 @@ private:
     static const QString UrlUserLogin;
     static const QString UrlUserEdit;
     static const QString UrlPatientAdd;
+    static const QString UrlPatientListGet;
     static const bool isDebug;
 
     // Singleton
