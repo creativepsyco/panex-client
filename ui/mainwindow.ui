@@ -143,6 +143,9 @@
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
          <widget class="QStackedWidget" name="stackedWidget">
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
           <widget class="QWidget" name="page"/>
           <widget class="QWidget" name="page_2"/>
          </widget>
@@ -218,12 +221,15 @@
    </attribute>
    <addaction name="actionBack"/>
    <addaction name="actionForward"/>
+   <addaction name="separator"/>
    <addaction name="actionNew_Patient"/>
+   <addaction name="actionPatient_View"/>
    <addaction name="actionUpload_Data"/>
-   <addaction name="actionDelete"/>
+   <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="actionAbout"/>
    <addaction name="actionExit"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionAbout">
    <property name="icon">
@@ -332,8 +338,15 @@
    </property>
   </action>
   <action name="actionPatient_View">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/User2.png</normaloff>:/icons/User2.png</iconset>
+   </property>
    <property name="text">
-    <string>Patient View</string>
+    <string>View Patients</string>
+   </property>
+   <property name="toolTip">
+    <string>View Patients</string>
    </property>
   </action>
  </widget>
