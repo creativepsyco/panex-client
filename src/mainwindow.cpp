@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     // setup services sidebar
     loginDialog = NULL;
     userSignupDialog = NULL;
+    patientView = NULL;
 
     setupServiceSideBar();
     setUpConnections();
@@ -241,4 +242,9 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
     current_widget_id = arg1;
     QString s = QString("Current: %1 New: %2").arg(stackedWidget->currentIndex()).arg(arg1);
     statusbar->showMessage(s, 2000);
+}
+
+PatientView* MainWindow::patientViewDialog()
+{
+    return this->patientView;
 }

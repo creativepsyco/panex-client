@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QVariantMap>
 #include "logindialog.h"
+#include "patientview.h"
 #include "usersignupdialog.h"
 #include <QNetworkAccessManager>
 
@@ -26,6 +27,7 @@ signals:
 
 public:
     MainWindow( QWidget *parent = 0 );
+    PatientView* patientViewDialog();
 
 protected:
 
@@ -64,6 +66,7 @@ private:
     QList<QPushButton *> serviceButtonList;
     LoginDialog *loginDialog;
     UserSignupDialog *userSignupDialog;
+    PatientView *patientView;
 
     int current_widget_id;
     int previous_widget_id;
