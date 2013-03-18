@@ -47,6 +47,11 @@ void PatientView::HandleGetPatientListApiReplySlot(QVariantMap aResult)
     {
         // reset the list
         this->patientList->clear();
+        QStringList labels;
+        labels << "Last Name" << "First Name" << "Identification" << "Email" << "Gender"
+               << "Contact" << "Notes";
+        patientList->setHorizontalHeaderLabels(labels);
+
         QVariantList list = aResult["patients"].toList();
         foreach(QVariant patient, list)
         {
