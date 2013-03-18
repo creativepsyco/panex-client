@@ -1,3 +1,4 @@
+
 #ifndef PANEXAPI_H
 #define PANEXAPI_H
 
@@ -14,9 +15,11 @@ public:
     QString authToken;
     explicit PanexApi(QObject *parent = 0);
     static PanexApi* instance();
-    bool SignUpUser(QString userName, QString userPassword, QString userRole, QString userEmail);
+    bool SignUpUser(QString userName, QString userPassword, QString userRole,
+                    QString userEmail);
     bool LoginUser(QString userEmail, QString userPassword);
-    bool EditUser(QString userName, QString userPassword, QString userRole, QString userEmail, QVariantMap savedUserData);
+    bool EditUser(QString userName, QString userPassword,
+                  QString userRole, QString userEmail, QVariantMap savedUserData);
     // Patient Methods
     bool AddPatient(QVariantMap data);
 

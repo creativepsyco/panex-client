@@ -53,3 +53,6 @@ SOURCES += panexapi/panexapi.cpp \
            ui/utils.cpp \
     ui/changepassword.cpp
 RESOURCES += res/panexres.qrc
+
+OTHER_FILES += \
+    LICENSE.txt
