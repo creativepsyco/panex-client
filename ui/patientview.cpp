@@ -39,6 +39,14 @@ void PatientView::GetPatientList()
     PanexApi::instance()->GetPatientList(ALL_PATIENTS);
 }
 
+void PatientView::setUpListHeaders()
+{
+    QStringList labels;
+    labels << "Last Name" << "First Name" << "Identification" << "Email" << "Gender"
+           << "Contact" << "Notes";
+    patientList->setHorizontalHeaderLabels(labels);
+}
+
 void PatientView::HandleGetPatientListApiReplySlot(QVariantMap aResult)
 {
     QString success = "success";
@@ -47,10 +55,7 @@ void PatientView::HandleGetPatientListApiReplySlot(QVariantMap aResult)
     {
         // reset the list
         this->patientList->clear();
-        QStringList labels;
-        labels << "Last Name" << "First Name" << "Identification" << "Email" << "Gender"
-               << "Contact" << "Notes";
-        patientList->setHorizontalHeaderLabels(labels);
+        setUpListHeaders();
 
         QVariantList list = aResult["patients"].toList();
         foreach(QVariant patient, list)
@@ -70,7 +75,7 @@ void PatientView::HandleGetPatientListApiReplySlot(QVariantMap aResult)
     else
     {
         //this->show();
-        QLOG_DEBUG() << "[PatientView] Error Recd. Therefore firing show logindialogboxsignal again";
+        QLOG_DEBUG() << "[PatientView] Error Recd.";
         Utils::DisplayMessageBox(aResult["errorString"].toString(), aResult["message"].toString() , QMessageBox::Information);
 
     }

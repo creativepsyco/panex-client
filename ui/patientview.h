@@ -21,6 +21,7 @@ public:
     void GetPatientList();
     ~PatientView();
 
+    void setUpListHeaders();
 private slots:
     void HandleGetPatientListApiReplySlot(QVariantMap dataMap);
 
