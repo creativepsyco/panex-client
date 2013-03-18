@@ -200,7 +200,16 @@ void MainWindow::on_actionNew_Patient_triggered()
 
 void MainWindow::on_actionPatient_View_triggered()
 {
-    PatientView *patientView = new PatientView(frame_2);
+    if(this->patientView == NULL)
+    {
+        this->patientView = new PatientView(frame_2);
+    }
+    int index = stackedWidget->indexOf(patientView);
+    if (index==-1) // Nope Not added yet
+        stackedWidget->addWidget(patientView);
+    // Finally Set the current widget
+    stackedWidget->setCurrentWidget(patientView);
+
     patientView->show();
 }
 
