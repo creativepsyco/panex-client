@@ -29,7 +29,7 @@ QString Utils::ConvertMapToString(QVariant aMap)
     QList<QString> keys = map.keys();
     foreach (QString key, keys)
     {
-        finalStr = finalStr + key + ": ";
+        finalStr = finalStr + key + " ";
         // Need a check to see if it is string or qmap
         QVariant s = map[key];
         if (s.canConvert(QVariant::List))
