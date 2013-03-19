@@ -27,7 +27,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-#include "formpostinterface.h";
+#include "formpostinterface.h"
 
 class FormPostPlugin: public QWidget, FormPost
 {
