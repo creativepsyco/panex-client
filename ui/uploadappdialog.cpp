@@ -24,6 +24,7 @@ UploadAppDialog::UploadAppDialog(QWidget *parent) :
     ui(new Ui::UploadAppDialog)
 {
     ui->setupUi(this);
+    ui->progressBar->setVisible(false);
 }
 
 UploadAppDialog::~UploadAppDialog()
