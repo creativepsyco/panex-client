@@ -53,6 +53,8 @@ private slots:
     void offlineStateChanged(QNetworkAccessManager::NetworkAccessibility access);
     void offlineStateChanged(bool isOnline);
 
+    void on_actionUpload_App_triggered();
+
 private:
     void setUpConnections();
     void populateServices(QWidget *widget);

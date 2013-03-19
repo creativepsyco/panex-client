@@ -8,9 +8,11 @@
 #include "ui/settingsdialog.h"
 #include "ui/usersignupdialog.h"
 #include "ui/logindialog.h"
+#include "ui/uploadappdialog.h"
 #include "global_include.h"
 #include <QVariantMap>
 #include <QNetworkConfigurationManager>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -256,4 +258,10 @@ void MainWindow::on_stackedWidget_currentChanged(int arg1)
 PatientView* MainWindow::patientViewDialog()
 {
     return this->patientView;
+}
+
+void MainWindow::on_actionUpload_App_triggered()
+{
+    UploadAppDialog* uploadDialog = new UploadAppDialog(this);
+    uploadDialog->open();
 }
