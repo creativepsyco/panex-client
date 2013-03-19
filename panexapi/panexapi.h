@@ -37,6 +37,7 @@ signals:
     void GetPatientListResultSignal(QVariantMap dataList);
 
     void GenericSignal(QVariantMap dataMap);
+    void GenericUploadProgressSignal(qint64 done, qint64 total);
 
 
 public slots:
@@ -50,6 +51,7 @@ private slots:
 
     void GenericSlot(QNetworkReply* aReply);
     void GenericFormPostSlot();
+    void uploadProgressGeneric(qint64 done,qint64 total);
 
 private:
     static const QString UrlPanex;

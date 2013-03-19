@@ -201,8 +201,14 @@ QNetworkAccessManager * FormPostPlugin::postDataWithNetwork(QString url) {
     return http;
 }
 
+QNetworkReply* FormPostPlugin::getReplyObject()
+{
+    return reply;
+}
+
 void FormPostPlugin::readData(QNetworkReply * r) {
     data=r->readAll();
+    reply = r;
 }
 
 QByteArray FormPostPlugin::response() {

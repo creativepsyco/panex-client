@@ -68,9 +68,18 @@ void UploadAppDialog::on_btnUpload_clicked()
                                         ui->txtName->text(), ui->txtVersion->text(),
                                         ui->txtLink->text(),ui->lblFileName->text(),
                                         ui->lblAppFileName->text(), savedUserData);
+        connect(PanexApi::instance(), SIGNAL(GenericUploadProgressSignal(qint64,qint64)),
+                this, SLOT(updateDataTransferProgress(qint64,qint64)));
         ui->progressBar->show();
-        ui->progressBar->startTimer(10);
     }
+}
+
+void UploadAppDialog::updateDataTransferProgress(qint64 readBytes,
+                                                 qint64 totalBytes)
+{
+//    QLOG_DEBUG() << "[Called] " << readBytes << " \t" << totalBytes;
+    ui->progressBar->setMaximum(100);
+    ui->progressBar->setValue((int)((readBytes * 100) / totalBytes));
 }
 
 void UploadAppDialog::handleUploadAPIReply(QVariantMap aResult)

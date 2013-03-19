@@ -47,8 +47,10 @@ Q_INTERFACES(FormPost)
     QNetworkReply * postData(QString url);
     QNetworkAccessManager * postDataWithNetwork(QString url);
     QByteArray response();
-  private:
+    QNetworkReply* getReplyObject();
+private:
     QByteArray data;
+    QNetworkReply* reply;
     QByteArray strToEnc(QString s);
     QString encodingS;
     QString userAgentS;

@@ -42,6 +42,7 @@ private slots:
     void on_btnUpload_clicked();
 
     void on_btnAppFileChoose_clicked();
+    void updateDataTransferProgress(qint64 readBytes, qint64 totalBytes);
 
 private:
     Ui::UploadAppDialog *ui;

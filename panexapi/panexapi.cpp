@@ -386,10 +386,16 @@ bool PanexApi::UploadApp(QString description, QString name,
     // but then you need to specify name as 3rd arg; and 3rd(4th) arg is mime type of file
     formPost->addFile("appFile", finfo2.absoluteFilePath(), "application/zip");
 
-    QNetworkAccessManager* postReply = formPost->postDataWithNetwork(formedUrl);
+    QNetworkReply* postReply = formPost->postData(formedUrl);
+    connect(postReply, SIGNAL(uploadProgress(qint64,qint64)), this, SLOT(uploadProgressGeneric(qint64,qint64)));
 
-    connect(postReply, SIGNAL(finished(QNetworkReply*)), this, SLOT(GenericSlot(QNetworkReply*)));
+    connect(postReply, SIGNAL(finished()), this, SLOT(GenericFormPostSlot()));
 
+}
+
+void PanexApi::uploadProgressGeneric(qint64 done, qint64 total)
+{
+    emit this->GenericUploadProgressSignal(done, total);
 }
 
 void PanexApi::GenericFormPostSlot()
@@ -397,6 +403,7 @@ void PanexApi::GenericFormPostSlot()
     QByteArray data=formPost->response();
     QString result(data);
     QLOG_DEBUG() << result;
+    GenericSlot(formPost->getReplyObject());
 }
 
 void PanexApi::GenericSlot(QNetworkReply *aReply)
