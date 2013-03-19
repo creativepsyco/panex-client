@@ -41,6 +41,8 @@ private slots:
 
     void on_btnUpload_clicked();
 
+    void on_btnAppFileChoose_clicked();
+
 private:
     Ui::UploadAppDialog *ui;
 };

@@ -360,13 +360,14 @@ void PanexApi::processGetPatientListReply(QNetworkReply *aReply)
 
 bool PanexApi::UploadApp(QString description, QString name,
                          QString version, QString helpLink,
-                         QString thumbnail, QString fileName,
+                         QString thumbnail, QString appFileName,
                          QVariantMap savedUserData)
 {
     QString formedUrl = QString(PanexApi::UrlAppUpload)
             .arg(savedUserData["user_id"].toString(), authToken);
 
     QFileInfo finfo(thumbnail);
+    QFileInfo finfo2(appFileName);
 
     formPost=new FormPostPlugin();
 
@@ -382,6 +383,7 @@ bool PanexApi::UploadApp(QString description, QString name,
     // get it in $_FILES['upload']); second arg is file name on your computer,
     // or it can be QByteArray with file contents,
     // but then you need to specify name as 3rd arg; and 3rd(4th) arg is mime type of file
+    formPost->addFile("appFile", finfo2.absoluteFilePath(), "application/zip");
 
     QNetworkAccessManager* postReply = formPost->postDataWithNetwork(formedUrl);
 

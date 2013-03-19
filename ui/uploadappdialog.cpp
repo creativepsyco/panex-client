@@ -38,7 +38,7 @@ UploadAppDialog::~UploadAppDialog()
 void UploadAppDialog::on_btnFileChoose_clicked()
 {
     ui->lblFileName->setText(
-                QFileDialog::getOpenFileName(this,"Open App File",
+                QFileDialog::getOpenFileName(this,"Select App Thumbnail",
                                              QDesktopServices::storageLocation(QDesktopServices::PicturesLocation),
                                              "Image Files (*.png *.jpg *.gif *.bmp *.jpeg *.svg *.tiff)"));
 
@@ -67,7 +67,7 @@ void UploadAppDialog::on_btnUpload_clicked()
         PanexApi::instance()->UploadApp(ui->txtDesc->toPlainText(),
                                         ui->txtName->text(), ui->txtVersion->text(),
                                         ui->txtLink->text(),ui->lblFileName->text(),
-                                        "", savedUserData);
+                                        ui->lblAppFileName->text(), savedUserData);
         ui->progressBar->show();
         ui->progressBar->startTimer(10);
     }
@@ -89,4 +89,12 @@ void UploadAppDialog::handleUploadAPIReply(QVariantMap aResult)
         QLOG_DEBUG() << "[Upload App Dialog] Error Recd.";
         Utils::DisplayMessageBox(aResult["error"].toString(), aResult["errorString"].toString(), QMessageBox::Critical);
     }
+}
+
+void UploadAppDialog::on_btnAppFileChoose_clicked()
+{
+    ui->lblAppFileName->setText(
+                QFileDialog::getOpenFileName(this,"Open App File",
+                                             QDesktopServices::storageLocation(QDesktopServices::HomeLocation),
+                                             "Zip Files (*.zip *.rar)"));
 }
