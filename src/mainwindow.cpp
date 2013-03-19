@@ -114,8 +114,6 @@ void MainWindow::setUpConnections()
 {
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(action_About, SIGNAL(triggered()), this, SLOT(about()));
-
-    connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
     connect(this, SIGNAL(showLoginDialog()), this, SLOT(showLoginDialogBox()));
 
 }
@@ -265,4 +263,10 @@ void MainWindow::on_actionUpload_App_triggered()
 {
     UploadAppDialog* uploadDialog = new UploadAppDialog(this);
     uploadDialog->open();
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    // Fire Exit
+    emit QPanexApp::instance()->exitApp();
 }

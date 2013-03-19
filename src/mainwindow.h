@@ -55,6 +55,8 @@ private slots:
 
     void on_actionUpload_App_triggered();
 
+    void on_actionExit_triggered();
+
 private:
     void setUpConnections();
     void populateServices(QWidget *widget);
