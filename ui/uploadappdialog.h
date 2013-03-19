@@ -18,6 +18,7 @@
 #define UPLOADAPPDIALOG_H
 
 #include <QDialog>
+#include <QVariantMap>
 
 namespace Ui {
 class UploadAppDialog;
@@ -31,10 +32,14 @@ public:
     explicit UploadAppDialog(QWidget *parent = 0);
     ~UploadAppDialog();
     
+    bool validate();
 private slots:
     void on_btnFileChoose_clicked();
+    void handleUploadAPIReply(QVariantMap dataMap);
 
     void on_btnCancel_clicked();
+
+    void on_btnUpload_clicked();
 
 private:
     Ui::UploadAppDialog *ui;

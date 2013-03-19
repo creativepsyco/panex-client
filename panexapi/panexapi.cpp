@@ -18,6 +18,7 @@ const QString PanexApi::UrlUserLogin = PanexApi::UrlPanex + "/users/sign_in.json
 const QString PanexApi::UrlUserEdit = PanexApi::UrlPanex + "/users/%1.json"; // http://localhost:3000/users/3.json
 const QString PanexApi::UrlPatientAdd = PanexApi::UrlPanex + "/patients.json";
 const QString PanexApi::UrlPatientListGet = PanexApi::UrlPanex + "/patients.json";
+const QString PanexApi::UrlAppUpload = PanexApi::UrlPanex + "/users/%1/apps.json?auth_token=%2"; ///users/:user_id/apps(.:format)
 
 // Need this for singleton purposes
 PanexApi* PanexApi::m_panex_api=0;
@@ -230,7 +231,7 @@ void PanexApi::processEditUserReply(QNetworkReply *aReply)
         dataMap.insert("errorString", "Please check the password, it should be more than 6 characters");
         if (statusCode == 422)
         {
-//            dataMap.insert("errorString", Utils::ConvertMapToString(dataMap["errors"]));
+            //            dataMap.insert("errorString", Utils::ConvertMapToString(dataMap["errors"]));
             // For now just keep the verbatim
             dataMap.insert("errorString", "Please check the password, it should be more than 6 characters");
         }
@@ -295,7 +296,7 @@ void PanexApi::processAddPatientReply(QNetworkReply *aReply)
         {
             dataMap.insert("errorString", Utils::ConvertMapToString(dataMap["errors"]));
             // For now just keep the verbatim
-         //   dataMap.insert("errorString", "Please check the password, it should be more than 6 characters");
+            //   dataMap.insert("errorString", "Please check the password, it should be more than 6 characters");
         }
         QLOG_ERROR() << "[PanexAPI] Error in HTTP request" << aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok)
                      << aReply->errorString();
@@ -355,6 +356,72 @@ void PanexApi::processGetPatientListReply(QNetworkReply *aReply)
     }
     emit this->GetPatientListResultSignal(dataMap);
 
+}
+
+bool PanexApi::UploadApp(QString description, QString name,
+                         QString version, QString helpLink,
+                         QString thumbnail, QString fileName,
+                         QVariantMap savedUserData)
+{
+    QString formedUrl = QString(PanexApi::UrlAppUpload)
+            .arg(savedUserData["user_id"].toString(), authToken);
+
+    QFileInfo finfo(thumbnail);
+
+    formPost=new FormPostPlugin();
+
+    formPost->setUserAgent("myBrowser"); //sets user agent form on web will recieve - default ""
+    formPost->setEncoding("UTF-8"); //sets transfer encoding (default is "utf-8")
+    formPost->addField("name", name); // adds fields in name/value pairs
+    formPost->addField("description", description);
+    formPost->addField("version", version);
+    formPost->addField("helpLink", helpLink);
+
+    formPost->addFile("thumbnail", finfo.absoluteFilePath(), "image/jpeg"); //adds file -
+    // first arg is form field name (php on server will
+    // get it in $_FILES['upload']); second arg is file name on your computer,
+    // or it can be QByteArray with file contents,
+    // but then you need to specify name as 3rd arg; and 3rd(4th) arg is mime type of file
+
+    QNetworkAccessManager* postReply = formPost->postDataWithNetwork(formedUrl);
+
+    connect(postReply, SIGNAL(finished(QNetworkReply*)), this, SLOT(GenericSlot(QNetworkReply*)));
+
+}
+
+void PanexApi::GenericFormPostSlot()
+{
+    QByteArray data=formPost->response();
+    QString result(data);
+    QLOG_DEBUG() << result;
+}
+
+void PanexApi::GenericSlot(QNetworkReply *aReply)
+{
+    bool ok;
+    QLOG_DEBUG() << "[PanexAPI] Network Reply Recieved";
+    QByteArray data=aReply->readAll();
+    QString result(data);
+    QLOG_DEBUG() << result;
+    QVariantMap dataMap;
+    // TODO: Error Checking
+    int statusCode = aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok);
+    if (statusCode == 204 || statusCode == 201 || statusCode == 200 || statusCode == 203)
+    {
+        QLOG_DEBUG() << "[PanexAPI] Successful Signal";
+        dataMap.insert("result", "success");
+    }
+    else
+    {
+        // Error
+        dataMap.insert("result", "error");
+        dataMap.insert("status", aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok));
+        dataMap.insert("errorString", aReply->errorString());
+        QLOG_ERROR() << "[PanexAPI] Error in HTTP request" << aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok)
+                     << aReply->errorString();
+    }
+
+    emit this->GenericSignal(dataMap);
 }
 
 

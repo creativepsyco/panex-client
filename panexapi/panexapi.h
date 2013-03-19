@@ -7,6 +7,7 @@
 #include <QVariantMap>
 #include <QNetworkReply>
 #include "global_include.h"
+#include "form/formpost.h"
 
 
 class PanexApi : public QObject
@@ -24,6 +25,8 @@ public:
     // Patient Methods
     bool AddPatient(QVariantMap data);
     bool GetPatientList(int page);
+    // Apps
+    bool UploadApp(QString description, QString name, QString version, QString helpLink, QString thumbnail, QString file, QVariantMap savedUserData);
 
 signals:
     void LoginResult(QVariantMap dataMap);
@@ -31,6 +34,8 @@ signals:
     void EditUserResultSignal(QVariantMap dataMap);
     void AddPatientResultSignal(QVariantMap dataMap);
     void GetPatientListResultSignal(QVariantMap dataList);
+
+    void GenericSignal(QVariantMap dataMap);
 
 
 public slots:
@@ -41,6 +46,9 @@ private slots:
     void processAddPatientReply(QNetworkReply* aReply);
     void processGetPatientListReply(QNetworkReply* aReply);
 
+    void GenericSlot(QNetworkReply* aReply);
+    void GenericFormPostSlot();
+
 private:
     static const QString UrlPanex;
     static const QString UrlUserSignUp;
@@ -48,6 +56,10 @@ private:
     static const QString UrlUserEdit;
     static const QString UrlPatientAdd;
     static const QString UrlPatientListGet;
+    static const QString UrlAppUpload;
+
+    FormPostPlugin *formPost;
+
     static const bool isDebug;
 
     // Singleton

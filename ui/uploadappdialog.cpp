@@ -18,6 +18,9 @@
 #include "ui_uploadappdialog.h"
 #include <QFileDialog>
 #include <QDesktopServices>
+#include "global_include.h"
+#include "qpanexapp.h"
+#include "utils.h"
 
 UploadAppDialog::UploadAppDialog(QWidget *parent) :
     QDialog(parent),
@@ -44,5 +47,49 @@ void UploadAppDialog::on_btnFileChoose_clicked()
 
 void UploadAppDialog::on_btnCancel_clicked()
 {
+    this->close();
+}
+
+bool UploadAppDialog::validate()
+{
+    bool isValidated = true;
+
+    return isValidated;
+}
+
+void UploadAppDialog::on_btnUpload_clicked()
+{
+    QVariantMap savedUserData = QPanexApp::instance()->settingsDialog()->getUserData();
+    if (validate())
+    {
+        connect(PanexApi::instance(), SIGNAL(GenericSignal(QVariantMap)),
+                this, SLOT(handleUploadAPIReply(QVariantMap)));
+        PanexApi::instance()->UploadApp(ui->txtDesc->toPlainText(),
+                                        ui->txtName->text(), ui->txtVersion->text(),
+                                        ui->txtLink->text(),ui->lblFileName->text(),
+                                        "", savedUserData);
+        ui->progressBar->show();
+        ui->progressBar->startTimer(10);
+    }
+}
+
+void UploadAppDialog::handleUploadAPIReply(QVariantMap aResult)
+{
+    QLOG_INFO() << "[Upload App Dialog] Processing App Upload Result" << aResult;
+    QString success = "success";
+    QString result  = aResult["result"].toString();
+    if (result.compare(success) == 0)
+    {
+        Utils::DisplayMessageBox("Upload Successful", "The App has been successfully uploaded", QMessageBox::Information);
+        this->close();
+    }
+    else
+    {
+        //this->show();
+        QLOG_DEBUG() << "[Upload App Dialog] Error Recd.";
+        Utils::DisplayMessageBox(aResult["error"].toString(), aResult["errorString"].toString(), QMessageBox::Critical);
+    }
+    ui->progressBar->hide();
+
     this->close();
 }
