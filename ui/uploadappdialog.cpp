@@ -89,7 +89,4 @@ void UploadAppDialog::handleUploadAPIReply(QVariantMap aResult)
         QLOG_DEBUG() << "[Upload App Dialog] Error Recd.";
         Utils::DisplayMessageBox(aResult["error"].toString(), aResult["errorString"].toString(), QMessageBox::Critical);
     }
-    ui->progressBar->hide();
-
-    this->close();
 }
