@@ -27,6 +27,7 @@ public:
     bool GetPatientList(int page);
     // Apps
     bool UploadApp(QString description, QString name, QString version, QString helpLink, QString thumbnail, QString file, QVariantMap savedUserData);
+    bool GetAppList(int page);
 
 signals:
     void LoginResult(QVariantMap dataMap);
@@ -45,6 +46,7 @@ private slots:
     void processEditUserReply(QNetworkReply* aReply);
     void processAddPatientReply(QNetworkReply* aReply);
     void processGetPatientListReply(QNetworkReply* aReply);
+    void processGetAppListReply(QNetworkReply* aReply);
 
     void GenericSlot(QNetworkReply* aReply);
     void GenericFormPostSlot();
@@ -57,6 +59,7 @@ private:
     static const QString UrlPatientAdd;
     static const QString UrlPatientListGet;
     static const QString UrlAppUpload;
+    static const QString UrlAppListGet;
 
     FormPostPlugin *formPost;
 

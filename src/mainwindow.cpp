@@ -90,6 +90,7 @@ void MainWindow::loginSuccessSlot(QVariantMap aResult)
     QPanexApp::settingsDialog()->saveUserConfig(aResult);
     PanexApi::instance()->authToken = aResult["auth_token"].toString();
     QLOG_DEBUG() << "[MainWindow] Result saved to settings config";
+    PanexApi::instance()->GetAppList(0);
     this->show();
 }
 
