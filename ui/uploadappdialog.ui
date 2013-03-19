@@ -61,7 +61,7 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Application File Location(zip or binary):</string>
+          <string>Application Icon for Thumbnail</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
