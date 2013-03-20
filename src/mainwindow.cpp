@@ -3,12 +3,15 @@
 #include "qpanexapp.h"
 #include "mainwindow.h"
 #include "aboutdialog.h"
+
 #include "ui/addpatient.h"
 #include "ui/patientview.h"
 #include "ui/settingsdialog.h"
 #include "ui/usersignupdialog.h"
 #include "ui/logindialog.h"
 #include "ui/uploadappdialog.h"
+#include "ui/uploadservicedialog.h"
+
 #include "global_include.h"
 #include <QVariantMap>
 #include <QNetworkConfigurationManager>
@@ -269,4 +272,10 @@ void MainWindow::on_actionExit_triggered()
 {
     // Fire Exit
     emit QPanexApp::instance()->exitApp();
+}
+
+void MainWindow::on_actionUpload_Service_triggered()
+{
+    UploadServiceDialog* uploadServiceDialog = new UploadServiceDialog(this);
+    uploadServiceDialog->open();
 }

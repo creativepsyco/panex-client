@@ -228,6 +228,8 @@
    <addaction name="separator"/>
    <addaction name="actionUpload_App"/>
    <addaction name="separator"/>
+   <addaction name="actionUpload_Service"/>
+   <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="actionAbout"/>
    <addaction name="actionExit"/>
@@ -361,6 +363,18 @@
    </property>
    <property name="toolTip">
     <string>Upload App</string>
+   </property>
+  </action>
+  <action name="actionUpload_Service">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Button_Up.png</normaloff>:/icons/Button_Up.png</iconset>
+   </property>
+   <property name="text">
+    <string>Upload Service</string>
+   </property>
+   <property name="toolTip">
+    <string>Upload a Service</string>
    </property>
   </action>
  </widget>

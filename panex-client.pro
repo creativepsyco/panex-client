@@ -28,7 +28,8 @@ HEADERS += panexapi/panexapi.h \
     ui/changepassword.h \
     ui/uploadappdialog.h \
     form/formpost.h \
-    form/formpostinterface.h
+    form/formpostinterface.h \
+    ui/uploadservicedialog.h
 FORMS += ui/aboutdialog.ui \
          ui/addpatient.ui \
          ui/logindialog.ui \
@@ -38,7 +39,8 @@ FORMS += ui/aboutdialog.ui \
          ui/settingsdialog.ui \
          ui/usersignupdialog.ui \
     ui/changepassword.ui \
-    ui/uploadappdialog.ui
+    ui/uploadappdialog.ui \
+    ui/uploadservicedialog.ui
 SOURCES += panexapi/panexapi.cpp \
            qslog/QsDebugOutput.cpp \
            qslog/QsLog.cpp \
@@ -57,7 +59,8 @@ SOURCES += panexapi/panexapi.cpp \
            ui/utils.cpp \
     ui/changepassword.cpp \
     ui/uploadappdialog.cpp \
-    form/formpost.cpp
+    form/formpost.cpp \
+    ui/uploadservicedialog.cpp
 RESOURCES += res/panexres.qrc
 
 OTHER_FILES += \

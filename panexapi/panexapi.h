@@ -29,6 +29,9 @@ public:
     bool UploadApp(QString description, QString name, QString version, QString helpLink, QString thumbnail, QString file, QVariantMap savedUserData);
     bool GetAppList(int page);
 
+    // Services
+    bool UploadService(QString description, QString name, QString version, QString helpLink, QString thumbnail, QString file, QString commandLine, QVariantMap savedUserData);
+
 signals:
     void LoginResult(QVariantMap dataMap);
     void SignUpResultSignal(QVariantMap dataMap);
@@ -62,6 +65,7 @@ private:
     static const QString UrlPatientListGet;
     static const QString UrlAppUpload;
     static const QString UrlAppListGet;
+    static const QString UrlServiceUpload;
 
     FormPostPlugin *formPost;
 

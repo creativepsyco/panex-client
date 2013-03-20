@@ -20,6 +20,7 @@ const QString PanexApi::UrlPatientAdd = PanexApi::UrlPanex + "/patients.json";
 const QString PanexApi::UrlPatientListGet = PanexApi::UrlPanex + "/patients.json";
 const QString PanexApi::UrlAppUpload = PanexApi::UrlPanex + "/users/%1/apps.json?auth_token=%2"; ///users/:user_id/apps(.:format)
 const QString PanexApi::UrlAppListGet = PanexApi::UrlPanex + "/apps.json";
+const QString PanexApi::UrlServiceUpload = PanexApi::UrlPanex + "/users/%1/services.json?auth_token=%2";
 
 // Need this for singleton purposes
 PanexApi* PanexApi::m_panex_api=0;
@@ -486,4 +487,34 @@ void PanexApi::processGetAppListReply(QNetworkReply *aReply)
     }
     emit this->GenericSignal(dataMap);
 
+}
+
+bool PanexApi::UploadService(QString description, QString name, QString version,
+                            QString helpLink, QString thumbnail, QString serviceFileName,
+                            QString commandLine, QVariantMap savedUserData)
+{
+    QString formedUrl = QString(PanexApi::UrlServiceUpload)
+            .arg(savedUserData["user_id"].toString(), authToken);
+
+    QFileInfo finfo(thumbnail);
+    QFileInfo finfo2(serviceFileName);
+
+    formPost=new FormPostPlugin();
+
+    formPost->setUserAgent("panex-client");
+    formPost->setEncoding("UTF-8");
+    formPost->addField("name", name);
+    formPost->addField("description", description);
+    formPost->addField("commandLine", commandLine);
+    formPost->addField("version", version);
+    formPost->addField("helpLink", helpLink);
+
+    formPost->addFile("thumbnail", finfo.absoluteFilePath(), "image/jpeg");
+    formPost->addFile("serviceFile", finfo2.absoluteFilePath(), "application/zip");
+
+    QNetworkReply* postReply = formPost->postData(formedUrl);
+    connect(postReply, SIGNAL(uploadProgress(qint64,qint64)), this, SLOT(uploadProgressGeneric(qint64,qint64)));
+
+    connect(postReply, SIGNAL(finished()), this, SLOT(GenericFormPostSlot()));
+    return true;
 }
