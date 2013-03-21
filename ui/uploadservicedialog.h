@@ -42,6 +42,8 @@ private slots:
     void handleUploadAPIReply(QVariantMap dataMap);
     void updateDataTransferProgress(qint64 read, qint64 total);
 
+    void on_btnCancel_clicked();
+
 private:
     Ui::UploadServiceDialog *ui;
     bool isValidated();

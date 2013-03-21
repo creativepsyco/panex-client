@@ -98,3 +98,8 @@ void UploadServiceDialog::handleUploadAPIReply(QVariantMap aResult)
         Utils::DisplayMessageBox(aResult["error"].toString(), aResult["errorString"].toString(), QMessageBox::Critical);
     }
 }
+
+void UploadServiceDialog::on_btnCancel_clicked()
+{
+    this->reject();
+}
