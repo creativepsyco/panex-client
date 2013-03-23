@@ -28,6 +28,7 @@ UploadServiceDialog::UploadServiceDialog(QWidget *parent) :
     ui(new Ui::UploadServiceDialog)
 {
     ui->setupUi(this);
+    ui->progressBar->setVisible(false);
 }
 
 UploadServiceDialog::~UploadServiceDialog()
