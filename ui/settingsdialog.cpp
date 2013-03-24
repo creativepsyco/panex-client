@@ -70,6 +70,27 @@ QVariantMap SettingsDialog::getUserData()
     return userData;
 }
 
+void SettingsDialog::saveLoginData(QVariantMap aLoginData)
+{
+    settings.beginGroup("accounts");
+    settings.setValue("email", aLoginData["email"].toString());
+    settings.setValue("password", aLoginData["password"].toString());
+    settings.endGroup();
+
+    settings.sync();
+}
+
+QVariantMap SettingsDialog::getLoginData()
+{
+    QVariantMap loginData;
+    settings.beginGroup("accounts");
+    loginData.insert("email", settings.value("email"));
+    loginData.insert("password", settings.value("password"));
+    settings.endGroup();
+
+    return loginData;
+}
+
 void SettingsDialog::on_btnChangePassword_clicked()
 {
     ChangePassword *changePasswordDialog = new ChangePassword(this);

@@ -5,6 +5,7 @@
 #include "usersignupdialog.h"
 #include "global_include.h"
 #include <QMessageBox>
+#include <QVariantMap>
 #include "utils.h"
 
 LoginDialog::LoginDialog(QWidget *parent) :
@@ -15,6 +16,14 @@ LoginDialog::LoginDialog(QWidget *parent) :
     setFixedSize(width(), height());
     // Removes maximize button
     setWindowFlags( (windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowMaximizeButtonHint);
+
+    QVariantMap data;
+    data = QPanexApp::instance()->settingsDialog()->getLoginData();
+    if(data.contains("email") && data.contains("password"))
+    {
+        ui->txt_username->setText(data["email"].toString());
+        ui->txt_password->setText(data["password"].toString());
+    }
 }
 
 LoginDialog::~LoginDialog()
@@ -29,6 +38,17 @@ void LoginDialog::on_buttonBox_accepted()
     // TODO: Validation
     connect(panexApi, SIGNAL(LoginResult(QVariantMap)), this, SLOT(processLoginResult(QVariantMap)));
     panexApi->LoginUser(ui->txt_username->text(), ui->txt_password->text());
+
+    // if remember is clicked
+    // save to config
+    if (ui->checkRememberLogin->isChecked())
+    {
+        //Save
+        QVariantMap data;
+        data.insert("email", ui->txt_username->text());
+        data.insert("password", ui->txt_password->text());
+        QPanexApp::instance()->settingsDialog()->saveLoginData(data);
+    }
 }
 
 void LoginDialog::on_buttonBox_rejected()

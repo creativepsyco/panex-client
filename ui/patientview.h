@@ -26,6 +26,8 @@ private slots:
     void HandleGetPatientListApiReplySlot(QVariantMap dataMap);
 
 
+    void on_treeViewPatients_activated(const QModelIndex &index);
+
 private:
     QList<QStandardItem *> prepareRow(const QString &first,
                                       const QString &second,

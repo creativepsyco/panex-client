@@ -2,6 +2,9 @@
 #include "ui_patientview.h"
 #include "json.h"
 #include "utils.h"
+#include "global_include.h"
+
+#include <QTreeView>
 using namespace QtJson;
 
 #define ALL_PATIENTS 0
@@ -112,3 +115,13 @@ QList<QStandardItem *> PatientView::prepareRow(const QString &firstName,
     return rowItems;
 }
 
+
+void PatientView::on_treeViewPatients_activated(const QModelIndex &index)
+{
+    QModelIndexList indices = ui->treeViewPatients->selectionModel()->selectedIndexes();
+//    QLOG_INFO() << indices.length() << " no. of indices were selected";
+    foreach(QModelIndex index, indices)
+    {
+        QLOG_INFO() << "Index: " << index.row() << " was selected";
+    }
+}
