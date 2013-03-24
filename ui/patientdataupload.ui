@@ -31,6 +31,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QTreeView" name="treeFileList">
+       <property name="selectionMode">
+        <enum>QAbstractItemView::MultiSelection</enum>
+       </property>
        <property name="sortingEnabled">
         <bool>true</bool>
        </property>

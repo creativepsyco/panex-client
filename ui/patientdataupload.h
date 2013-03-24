@@ -47,6 +47,8 @@ private slots:
                                       const QString &second,
                                       const QString &third);
 
+    void on_btnRemove_clicked();
+
 private:
     Ui::PatientDataUpload *ui;
     // Standard Item Model to store list

@@ -17,7 +17,9 @@
 #include "patientdataupload.h"
 #include <QFileDialog>
 #include <QStringList>
+#include <QTreeView>
 #include "ui_patientdataupload.h"
+#include "global_include.h"
 
 void PatientDataUpload::setHeaders()
 {
@@ -94,7 +96,18 @@ void PatientDataUpload::addFiles(QStringList Files)
 
 void PatientDataUpload::removeFiles(QStringList Files)
 {
+    QModelIndexList indices = ui->treeFileList->selectionModel()->selectedIndexes();
+    foreach ( QModelIndex index, indices)
+    {
+        if(index.row() == 0)
+        {
 
+        }
+        else
+        {
+            this->fileList->removeRow(index.row(), index.parent());
+        }
+    }
 }
 
 // HELPERS
@@ -107,4 +120,10 @@ QList<QStandardItem*> PatientDataUpload::prepareRow(const QString &first,
     rowItems << new QStandardItem(second);
     rowItems << new QStandardItem(third);
     return rowItems;
+}
+
+void PatientDataUpload::on_btnRemove_clicked()
+{
+    QStringList selectedFiles;
+    this->removeFiles(selectedFiles);
 }
