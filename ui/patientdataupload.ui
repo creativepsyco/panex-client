@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Upload Patient Data Files Double Check the patient id in the files before uploading</string>
+      <string>Upload Patient Data Files Double  Check the patient id in the files before uploading</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -30,7 +30,11 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QTreeView" name="treeFileList"/>
+      <widget class="QTreeView" name="treeFileList">
+       <property name="sortingEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">

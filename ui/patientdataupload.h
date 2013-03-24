@@ -18,6 +18,11 @@
 #define PATIENTDATAUPLOAD_H
 
 #include <QDialog>
+#include <QStringList>
+#include <QVariantMap>
+#include <QStandardItem>
+#include <QList>
+#include <QStandardItemModel>
 
 namespace Ui {
 class PatientDataUpload;
@@ -31,8 +36,22 @@ public:
     explicit PatientDataUpload(QWidget *parent = 0);
     ~PatientDataUpload();
     
+    void setHeaders();
+private slots:
+    void on_btnCancel_clicked();
+
+    void on_btnAdd_clicked();
+    void removeFiles(QStringList Files);
+    void addFiles(QStringList Files);
+    QList<QStandardItem *> prepareRow(const QString &first,
+                                      const QString &second,
+                                      const QString &third);
+
 private:
     Ui::PatientDataUpload *ui;
+    // Standard Item Model to store list
+    //Filename, FilePath, FileType
+    QStandardItemModel *fileList;
 };
 
 #endif // PATIENTDATAUPLOAD_H

@@ -11,6 +11,7 @@
 #include "ui/logindialog.h"
 #include "ui/uploadappdialog.h"
 #include "ui/uploadservicedialog.h"
+#include "ui/patientdataupload.h"
 
 #include "global_include.h"
 #include <QVariantMap>
@@ -278,4 +279,10 @@ void MainWindow::on_actionUpload_Service_triggered()
 {
     UploadServiceDialog* uploadServiceDialog = new UploadServiceDialog(this);
     uploadServiceDialog->open();
+}
+
+void MainWindow::on_actionUpload_Data_triggered()
+{
+    PatientDataUpload* patientDUp = new PatientDataUpload(this);
+    patientDUp->open();
 }

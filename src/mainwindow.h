@@ -59,6 +59,8 @@ private slots:
 
     void on_actionUpload_Service_triggered();
 
+    void on_actionUpload_Data_triggered();
+
 private:
     void setUpConnections();
     void populateServices(QWidget *widget);
