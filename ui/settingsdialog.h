@@ -24,7 +24,9 @@ public slots:
 public:
     explicit SettingsDialog(QWidget *parent = 0);
     void saveUserConfig(QVariantMap aUserData);
+    void saveLoginData(QVariantMap aLoginData);
     QVariantMap getUserData();
+    QVariantMap getLoginData();
     ~SettingsDialog();
     void loadConfig();
 
