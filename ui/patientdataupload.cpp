@@ -110,6 +110,12 @@ void PatientDataUpload::removeFiles(QStringList Files)
     }
 }
 
+void PatientDataUpload::on_btnRemove_clicked()
+{
+    QStringList selectedFiles;
+    this->removeFiles(selectedFiles);
+}
+
 // HELPERS
 QList<QStandardItem*> PatientDataUpload::prepareRow(const QString &first,
                                                    const QString &second,
@@ -122,8 +128,4 @@ QList<QStandardItem*> PatientDataUpload::prepareRow(const QString &first,
     return rowItems;
 }
 
-void PatientDataUpload::on_btnRemove_clicked()
-{
-    QStringList selectedFiles;
-    this->removeFiles(selectedFiles);
-}
+
