@@ -118,7 +118,7 @@ QList<QStandardItem *> PatientView::prepareRow(const QString &firstName,
 
 void PatientView::on_treeViewPatients_activated(const QModelIndex &index)
 {
-    QModelIndexList indices = ui->treeViewPatients->selectionModel()->selectedIndexes();
+    QModelIndexList indices = ui->treeViewPatients->selectionModel()->selectedRows();
 //    QLOG_INFO() << indices.length() << " no. of indices were selected";
     foreach(QModelIndex index, indices)
     {
