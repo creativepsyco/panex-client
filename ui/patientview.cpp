@@ -122,6 +122,13 @@ void PatientView::on_treeViewPatients_activated(const QModelIndex &index)
 //    QLOG_INFO() << indices.length() << " no. of indices were selected";
     foreach(QModelIndex index, indices)
     {
-        QLOG_INFO() << "Index: " << index.row() << " was selected";
+        // Add to the data view
+        QStandardItemModel *model = new QStandardItemModel;
+        QList<QStandardItem *> preparedRow =prepareRow("first", "second", "third");
+        model->appendRow(preparedRow);
+        QList<QStandardItem *> secondRow =prepareRow("111", "222", "333");
+        model->appendRow(secondRow);
+        ui->treePatientData->setModel(model);
+        ui->treePatientData->expandAll();
     }
 }
