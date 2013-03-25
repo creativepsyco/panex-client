@@ -124,10 +124,12 @@ void PatientView::on_treeViewPatients_activated(const QModelIndex &index)
     {
         // Add to the data view
         QStandardItemModel *model = new QStandardItemModel;
-        QList<QStandardItem *> preparedRow =prepareRow("FileName", "DICOM", "third");
+        QList<QStandardItem *> preparedRow =prepareRow("FileName", "DICOM", "Patient Data");
         model->appendRow(preparedRow);
-        QList<QStandardItem *> secondRow =prepareRow("Another File", "PDF", "333");
+        QList<QStandardItem *> secondRow =prepareRow("Another File", "PDF", "Service Result");
         model->appendRow(secondRow);
+        QList<QStandardItem *> thirdRow =prepareRow("Result.txt", "TXT", "Service Result");
+        model->appendRow(thirdRow);
         ui->treePatientData->setModel(model);
         ui->treePatientData->expandAll();
     }
