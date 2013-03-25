@@ -1,5 +1,6 @@
 panex-client
 ============
+[![Build Status](https://travis-ci.org/creativepsyco/panex-client.png?branch=master)](https://travis-ci.org/creativepsyco/panex-client)
 
 QT Desktop Client for Panex
 
