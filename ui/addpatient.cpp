@@ -1,6 +1,8 @@
 #include "addpatient.h"
 #include "ui_addpatient.h"
 #include "global_include.h"
+#include "qpanexapp.h"
+#include "mainwindow.h"
 
 AddPatient::AddPatient(QWidget *parent) :
     QWidget(parent),
@@ -55,6 +57,7 @@ void AddPatient::handleAddPatientApiResult(QVariantMap aResult)
     {
         // emit the correct signal
         Utils::DisplayMessageBox("Success", "Successfully Added the Patient", QMessageBox::Information);
+        QPanexApp::instance()->mainWindow()->patientViewDialog()->GetPatientList();
         this->on_btnReset_clicked();
     }
     else
