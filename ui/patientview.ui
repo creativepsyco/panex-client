@@ -31,7 +31,11 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QTreeView" name="treePatientData"/>
+    <widget class="QTreeView" name="treePatientData">
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
