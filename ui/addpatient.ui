@@ -110,7 +110,11 @@
     </widget>
    </item>
    <item row="3" column="2">
-    <widget class="QLineEdit" name="txtPatientLastName"/>
+    <widget class="QLineEdit" name="txtPatientLastName">
+     <property name="styleSheet">
+      <string notr="true">background-color: yellow</string>
+     </property>
+    </widget>
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="label">
@@ -134,7 +138,11 @@
     </widget>
    </item>
    <item row="3" column="6">
-    <widget class="QLineEdit" name="txtPatientFirstName"/>
+    <widget class="QLineEdit" name="txtPatientFirstName">
+     <property name="styleSheet">
+      <string notr="true">background-color:yellow</string>
+     </property>
+    </widget>
    </item>
    <item row="5" column="2">
     <widget class="QComboBox" name="ethnicityChoice">
@@ -259,6 +267,9 @@
    </item>
    <item row="2" column="2">
     <widget class="QLineEdit" name="txtIdNumber">
+     <property name="styleSheet">
+      <string notr="true">background-color: yellow</string>
+     </property>
      <property name="inputMethodHints">
       <set>Qt::ImhUppercaseOnly</set>
      </property>
