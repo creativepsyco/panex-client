@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupStatusBar();
     QPanexApp::registerMainWindow(this);
     this->hide();
+    this->frame->setVisible(false);
 
     emit showLoginDialog();
 }
