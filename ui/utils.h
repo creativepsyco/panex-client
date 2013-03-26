@@ -11,6 +11,7 @@ public:
     static void DisplayMessageBox(const QString msg, const QString infoTxt);
     static void DisplayMessageBox(const QString msg, const QString infoTxt, QMessageBox::Icon icon);
     static QString ConvertMapToString(QVariant map);
+    static QString GetMimeType(QString fileExt);
 
 };
 

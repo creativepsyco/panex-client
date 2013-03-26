@@ -15,11 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "patientdataupload.h"
+#include "patientdataapi.h"
 #include <QFileDialog>
 #include <QStringList>
 #include <QTreeView>
+#include <QVariantMap>
 #include "ui_patientdataupload.h"
 #include "global_include.h"
+#include "qpanexapp.h"
 
 void PatientDataUpload::setHeaders()
 {
@@ -27,6 +30,7 @@ void PatientDataUpload::setHeaders()
     labels << "File Name" << "File Type" << "File Path";
     this->fileList->setHorizontalHeaderLabels(labels);
 }
+
 
 PatientDataUpload::PatientDataUpload(QWidget *parent) :
     QDialog(parent),
@@ -37,14 +41,15 @@ PatientDataUpload::PatientDataUpload(QWidget *parent) :
     ui->txtStatus->setText("");
 
     this->fileList = new QStandardItemModel;
+    this->m_patient_id = 1;
 
     setHeaders();
 
     // For test
-    QList<QStandardItem *> preparedRow =prepareRow("first", "second", "third");
-    this->fileList->appendRow(preparedRow);
-    QList<QStandardItem *> secondRow =prepareRow("111", "222", "333");
-    this->fileList->appendRow(secondRow);
+//    QList<QStandardItem *> preparedRow =prepareRow("first", "second", "third");
+//    this->fileList->appendRow(preparedRow);
+//    QList<QStandardItem *> secondRow =prepareRow("111", "222", "333");
+//    this->fileList->appendRow(secondRow);
     // End of Test
     ui->treeFileList->setModel(this->fileList);
     ui->treeFileList->expandAll();
@@ -118,8 +123,8 @@ void PatientDataUpload::on_btnRemove_clicked()
 
 // HELPERS
 QList<QStandardItem*> PatientDataUpload::prepareRow(const QString &first,
-                                                   const QString &second,
-                                                   const QString &third)
+                                                    const QString &second,
+                                                    const QString &third)
 {
     QList<QStandardItem *> rowItems;
     rowItems << new QStandardItem(first);
@@ -129,3 +134,54 @@ QList<QStandardItem*> PatientDataUpload::prepareRow(const QString &first,
 }
 
 
+/**
+ * @brief PatientDataUpload::on_btnUpload_clicked
+ *          handle Data uploads for the patient, expects a patient_id
+ */
+void PatientDataUpload::on_btnUpload_clicked()
+{
+    // XXX:
+    QVariantMap userData = QPanexApp::instance()->settingsDialog()->getUserData();
+
+    // Make a StringList of the various files
+    QStringList files;
+    for (int rowIndex =0; rowIndex <  this->fileList->rowCount(); rowIndex++)
+    {
+        QStandardItem *theItem = this->fileList->item(rowIndex, 2);
+        files.append(theItem->text());
+    }
+
+    PatientDataAPI *instance = PanexApi::instance()->patientDataAPI();
+    instance->UploadData("",
+                         ui->txtDescription->toPlainText(),
+                         this->m_patient_id,
+                         userData["user_id"].toString(),
+                         files);
+    connect(instance, SIGNAL(GenericUploadProgressSignal(qint64,qint64)), this, SLOT(GenericUploadSlot(qint64,qint64)));
+    connect(instance, SIGNAL(GenericSignal(QVariantMap)), this, SLOT(handleUploadAPIReply(QVariantMap)));
+}
+
+void PatientDataUpload::GenericUploadSlot(qint64 done, qint64 total)
+{
+    ui->progressBar->setVisible(true);
+    ui->progressBar->setMaximum(100);
+    ui->progressBar->setValue((int)((done * 100) / total));
+}
+
+void PatientDataUpload::handleUploadAPIReply(QVariantMap aResult)
+{
+    QLOG_INFO() << "[Upload Patient Data Dialog] Processing Service Upload Result" << aResult;
+    QString success = "success";
+    QString result  = aResult["result"].toString();
+    if (result.compare(success) == 0)
+    {
+        Utils::DisplayMessageBox("Upload Successful", "The Data has been successfully uploaded", QMessageBox::Information);
+        this->close();
+    }
+    else
+    {
+        //this->show();
+        QLOG_DEBUG() << "[Upload Patient Data Dialog] Error Recd.";
+        Utils::DisplayMessageBox(aResult["error"].toString(), aResult["errorString"].toString(), QMessageBox::Critical);
+    }
+}

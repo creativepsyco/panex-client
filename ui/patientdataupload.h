@@ -49,11 +49,16 @@ private slots:
 
     void on_btnRemove_clicked();
 
+    void on_btnUpload_clicked();
+    void GenericUploadSlot(qint64 done, qint64 total);
+    void handleUploadAPIReply(QVariantMap aResult);
+
 private:
     Ui::PatientDataUpload *ui;
     // Standard Item Model to store list
     //Filename, FilePath, FileType
     QStandardItemModel *fileList;
+    int m_patient_id;
 };
 
 #endif // PATIENTDATAUPLOAD_H

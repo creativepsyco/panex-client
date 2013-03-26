@@ -8,7 +8,7 @@
 #include <QNetworkReply>
 #include "global_include.h"
 #include "form/formpost.h"
-
+#include "patientdataapi.h"
 
 class PanexApi : public QObject
 {
@@ -22,6 +22,8 @@ public:
     bool LoginUser(QString userEmail, QString userPassword);
     bool EditUser(QString userName, QString userPassword,
                   QString userRole, QString userEmail, QVariantMap savedUserData);
+    // Patient Data API Methods
+    PatientDataAPI* patientDataAPI();
     // Patient Methods
     bool AddPatient(QVariantMap data);
     bool GetPatientList(int page);
@@ -73,6 +75,7 @@ private:
 
     // Singleton
     static PanexApi* m_panex_api;
+
 };
 
 #endif // PANEXAPI_H

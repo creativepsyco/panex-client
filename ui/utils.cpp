@@ -43,3 +43,27 @@ QString Utils::ConvertMapToString(QVariant aMap)
     }
     return finalStr;
 }
+
+QString Utils::GetMimeType(QString fileExt)
+{
+    if (fileExt.toLower().compare("pdf") == 0)
+    {
+        return "application/pdf";
+    }
+    else if (fileExt.toLower().compare("zip") == 0)
+    {
+        return "application/zip";
+    }
+    else if (fileExt.toLower().compare("jpg") == 0)
+    {
+        return "image/jpeg";
+    }
+    else if (fileExt.toLower().compare("png") == 0)
+    {
+        return "image/png";
+    }
+    else
+    {
+        return "error";
+    }
+}

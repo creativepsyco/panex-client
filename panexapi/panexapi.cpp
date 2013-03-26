@@ -518,3 +518,10 @@ bool PanexApi::UploadService(QString description, QString name, QString version,
     connect(postReply, SIGNAL(finished()), this, SLOT(GenericFormPostSlot()));
     return true;
 }
+
+PatientDataAPI* PanexApi::patientDataAPI()
+{
+    PatientDataAPI *pDA = new PatientDataAPI(this, PanexApi::UrlPanex);
+    pDA->authToken = this->authToken;
+    return pDA;
+}
