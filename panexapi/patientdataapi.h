@@ -32,18 +32,26 @@ public:
 signals:
     void GenericSignal(QVariantMap dataMap);
     void GenericUploadProgressSignal(qint64 done, qint64 total);
+    void GetPatientDataResultSignal(QVariantMap dataMap);
 
 public slots:
     bool UploadData(QString condition, QString description, int patient_id, QString creator_id, QStringList files);
+    bool GetPatientDataList(int patientId);
+    bool GetAllPatientDataList();
 
 private slots:
     void GenericSlot(QNetworkReply* aReply);
     void GenericFormPostSlot();
     void uploadProgressGeneric(qint64 done,qint64 total);
 
+    void processGetPatientDataReply(QNetworkReply* aDataList);
+
 private:
     static QString UrlPanex;
     static QString UrlPatientDataUpload;
+    static QString UrlGetPatientDataList;
+    static QString UrlGetPatientDataListById;
+
     FormPostPlugin *formPost;
 };
 

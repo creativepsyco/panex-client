@@ -19,11 +19,19 @@
 #include "global_include.h"
 #include "form/formpost.h"
 #include "utils.h"
+#include "qt-json/json.h"
+
 #include <QFileInfo>
 
+using namespace QtJson;
+
+#define ALL_PATIENTS -1
 
 QString PatientDataAPI::UrlPanex = "";
 QString PatientDataAPI::UrlPatientDataUpload = "";
+QString PatientDataAPI::UrlGetPatientDataListById ="";
+QString PatientDataAPI::UrlGetPatientDataList="";
+
 ///
 /// \brief PatientDataAPI::PatientDataAPI Constructor
 /// \param parent
@@ -32,8 +40,12 @@ QString PatientDataAPI::UrlPatientDataUpload = "";
 PatientDataAPI::PatientDataAPI(QObject *parent, QString rootUrl) :
     QObject(parent)
 {
+    // if you are initializing the URLs here, then remember to declare them
+    // at the top of the class
     PatientDataAPI::UrlPanex = rootUrl;
     PatientDataAPI::UrlPatientDataUpload = PatientDataAPI::UrlPanex + "/patients/%1/patient_data/upload.json";
+    PatientDataAPI::UrlGetPatientDataList = PatientDataAPI::UrlPanex + "/patients/patient_data.json";
+    PatientDataAPI::UrlGetPatientDataListById = PatientDataAPI::UrlPanex + "/patients/%1/patient_data.json";
 }
 
 ///
@@ -124,8 +136,78 @@ void PatientDataAPI::GenericFormPostSlot()
 ///
 void PatientDataAPI::uploadProgressGeneric(qint64 done,qint64 total)
 {
-     emit this->GenericUploadProgressSignal(done, total);
+    emit this->GenericUploadProgressSignal(done, total);
 }
 
 
+bool PatientDataAPI::GetAllPatientDataList()
+{
+    this->GetPatientDataList(ALL_PATIENTS);
+}
 
+///
+/// \brief PatientDataAPI::GetPatientDataList
+/// \param patientId
+/// \return
+///
+bool PatientDataAPI::GetPatientDataList(int patientId)
+{
+    QString formedUrl = QString(PatientDataAPI::UrlGetPatientDataListById)
+            .arg(patientId);
+    if (patientId == ALL_PATIENTS)
+    {
+        formedUrl = PatientDataAPI::UrlGetPatientDataList;
+    }
+
+    QUrl theUrl(formedUrl);
+    theUrl.addQueryItem("auth_token", PatientDataAPI::authToken);
+    QNetworkRequest request(theUrl);
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(processGetPatientDataReply(QNetworkReply*)));
+    manager->get(request);
+    return true;
+}
+
+///
+/// \brief PatientDataAPI::processGetPatientDataReply
+/// \param aReply
+///
+void PatientDataAPI::processGetPatientDataReply(QNetworkReply *aReply)
+{
+    bool ok;
+
+    QByteArray data=aReply->readAll();
+//    QLOG_DEBUG() << "[PatientDataAPI] Network Reply Recieved" << data;
+    QVariantMap dataMap;
+    // TODO: Error Checking
+    int statusCode = aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok);
+    if (statusCode == 204 || statusCode == 201 || statusCode == 200 || statusCode == 203)
+    {
+        dataMap.insert("result", "success");
+
+        QVariantMap patientDataMap = QtJson::parse(data, ok).toMap();
+        if (ok)
+        {
+            dataMap.insert("data", patientDataMap.value("data"));
+        }
+        else
+        {
+            QLOG_ERROR() << "[PatientDataAPI] Error Occured in parsing data" << data;
+        }
+    }
+    else
+    {
+        // Error
+        dataMap.insert("result", "error");
+        dataMap.insert("status", aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok));
+        dataMap.insert("errorString", aReply->errorString());
+        QLOG_ERROR() << "[PatientDataAPI] Error in HTTP request" << aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok)
+                     << aReply->errorString();
+    }
+//    QLOG_DEBUG() << "[PatientDataAPI] Data Recd " << dataMap;
+    emit this->GetPatientDataResultSignal(dataMap);
+}

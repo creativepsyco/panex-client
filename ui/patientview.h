@@ -25,7 +25,7 @@ public:
     QString patient_id;
 private slots:
     void HandleGetPatientListApiReplySlot(QVariantMap dataMap);
-
+    void HandleGetPatientDataApiReplySlot(QVariantMap dataListMap);
 
     void on_treeViewPatients_activated(const QModelIndex &index);
 
@@ -46,6 +46,7 @@ private:
                                       const QString &seventh);
     Ui::PatientView *ui;
     QStandardItemModel *patientList;
+    QStandardItemModel *patientDataList;
 };
 
 #endif // PATIENTVIEW_H

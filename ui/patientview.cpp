@@ -26,10 +26,18 @@ PatientView::PatientView(QWidget *parent) :
     this->patientList->appendRow(secondRow);
     // End of Test
     ui->treeViewPatients->setModel(this->patientList);
+
     ui->treeViewPatients->expandAll();
 
     // Get the list of patients
     this->GetPatientList();
+
+    // Patient Data listing
+    this->patientDataList = new QStandardItemModel;
+    ui->treePatientData->setModel(this->patientDataList);
+
+    // Set some connections
+
 }
 
 PatientView::~PatientView()
@@ -54,6 +62,7 @@ void PatientView::setUpListHeaders()
 
 void PatientView::HandleGetPatientListApiReplySlot(QVariantMap aResult)
 {
+    QLOG_DEBUG() << "[Patient View] HandleGetPatientListApiReplySlot " ;
     QString success = "success";
     QString result  = aResult["result"].toString();
     if (result.compare(success) == 0)
@@ -131,20 +140,49 @@ QList<QStandardItem *> PatientView::prepareRow(const QString &sys_id,
 /// TODO: Correct handling of index needed
 void PatientView::on_treeViewPatients_activated(const QModelIndex &index)
 {
-    QModelIndexList indices = ui->treeViewPatients->selectionModel()->selectedRows();
-//    QLOG_INFO() << indices.length() << " no. of indices were selected";
-    foreach(QModelIndex index, indices)
+    // Start the process of loading from the patient data list
+    bool ok;
+    PatientDataAPI *apiObj = PanexApi::instance()->patientDataAPI();
+    connect(apiObj, SIGNAL(GetPatientDataResultSignal(QVariantMap)),
+            this, SLOT(HandleGetPatientDataApiReplySlot(QVariantMap)));
+    apiObj->GetPatientDataList(this->patient_id.toInt(&ok, 10));
+}
+
+
+void PatientView::HandleGetPatientDataApiReplySlot(QVariantMap aResult)
+{
+//    QLOG_DEBUG() << "[PatientView] Data API Reply Recd. "<< aResult;
+    QString success = "success";
+    QString result  = aResult["result"].toString();
+    if (result.compare(success) == 0)
     {
-        // Add to the data view
-        QStandardItemModel *model = new QStandardItemModel;
-        QList<QStandardItem *> preparedRow =prepareRow("FileName", "DICOM", "Patient Data");
-        model->appendRow(preparedRow);
-        QList<QStandardItem *> secondRow =prepareRow("Another File", "PDF", "Service Result");
-        model->appendRow(secondRow);
-        QList<QStandardItem *> thirdRow =prepareRow("Result.txt", "TXT", "Service Result");
-        model->appendRow(thirdRow);
-        ui->treePatientData->setModel(model);
-        ui->treePatientData->expandAll();
+        this->patientDataList->clear();
+
+        QVariantList list = aResult["data"].toList();
+        foreach(QVariant aData, list)
+        {
+            QVariantMap aDataObj = aData.toMap();
+            // Add Standard Item
+            QList<QStandardItem *> preparedRow;
+            preparedRow << new QStandardItem(aDataObj["id"].toString());
+            preparedRow << new QStandardItem(aDataObj["dataFile_file_name"].toString());
+            preparedRow << new QStandardItem(aDataObj["condition"].toString());
+            preparedRow << new QStandardItem(aDataObj["description"].toString());
+            preparedRow << new QStandardItem(aDataObj["dataType"].toString());
+            preparedRow << new QStandardItem(aDataObj["dataFile_content_type"].toString());
+
+            this->patientDataList->appendRow(preparedRow);
+        }
+        // Hide the first column - No use to the user
+        this->ui->treePatientData->hideColumn(ID_COLUMN_INDEX);
+        this->ui->treePatientData->expandAll();
+
+    }
+    else
+    {
+        //this->show();
+        QLOG_DEBUG() << "[PatientView] Error Recd.";
+        Utils::DisplayMessageBox(aResult["errorString"].toString(), aResult["message"].toString() , QMessageBox::Information);
     }
 }
 
@@ -155,5 +193,5 @@ void PatientView::on_treeViewPatients_activated(const QModelIndex &index)
 void PatientView::on_treeViewPatients_clicked(const QModelIndex &index)
 {
     this->patient_id = this->patientList->item(index.row(), ID_COLUMN_INDEX)->text();
-    QLOG_DEBUG() << "[PatientView on_treeViewPatients_clicked]" << this->patient_id << " has been selected";
+//    QLOG_DEBUG() << "[PatientView on_treeViewPatients_clicked]" << this->patient_id << " has been selected";
 }
