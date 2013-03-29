@@ -59,6 +59,8 @@ private:
     static QString UrlGetPatientDataListById;
     static QString UrlDownloadPatientDataFile;
 
+    QString filenameFromHTTPContentDisposition(QString aFileName);
+
     FormPostPlugin *formPost;
 };
 

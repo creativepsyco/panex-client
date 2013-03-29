@@ -22,6 +22,7 @@
 #include "qt-json/json.h"
 
 #include <QFileInfo>
+#include <QVector>
 
 using namespace QtJson;
 
@@ -271,12 +272,45 @@ void PatientDataAPI::processGetDownloadedFileReply(QNetworkReply* aResult)
     else
     {
         // Find out the directory and file name
-        QString baseName = saveFileName(aResult->url());
-        QFile *file = new QFile(baseName);
+        QString baseName = filenameFromHTTPContentDisposition(aResult->rawHeader("Content-Disposition"));
+        QLOG_DEBUG() << "[PatientDataAPI] File Name: " << baseName;
+        QFile *file = new QFile("/tmp/" + baseName);
         file->open(QIODevice::WriteOnly);
         file->write(aResult->readAll());
         absoluteFilePath = baseName;
     }
 
     emit this->PatientDataDownloadFinished(absoluteFilePath, errorString);
+}
+
+// FIXME: This function doesn't comply with RFC 6266.
+// For example, this function doesn't handle the interaction between " and ;
+// that arises from quoted-string, nor does this function properly unquote
+// attribute values. Further this function appears to process parameter names
+// in a case-sensitive manner. (There are likely other bugs as well.)
+QString PatientDataAPI::filenameFromHTTPContentDisposition(QString value)
+{
+    QStringList keyValuePairs = value.split(';');
+
+    unsigned length = keyValuePairs.size();
+    for (unsigned i = 0; i < length; i++) {
+        int valueStartPos = keyValuePairs[i].indexOf('=');
+        if (valueStartPos < 0)
+            continue;
+
+        QString key = keyValuePairs[i].left(valueStartPos).trimmed();
+
+        if (key.isEmpty() || key != "filename")
+            continue;
+
+        QString value = keyValuePairs[i].mid(valueStartPos + 1).trimmed();
+
+        // Remove quotes if there are any
+        if (value[0] == '\"')
+            value = value.mid(1, value.length() - 2);
+
+        return value;
+    }
+
+    return QString();
 }
