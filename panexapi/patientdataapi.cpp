@@ -277,7 +277,8 @@ void PatientDataAPI::processGetDownloadedFileReply(QNetworkReply* aResult)
         QFile *file = new QFile("/tmp/" + baseName);
         file->open(QIODevice::WriteOnly);
         file->write(aResult->readAll());
-        absoluteFilePath = baseName;
+        QFileInfo finfo("/tmp/" + baseName);
+        absoluteFilePath = finfo.absoluteFilePath();
     }
 
     emit this->PatientDataDownloadFinished(absoluteFilePath, errorString);

@@ -5,6 +5,7 @@
 #include "global_include.h"
 
 #include <QTreeView>
+#include <QDesktopServices>
 using namespace QtJson;
 
 #define ALL_PATIENTS 0
@@ -213,4 +214,10 @@ void PatientView::on_treePatientData_activated(const QModelIndex &index)
 void PatientView::FileDownloadFinishedSlot(QString path, QString error)
 {
     QLOG_DEBUG() << "[Patient View] Downloaded File Path: " << path << "\n " << error;
+    if (error.length() == 0)
+    {
+        // Open file
+        QUrl fileUrl("file:///" + path);
+        QDesktopServices::openUrl(fileUrl);
+    }
 }
