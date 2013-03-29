@@ -8,6 +8,7 @@
 using namespace QtJson;
 
 #define ALL_PATIENTS 0
+#define ID_COLUMN_INDEX 0
 
 PatientView::PatientView(QWidget *parent) :
     QWidget(parent),
@@ -45,7 +46,7 @@ void PatientView::GetPatientList()
 void PatientView::setUpListHeaders()
 {
     QStringList labels;
-    labels << "Last Name" << "First Name" << "Identification" << "Email" << "Gender"
+    labels << "Id" <<"Last Name" << "First Name" << "Identification" << "Email" << "Gender"
            << "Contact" << "Notes";
     patientList->setHorizontalHeaderLabels(labels);
 }
@@ -65,7 +66,8 @@ void PatientView::HandleGetPatientListApiReplySlot(QVariantMap aResult)
         {
             QVariantMap aPatient = patient.toMap();
             // Add Standard Item
-            QList<QStandardItem *> preparedRow = prepareRow(aPatient["lastName"].toString(),
+            QList<QStandardItem *> preparedRow = prepareRow(aPatient["id"].toString(),
+                                                            aPatient["lastName"].toString(),
                                                             aPatient["firstName"].toString(),
                                                             aPatient["identificationNumber"].toString(),
                                                             aPatient["email"].toString(),
@@ -74,6 +76,9 @@ void PatientView::HandleGetPatientListApiReplySlot(QVariantMap aResult)
                                                             aPatient["notes"].toString());
             this->patientList->appendRow(preparedRow);
         }
+        // Hide the first column - No use to the user
+        this->ui->treeViewPatients->hideColumn(ID_COLUMN_INDEX);
+
     }
     else
     {
@@ -95,8 +100,10 @@ QList<QStandardItem *> PatientView::prepareRow(const QString &first,
     return rowItems;
 }
 
-//Assuming we only wanna display these columns
-QList<QStandardItem *> PatientView::prepareRow(const QString &firstName,
+// Assuming we only wanna display these columns
+// Have sys_id to differentiate the rails server id
+QList<QStandardItem *> PatientView::prepareRow(const QString &sys_id,
+                                               const QString &firstName,
                                                const QString &lastName,
                                                const QString &id,
                                                const QString &email,
@@ -105,6 +112,7 @@ QList<QStandardItem *> PatientView::prepareRow(const QString &firstName,
                                                const QString &notes)
 {
     QList<QStandardItem *> rowItems;
+    rowItems << new QStandardItem(sys_id);
     rowItems << new QStandardItem(firstName);
     rowItems << new QStandardItem(lastName);
     rowItems << new QStandardItem(id);
@@ -115,7 +123,11 @@ QList<QStandardItem *> PatientView::prepareRow(const QString &firstName,
     return rowItems;
 }
 
-
+///
+/// \brief PatientView::on_treeViewPatients_activated
+/// \param index
+///
+/// TODO: Correct handling of index needed
 void PatientView::on_treeViewPatients_activated(const QModelIndex &index)
 {
     QModelIndexList indices = ui->treeViewPatients->selectionModel()->selectedRows();
@@ -133,4 +145,10 @@ void PatientView::on_treeViewPatients_activated(const QModelIndex &index)
         ui->treePatientData->setModel(model);
         ui->treePatientData->expandAll();
     }
+}
+
+void PatientView::on_treeViewPatients_clicked(const QModelIndex &index)
+{
+    this->patient_id = this->patientList->item(index.row(), ID_COLUMN_INDEX)->text();
+    QLOG_DEBUG() << this->patient_id << " has been selected";
 }

@@ -22,18 +22,22 @@ public:
     ~PatientView();
 
     void setUpListHeaders();
+    QString patient_id;
 private slots:
     void HandleGetPatientListApiReplySlot(QVariantMap dataMap);
 
 
     void on_treeViewPatients_activated(const QModelIndex &index);
 
+    void on_treeViewPatients_clicked(const QModelIndex &index);
+
 private:
     QList<QStandardItem *> prepareRow(const QString &first,
                                       const QString &second,
                                       const QString &third);
 
-    QList<QStandardItem *> prepareRow(const QString &first,
+    QList<QStandardItem *> prepareRow(const QString &zeroth,
+                                      const QString &first,
                                       const QString &second,
                                       const QString &third,
                                       const QString &fourth,
