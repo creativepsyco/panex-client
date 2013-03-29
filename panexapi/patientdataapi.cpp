@@ -31,6 +31,7 @@ QString PatientDataAPI::UrlPanex = "";
 QString PatientDataAPI::UrlPatientDataUpload = "";
 QString PatientDataAPI::UrlGetPatientDataListById ="";
 QString PatientDataAPI::UrlGetPatientDataList="";
+QString PatientDataAPI::UrlDownloadPatientDataFile="";
 
 ///
 /// \brief PatientDataAPI::PatientDataAPI Constructor
@@ -46,6 +47,7 @@ PatientDataAPI::PatientDataAPI(QObject *parent, QString rootUrl) :
     PatientDataAPI::UrlPatientDataUpload = PatientDataAPI::UrlPanex + "/patients/%1/patient_data/upload.json";
     PatientDataAPI::UrlGetPatientDataList = PatientDataAPI::UrlPanex + "/patients/patient_data.json";
     PatientDataAPI::UrlGetPatientDataListById = PatientDataAPI::UrlPanex + "/patients/%1/patient_data.json";
+    PatientDataAPI::UrlDownloadPatientDataFile = PatientDataAPI::UrlPanex + "/patients/%1/patient_data/download/%2.json";
 }
 
 ///
@@ -181,7 +183,7 @@ void PatientDataAPI::processGetPatientDataReply(QNetworkReply *aReply)
     bool ok;
 
     QByteArray data=aReply->readAll();
-//    QLOG_DEBUG() << "[PatientDataAPI] Network Reply Recieved" << data;
+    //    QLOG_DEBUG() << "[PatientDataAPI] Network Reply Recieved" << data;
     QVariantMap dataMap;
     // TODO: Error Checking
     int statusCode = aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok);
@@ -208,6 +210,73 @@ void PatientDataAPI::processGetPatientDataReply(QNetworkReply *aReply)
         QLOG_ERROR() << "[PatientDataAPI] Error in HTTP request" << aReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&ok)
                      << aReply->errorString();
     }
-//    QLOG_DEBUG() << "[PatientDataAPI] Data Recd " << dataMap;
+    //    QLOG_DEBUG() << "[PatientDataAPI] Data Recd " << dataMap;
     emit this->GetPatientDataResultSignal(dataMap);
+}
+
+bool PatientDataAPI::DownloadPatientDataFile(QString fileId, QString patientId, QString dataType)
+{
+    QString formedUrl = QString(PatientDataAPI::UrlDownloadPatientDataFile)
+            .arg(patientId, fileId);
+    QUrl theUrl(formedUrl);
+
+    theUrl.addQueryItem("auth_token", PatientDataAPI::authToken);
+    theUrl.addQueryItem("dataType", dataType);
+
+    QNetworkRequest request(theUrl);
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(processGetDownloadedFileReply(QNetworkReply*)));
+    manager->get(request);
+
+    return true;
+}
+
+QString PatientDataAPI::saveFileName(const QUrl &url)
+{
+    QString path = url.path();
+    QString basename = QFileInfo(path).fileName();
+
+    if (basename.isEmpty())
+        basename = "download";
+
+    basename = "/tmp/" + basename;
+
+    if (QFile::exists(basename)) {
+        // already exists, don't overwrite
+        int i = 0;
+        basename += '.';
+        while (QFile::exists(basename + QString::number(i)))
+            ++i;
+
+        basename += QString::number(i);
+    }
+
+    return basename;
+}
+
+
+void PatientDataAPI::processGetDownloadedFileReply(QNetworkReply* aResult)
+{
+    QString absoluteFilePath = "";
+    QString errorString = "";
+    if (aResult->error() != QNetworkReply::NoError)
+    {
+        errorString = aResult->errorString();
+        return;
+    }
+    else
+    {
+        // Find out the directory and file name
+        QString baseName = saveFileName(aResult->url());
+        QFile *file = new QFile(baseName);
+        file->open(QIODevice::WriteOnly);
+        file->write(aResult->readAll());
+        absoluteFilePath = baseName;
+    }
+
+    emit this->PatientDataDownloadFinished(absoluteFilePath, errorString);
 }

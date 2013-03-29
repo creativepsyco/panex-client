@@ -198,3 +198,19 @@ void PatientView::on_treeViewPatients_clicked(const QModelIndex &index)
     this->patient_id = this->patientList->item(index.row(), ID_COLUMN_INDEX)->text();
 //    QLOG_DEBUG() << "[PatientView on_treeViewPatients_clicked]" << this->patient_id << " has been selected";
 }
+
+#define DATATYPE_COLUMN_INDEX 4
+void PatientView::on_treePatientData_activated(const QModelIndex &index)
+{
+    QString file_id = this->patientDataList->item(index.row(), ID_COLUMN_INDEX)->text();
+    // further checks etc for Generic type
+    QString file_type = this->patientDataList->item(index.row(), DATATYPE_COLUMN_INDEX)->text();
+    PatientDataAPI *apiObj = PanexApi::instance()->patientDataAPI();
+    connect(apiObj, SIGNAL(PatientDataDownloadFinished(QString,QString)), this, SLOT(FileDownloadFinishedSlot(QString,QString)));
+    apiObj->DownloadPatientDataFile(file_id, this->patient_id, file_type);
+}
+
+void PatientView::FileDownloadFinishedSlot(QString path, QString error)
+{
+    QLOG_DEBUG() << "[Patient View] Downloaded File Path: " << path << "\n " << error;
+}

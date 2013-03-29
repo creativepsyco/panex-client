@@ -33,11 +33,16 @@ signals:
     void GenericSignal(QVariantMap dataMap);
     void GenericUploadProgressSignal(qint64 done, qint64 total);
     void GetPatientDataResultSignal(QVariantMap dataMap);
+    void PatientDataDownloadFinished(QString absoluteFilePath, QString errorMessage); // return empty string in case of failure
 
 public slots:
     bool UploadData(QString condition, QString description, int patient_id, QString creator_id, QStringList files);
     bool GetPatientDataList(int patientId);
     bool GetAllPatientDataList();
+
+    // Download file
+    bool DownloadPatientDataFile(QString fileId, QString patientId, QString dataType);
+    QString saveFileName(const QUrl &url);
 
 private slots:
     void GenericSlot(QNetworkReply* aReply);
@@ -45,12 +50,14 @@ private slots:
     void uploadProgressGeneric(qint64 done,qint64 total);
 
     void processGetPatientDataReply(QNetworkReply* aDataList);
+    void processGetDownloadedFileReply(QNetworkReply* aResult);
 
 private:
     static QString UrlPanex;
     static QString UrlPatientDataUpload;
     static QString UrlGetPatientDataList;
     static QString UrlGetPatientDataListById;
+    static QString UrlDownloadPatientDataFile;
 
     FormPostPlugin *formPost;
 };

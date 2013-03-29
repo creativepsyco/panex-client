@@ -31,6 +31,9 @@ private slots:
 
     void on_treeViewPatients_clicked(const QModelIndex &index);
 
+    void on_treePatientData_activated(const QModelIndex &index);
+    void FileDownloadFinishedSlot(QString path, QString error);
+
 private:
     QList<QStandardItem *> prepareRow(const QString &first,
                                       const QString &second,
