@@ -157,6 +157,9 @@ void PatientView::HandleGetPatientDataApiReplySlot(QVariantMap aResult)
     if (result.compare(success) == 0)
     {
         this->patientDataList->clear();
+        QStringList labels;
+        labels << "Id" <<"File Name" << "Condition" << "Description" << "Data Type" << "Content Type";
+        this->patientDataList->setHorizontalHeaderLabels(labels);
 
         QVariantList list = aResult["data"].toList();
         foreach(QVariant aData, list)

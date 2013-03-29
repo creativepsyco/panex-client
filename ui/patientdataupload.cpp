@@ -174,7 +174,7 @@ void PatientDataUpload::on_btnUpload_clicked()
     }
 
     PatientDataAPI *instance = PanexApi::instance()->patientDataAPI();
-    instance->UploadData("",
+    instance->UploadData(ui->txtCondition->text(),
                          ui->txtDescription->toPlainText(),
                          this->m_patient_id.toInt(&ok, 10),
                          userData["user_id"].toString(),
