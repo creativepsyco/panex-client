@@ -74,6 +74,10 @@ bool PatientDataAPI::UploadData(QString name, QString description, int patient_i
     connect(postReply, SIGNAL(finished()), this, SLOT(GenericFormPostSlot()));
 }
 
+///
+/// \brief PatientDataAPI::GenericSlot
+/// \param aReply
+///
 void PatientDataAPI::GenericSlot(QNetworkReply* aReply)
 {
     bool ok;
@@ -102,6 +106,9 @@ void PatientDataAPI::GenericSlot(QNetworkReply* aReply)
     emit this->GenericSignal(dataMap);
 }
 
+///
+/// \brief PatientDataAPI::GenericFormPostSlot
+///
 void PatientDataAPI::GenericFormPostSlot()
 {
     QByteArray data=formPost->response();
@@ -110,6 +117,11 @@ void PatientDataAPI::GenericFormPostSlot()
     GenericSlot(formPost->getReplyObject());
 }
 
+///
+/// \brief PatientDataAPI::uploadProgressGeneric
+/// \param done
+/// \param total
+///
 void PatientDataAPI::uploadProgressGeneric(qint64 done,qint64 total)
 {
      emit this->GenericUploadProgressSignal(done, total);
