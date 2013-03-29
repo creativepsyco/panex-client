@@ -34,7 +34,7 @@ signals:
     void GenericUploadProgressSignal(qint64 done, qint64 total);
 
 public slots:
-    bool UploadData(QString name, QString description, int patient_id, QString creator_id, QStringList files);
+    bool UploadData(QString condition, QString description, int patient_id, QString creator_id, QStringList files);
 
 private slots:
     void GenericSlot(QNetworkReply* aReply);

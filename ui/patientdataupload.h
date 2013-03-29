@@ -37,6 +37,10 @@ public:
     ~PatientDataUpload();
     
     void setHeaders();
+
+public slots:
+    void open();
+
 private slots:
     void on_btnCancel_clicked();
 
@@ -58,7 +62,7 @@ private:
     // Standard Item Model to store list
     //Filename, FilePath, FileType
     QStandardItemModel *fileList;
-    int m_patient_id;
+    QString m_patient_id;
 };
 
 #endif // PATIENTDATAUPLOAD_H

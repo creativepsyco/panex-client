@@ -45,7 +45,7 @@ PatientDataAPI::PatientDataAPI(QObject *parent, QString rootUrl) :
 /// \param files
 /// \return
 ///
-bool PatientDataAPI::UploadData(QString name, QString description, int patient_id, QString creator_id, QStringList files)
+bool PatientDataAPI::UploadData(QString condition, QString description, int patient_id, QString creator_id, QStringList files)
 {
     QString formedUrl = QString(PatientDataAPI::UrlPatientDataUpload)
             .arg(patient_id);
@@ -54,7 +54,7 @@ bool PatientDataAPI::UploadData(QString name, QString description, int patient_i
 
     formPost->setUserAgent("myBrowser"); //sets user agent form on web will recieve - default ""
     formPost->setEncoding("UTF-8"); //sets transfer encoding (default is "utf-8")
-    formPost->addField("name", name); // adds fields in name/value pairs
+    formPost->addField("condition", condition); // adds fields in name/value pairs
     formPost->addField("description", description);
     formPost->addField("creator_id", QString(creator_id));
     formPost->addField("auth_token", PatientDataAPI::authToken);

@@ -14,6 +14,7 @@ PatientView::PatientView(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PatientView)
 {
+    this->patient_id = "";
     // setup the model
     ui->setupUi(this);
     this->patientList = new QStandardItemModel;
@@ -147,8 +148,12 @@ void PatientView::on_treeViewPatients_activated(const QModelIndex &index)
     }
 }
 
+///
+/// \brief PatientView::on_treeViewPatients_clicked
+/// \param index : Visual Tree Index passed by the calling function
+///
 void PatientView::on_treeViewPatients_clicked(const QModelIndex &index)
 {
     this->patient_id = this->patientList->item(index.row(), ID_COLUMN_INDEX)->text();
-    QLOG_DEBUG() << this->patient_id << " has been selected";
+    QLOG_DEBUG() << "[PatientView on_treeViewPatients_clicked]" << this->patient_id << " has been selected";
 }

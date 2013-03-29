@@ -23,6 +23,7 @@
 #include "ui_patientdataupload.h"
 #include "global_include.h"
 #include "qpanexapp.h"
+#include "mainwindow.h"
 
 void PatientDataUpload::setHeaders()
 {
@@ -46,10 +47,10 @@ PatientDataUpload::PatientDataUpload(QWidget *parent) :
     setHeaders();
 
     // For test
-//    QList<QStandardItem *> preparedRow =prepareRow("first", "second", "third");
-//    this->fileList->appendRow(preparedRow);
-//    QList<QStandardItem *> secondRow =prepareRow("111", "222", "333");
-//    this->fileList->appendRow(secondRow);
+    //    QList<QStandardItem *> preparedRow =prepareRow("first", "second", "third");
+    //    this->fileList->appendRow(preparedRow);
+    //    QList<QStandardItem *> secondRow =prepareRow("111", "222", "333");
+    //    this->fileList->appendRow(secondRow);
     // End of Test
     ui->treeFileList->setModel(this->fileList);
     ui->treeFileList->expandAll();
@@ -59,6 +60,25 @@ PatientDataUpload::PatientDataUpload(QWidget *parent) :
 PatientDataUpload::~PatientDataUpload()
 {
     delete ui;
+}
+
+void PatientDataUpload::open()
+{
+    this->m_patient_id = "";
+    if (QPanexApp::instance()->mainWindow()->patientViewDialog())
+        this->m_patient_id = QPanexApp::instance()->mainWindow()->patientViewDialog()->patient_id;
+
+    QLOG_DEBUG() << "[PatientDataUpload][PatientDataUpload] " << " Patient ID " << this->m_patient_id << " initialized";
+
+    if (this->m_patient_id.length() == 0)
+    {
+        // Should not show the Dialog
+        Utils::DisplayMessageBox("Operation DisAllowed",
+                                 "This operation is not allowed. Please select a patient first",
+                                 QMessageBox::Critical);
+        return;
+    }
+    QDialog::open();
 }
 
 void PatientDataUpload::on_btnCancel_clicked()
@@ -140,7 +160,9 @@ QList<QStandardItem*> PatientDataUpload::prepareRow(const QString &first,
  */
 void PatientDataUpload::on_btnUpload_clicked()
 {
-    // XXX:
+
+    bool ok;
+    // XXX: Catch the conversion error
     QVariantMap userData = QPanexApp::instance()->settingsDialog()->getUserData();
 
     // Make a StringList of the various files
@@ -154,9 +176,9 @@ void PatientDataUpload::on_btnUpload_clicked()
     PatientDataAPI *instance = PanexApi::instance()->patientDataAPI();
     instance->UploadData("",
                          ui->txtDescription->toPlainText(),
-                         this->m_patient_id,
+                         this->m_patient_id.toInt(&ok, 10),
                          userData["user_id"].toString(),
-                         files);
+            files);
     connect(instance, SIGNAL(GenericUploadProgressSignal(qint64,qint64)), this, SLOT(GenericUploadSlot(qint64,qint64)));
     connect(instance, SIGNAL(GenericSignal(QVariantMap)), this, SLOT(handleUploadAPIReply(QVariantMap)));
 }
