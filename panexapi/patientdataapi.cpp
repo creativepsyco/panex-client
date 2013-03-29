@@ -267,7 +267,6 @@ void PatientDataAPI::processGetDownloadedFileReply(QNetworkReply* aResult)
     if (aResult->error() != QNetworkReply::NoError)
     {
         errorString = aResult->errorString();
-        return;
     }
     else
     {

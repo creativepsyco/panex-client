@@ -220,4 +220,8 @@ void PatientView::FileDownloadFinishedSlot(QString path, QString error)
         QUrl fileUrl("file:///" + path);
         QDesktopServices::openUrl(fileUrl);
     }
+    else
+    {
+        Utils::DisplayMessageBox(error, "Could not download the file, check network connection and try again in a few minutes", QMessageBox::Critical);
+    }
 }
