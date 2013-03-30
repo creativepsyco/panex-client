@@ -40,6 +40,7 @@ public:
     explicit AddPatient(QWidget *parent = 0);
     ~AddPatient();
 
+    void disableFormControls();
 public slots:
     void show();
     

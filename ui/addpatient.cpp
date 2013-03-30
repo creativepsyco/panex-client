@@ -5,6 +5,7 @@
 #include "mainwindow.h"
 #include "patientapi.h"
 #include <QComboBox>
+#include <QLineEdit>
 
 AddPatient::AddPatient(QWidget *parent) :
     QWidget(parent),
@@ -95,6 +96,19 @@ void AddPatient::show()
     }
 }
 
+void AddPatient::disableFormControls()
+{
+    foreach(QWidget *widget, this->findChildren<QWidget*>()) {
+        widget->setEnabled(false);
+    }
+//    ui->txtAddress->setEnabled(false);
+//    ui->txtNotes->setEnabled(false);
+//    ui->btnAddPatient->setEnabled(false);
+//    ui->btnReset->setEnabled(false);
+//    ui->ethnicityChoice->setEnabled(false);
+//    ui->genderChoice->setEnabled(false);
+}
+
 void AddPatient::handleViewMode()
 {
     this->patient_id= "";
@@ -108,11 +122,18 @@ void AddPatient::handleViewMode()
     }
 
     // Lock all the controls on the form
+    disableFormControls();
+
     PatientAPI* pda = PanexApi::instance()->patientAPI();
     connect(pda, SIGNAL(GetPatientInfoResultSignal(QVariantMap)), this, SLOT(handleGetPatientAPIReply(QVariantMap)));
     pda->GetPatientInfo(this->patient_id);
 }
 
+/**
+ * @brief AddPatient::handleGetPatientAPIReply
+ *          Handles the API reply
+ * @param aResult
+ */
 void AddPatient::handleGetPatientAPIReply(QVariantMap aResult)
 {
     QLOG_INFO() << "[Patient View Dialog] Processing View Patient Result" << aResult;
@@ -120,7 +141,7 @@ void AddPatient::handleGetPatientAPIReply(QVariantMap aResult)
     QString result  = aResult["result"].toString();
     if (result.compare(success) == 0)
     {
-        // emit the correct signal
+        // @emit the correct signal
         QVariantMap data = aResult["data"].toMap();
         ui->txtAddress->setText(data["address"].toString());
         ui->txtPatientLastName->setText(data["lastName"].toString());
