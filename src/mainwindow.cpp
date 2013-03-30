@@ -186,7 +186,7 @@ void MainWindow::clearLayout(QLayout *layout)
     }
 }
 
-void MainWindow::on_actionNew_Patient_triggered()
+AddPatient * MainWindow::prepareAddPatientView()
 {
     AddPatient *addPatientView = new AddPatient(frame_2);
     // Check if the widget has been added to the stackedWidget
@@ -196,13 +196,14 @@ void MainWindow::on_actionNew_Patient_triggered()
     // Finally Set the current widget
     stackedWidget->setCurrentWidget(addPatientView);
 
+    return addPatientView;
+}
+
+void MainWindow::on_actionNew_Patient_triggered()
+{
+    AddPatient *addPatientView = prepareAddPatientView();
+    addPatientView->op_mode = AddPatient::NEW_MODE;
     addPatientView->show();
-    //    QFileSystemModel *model = new QFileSystemModel;
-    //    model->setRootPath(QDir::currentPath());
-    //    QTreeView *tree = new QTreeView(frame_2);
-    //    tree->setModel(model);
-    //    tree->setRootIndex(model->index(QDir::currentPath()));
-    //    tree->show();
 }
 
 void MainWindow::on_actionPatient_View_triggered()
@@ -287,4 +288,18 @@ void MainWindow::on_actionUpload_Data_triggered()
 {
     PatientDataUpload* patientDUp = new PatientDataUpload(this);
     patientDUp->open();
+}
+
+void MainWindow::on_actionEdit_Selected_Patient_triggered()
+{
+    AddPatient *addPatientView = prepareAddPatientView();
+    addPatientView->op_mode = AddPatient::EDIT_MODE;
+    addPatientView->show();
+}
+
+void MainWindow::on_actionView_Selected_Patient_triggered()
+{
+    AddPatient *addPatientView = prepareAddPatientView();
+    addPatientView->op_mode = AddPatient::VIEW_MODE;
+    addPatientView->show();
 }

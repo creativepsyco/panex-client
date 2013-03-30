@@ -3,12 +3,15 @@
 #include "global_include.h"
 #include "qpanexapp.h"
 #include "mainwindow.h"
+#include "patientapi.h"
+#include <QComboBox>
 
 AddPatient::AddPatient(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AddPatient)
 {
     ui->setupUi(this);
+    op_mode = NEW_MODE;
 }
 
 AddPatient::~AddPatient()
@@ -75,4 +78,67 @@ void AddPatient::on_btnReset_clicked()
 
     ui->txtAddress->clear();
     ui->txtNotes->clear();
+}
+
+void AddPatient::show()
+{
+    if (op_mode == NEW_MODE)
+        QWidget::show();
+    else if (op_mode == VIEW_MODE)
+    {
+        handleViewMode();
+        QWidget::show();
+    }
+    else if (op_mode == EDIT_MODE)
+    {
+
+    }
+}
+
+void AddPatient::handleViewMode()
+{
+    this->patient_id= "";
+    if (QPanexApp::instance()->mainWindow()->patientViewDialog())
+        this->patient_id = QPanexApp::instance()->mainWindow()->patientViewDialog()->patient_id;
+
+    if (this->patient_id.compare("") == 0)
+    {
+        Utils::DisplayMessageBox("Error Encounterd", "Please Select a patient first.", QMessageBox::Critical);
+        return;
+    }
+
+    // Lock all the controls on the form
+    PatientAPI* pda = PanexApi::instance()->patientAPI();
+    connect(pda, SIGNAL(GetPatientInfoResultSignal(QVariantMap)), this, SLOT(handleGetPatientAPIReply(QVariantMap)));
+    pda->GetPatientInfo(this->patient_id);
+}
+
+void AddPatient::handleGetPatientAPIReply(QVariantMap aResult)
+{
+    QLOG_INFO() << "[Patient View Dialog] Processing View Patient Result" << aResult;
+    QString success = "success";
+    QString result  = aResult["result"].toString();
+    if (result.compare(success) == 0)
+    {
+        // emit the correct signal
+        QVariantMap data = aResult["data"].toMap();
+        ui->txtAddress->setText(data["address"].toString());
+        ui->txtPatientLastName->setText(data["lastName"].toString());
+        ui->txtPatientFirstName->setText(data["firstName"].toString());
+        ui->txtEmail->setText(data["email"].toString());
+        ui->txtMobileNumber->setText(data["mobileNumber"].toString());
+        ui->txtPhoneNumber->setText(data["phoneNumber"].toString());
+        ui->txtIdNumber->setText(data["identificationNumber"].toString());
+        ui->txtNotes->setText(data["notes"].toString());
+        ui->ethnicityChoice->setCurrentIndex(ui->ethnicityChoice->findText(data["ethnicity"].toString().toUpper()));
+        if (data["gender"].toString().compare("M") == 0)
+            ui->genderChoice->setCurrentIndex(0);
+        else
+            ui->genderChoice->setCurrentIndex(1);
+        ui->dateOfBirth->setDate(QDate::fromString(data["dateOfBirth"].toString(),"yyyy-MM-dd"));
+    }
+    else
+    {
+        Utils::DisplayMessageBox(aResult["error"].toString(), aResult["errorString"].toString(), QMessageBox::Critical);
+    }
 }

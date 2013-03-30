@@ -14,47 +14,35 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef ADDPATIENT_H
-#define ADDPATIENT_H
+#ifndef PATIENTAPI_H
+#define PATIENTAPI_H
 
-#include <QWidget>
+#include <QObject>
+#include <QNetworkReply>
 #include <QVariantMap>
 
-namespace Ui {
-class AddPatient;
-}
-
-class AddPatient : public QWidget
+class PatientAPI : public QObject
 {
     Q_OBJECT
-    
 public:
-    enum OPERATION_TYPE
-    {
-        EDIT_MODE,
-        NEW_MODE,
-        VIEW_MODE
-    };
-    int op_mode;
-    QString patient_id;
-    explicit AddPatient(QWidget *parent = 0);
-    ~AddPatient();
-
-public slots:
-    void show();
+    QString authToken;
+    QString localDataDir;
+    explicit PatientAPI(QObject *parent = 0, QString rootUrl ="");
     
+    // Patient Functions
+    bool GetPatientInfo(QString patient_id);
+
+signals:
+    void GetPatientInfoResultSignal(QVariantMap patientInfo);
+    
+public slots:
 private slots:
-    void handleAddPatientApiResult(QVariantMap aResult);
-    void on_btnAddPatient_clicked();
-
-    void on_btnReset_clicked();
-    void handleViewMode();
-
-    void handleGetPatientAPIReply(QVariantMap aResult);
+    void handleGetPatientInfoSlot(QNetworkReply* aReply);
 
 private:
-    Ui::AddPatient *ui;
-    bool validate();
+    static QString UrlPanex;
+    static QString UrlPatientGetInfo;
+
 };
 
-#endif // ADDPATIENT_H
+#endif // PATIENTAPI_H

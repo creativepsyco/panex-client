@@ -8,6 +8,7 @@
 #include "patientview.h"
 #include "usersignupdialog.h"
 #include <QNetworkAccessManager>
+#include "addpatient.h"
 
 class QAction;
 class QLabel;
@@ -29,6 +30,7 @@ public:
     MainWindow( QWidget *parent = 0 );
     PatientView* patientViewDialog();
 
+    AddPatient * prepareAddPatientView();
 protected:
 
 private slots:
@@ -60,6 +62,10 @@ private slots:
     void on_actionUpload_Service_triggered();
 
     void on_actionUpload_Data_triggered();
+
+    void on_actionEdit_Selected_Patient_triggered();
+
+    void on_actionView_Selected_Patient_triggered();
 
 private:
     void setUpConnections();

@@ -199,8 +199,19 @@
     <addaction name="actionDo_something"/>
     <addaction name="actionPatient_View"/>
    </widget>
+   <widget class="QMenu" name="menuPatients">
+    <property name="title">
+     <string>Patients</string>
+    </property>
+    <addaction name="actionAdd_Patients"/>
+    <addaction name="actionView_Patients"/>
+    <addaction name="separator"/>
+    <addaction name="actionEdit_Selected_Patient"/>
+    <addaction name="actionView_Selected_Patient"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuPatients"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -385,6 +396,26 @@
    </property>
    <property name="text">
     <string>Notifications</string>
+   </property>
+  </action>
+  <action name="actionAdd_Patients">
+   <property name="text">
+    <string>Add Patients</string>
+   </property>
+  </action>
+  <action name="actionView_Patients">
+   <property name="text">
+    <string>View Patients</string>
+   </property>
+  </action>
+  <action name="actionEdit_Selected_Patient">
+   <property name="text">
+    <string>Edit Selected Patient</string>
+   </property>
+  </action>
+  <action name="actionView_Selected_Patient">
+   <property name="text">
+    <string>View Selected Patient</string>
    </property>
   </action>
  </widget>

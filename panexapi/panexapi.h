@@ -9,6 +9,7 @@
 #include "global_include.h"
 #include "form/formpost.h"
 #include "patientdataapi.h"
+#include "patientapi.h"
 
 class PanexApi : public QObject
 {
@@ -25,6 +26,7 @@ public:
                   QString userRole, QString userEmail, QVariantMap savedUserData);
     // Patient Data API Methods
     PatientDataAPI* patientDataAPI();
+    PatientAPI* patientAPI();
     // Patient Methods
     bool AddPatient(QVariantMap data);
     bool GetPatientList(int page);
