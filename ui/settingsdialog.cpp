@@ -10,7 +10,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
-    this->defaultDataStorageLocation = "/panex_client/";
+    this->defaultDataStorageLocation = "panex_client";
 }
 
 SettingsDialog::~SettingsDialog()

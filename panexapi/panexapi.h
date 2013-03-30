@@ -15,6 +15,7 @@ class PanexApi : public QObject
     Q_OBJECT
 public:
     QString authToken;
+    QString localDataDir;
     explicit PanexApi(QObject *parent = 0);
     static PanexApi* instance();
     bool SignUpUser(QString userName, QString userPassword, QString userRole,

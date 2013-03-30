@@ -23,6 +23,7 @@
 
 #include <QFileInfo>
 #include <QVector>
+#include <QDir>
 
 using namespace QtJson;
 
@@ -33,6 +34,7 @@ QString PatientDataAPI::UrlPatientDataUpload = "";
 QString PatientDataAPI::UrlGetPatientDataListById ="";
 QString PatientDataAPI::UrlGetPatientDataList="";
 QString PatientDataAPI::UrlDownloadPatientDataFile="";
+QString PatientDataAPI::FileKeyFormat = "";
 
 ///
 /// \brief PatientDataAPI::PatientDataAPI Constructor
@@ -49,6 +51,7 @@ PatientDataAPI::PatientDataAPI(QObject *parent, QString rootUrl) :
     PatientDataAPI::UrlGetPatientDataList = PatientDataAPI::UrlPanex + "/patients/patient_data.json";
     PatientDataAPI::UrlGetPatientDataListById = PatientDataAPI::UrlPanex + "/patients/%1/patient_data.json";
     PatientDataAPI::UrlDownloadPatientDataFile = PatientDataAPI::UrlPanex + "/patients/%1/patient_data/download/%2.json";
+    PatientDataAPI::FileKeyFormat = "patient_%1_%2_%3"; //patient_dataType_fileId
 }
 
 ///
@@ -223,15 +226,27 @@ bool PatientDataAPI::DownloadPatientDataFile(QString fileId, QString patientId, 
 
     theUrl.addQueryItem("auth_token", PatientDataAPI::authToken);
     theUrl.addQueryItem("dataType", dataType);
+    // Just Add extra query items for reference later
+    theUrl.addQueryItem("patientId", patientId);
+    theUrl.addQueryItem("fileId", fileId);
 
-    QNetworkRequest request(theUrl);
+    QString fileKey = PatientDataAPI::FileKeyFormat.arg(patientId, dataType, fileId);
+    QString filePath = this->getLocalStoragePath(fileKey);
+    if (filePath.compare("") == 0)
+    {
+        QNetworkRequest request(theUrl);
 
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
 
-    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(processGetDownloadedFileReply(QNetworkReply*)));
-    manager->get(request);
+        connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(processGetDownloadedFileReply(QNetworkReply*)));
+        manager->get(request);
+    }
+    else
+    {
+        emit this->PatientDataDownloadFinished(filePath, "");
+    }
 
     return true;
 }
@@ -260,8 +275,44 @@ QString PatientDataAPI::saveFileName(const QUrl &url)
 }
 
 
+void PatientDataAPI::ensureLocalDirExists()
+{
+    if (!QDir(QDir::homePath() + "/" + this->localDataDir).exists())
+    {
+        bool ok = QDir(QDir::homePath()).mkdir(this->localDataDir);
+        QLOG_DEBUG() << "[PatientDataAPI] LocalDataDir create result  " << ok ;
+    }
+    else
+    {
+        QLOG_DEBUG() << "[PatientDataAPI] Directory Exists";
+    }
+}
+
+QString PatientDataAPI::createLocalPatientDataDir(QString patientId, QString dataType)
+{
+    QString filePath = this->localDataDir +"/" + patientId+"/"+dataType;
+    if (!QDir(QDir::homePath()).exists(filePath))
+    {
+        // TODO: Error Checking
+        bool ok = QDir(QDir::homePath()).mkpath(filePath);
+        QLOG_DEBUG() << "LocalPatientData create result  " << ok << "\t" << filePath;
+    }
+    else
+    {
+        QLOG_DEBUG() << "[Patient Data API] Directory Already Exists";
+    }
+
+    return filePath;
+}
+
 void PatientDataAPI::processGetDownloadedFileReply(QNetworkReply* aResult)
 {
+    QDir dir(QDir::home());
+    QUrl theUrl = aResult->url();
+    QString patientId = theUrl.queryItemValue("patientId");
+    QString fileId = theUrl.queryItemValue("fileId");
+    QString dataType = theUrl.queryItemValue("dataType");
+
     QString absoluteFilePath = "";
     QString errorString = "";
     if (aResult->error() != QNetworkReply::NoError)
@@ -270,14 +321,21 @@ void PatientDataAPI::processGetDownloadedFileReply(QNetworkReply* aResult)
     }
     else
     {
-        // Find out the directory and file name
+        ensureLocalDirExists();
+
+        QString filePath = createLocalPatientDataDir(patientId, dataType);
         QString baseName = filenameFromHTTPContentDisposition(aResult->rawHeader("Content-Disposition"));
+        // Get Patient id, data type and
+
         QLOG_DEBUG() << "[PatientDataAPI] File Name: " << baseName;
-        QFile *file = new QFile("/tmp/" + baseName);
+        QFile *file = new QFile(QDir::homePath() + "/" + filePath+ "/" + baseName);
         file->open(QIODevice::WriteOnly);
         file->write(aResult->readAll());
-        QFileInfo finfo("/tmp/" + baseName);
+        QFileInfo finfo(*file);
         absoluteFilePath = finfo.absoluteFilePath();
+        // Store it to the Key
+        QString fileKey = PatientDataAPI::FileKeyFormat.arg(patientId, dataType, fileId);
+        this->saveLocalStoragePath(fileKey, absoluteFilePath);
     }
 
     emit this->PatientDataDownloadFinished(absoluteFilePath, errorString);
@@ -313,4 +371,21 @@ QString PatientDataAPI::filenameFromHTTPContentDisposition(QString value)
     }
 
     return QString();
+}
+
+QString PatientDataAPI::getLocalStoragePath(QString key)
+{
+    QString path = "";
+    settings.beginGroup("patient_data");
+    path = settings.value(key,"").toString();
+    settings.endGroup();
+    return path;
+}
+
+void PatientDataAPI::saveLocalStoragePath(QString key, QString value)
+{
+    settings.beginGroup("patient_data");
+    settings.setValue(key, value);
+    settings.endGroup();
+    settings.sync();
 }

@@ -94,6 +94,7 @@ void MainWindow::loginSuccessSlot(QVariantMap aResult)
     QLOG_DEBUG() << aResult;
     QPanexApp::settingsDialog()->saveUserConfig(aResult);
     PanexApi::instance()->authToken = aResult["auth_token"].toString();
+    PanexApi::instance()->localDataDir = QPanexApp::instance()->settingsDialog()->getLocalStorageLocation();
     QLOG_DEBUG() << "[MainWindow] Result saved to settings config";
     PanexApi::instance()->GetAppList(0);
     this->show();
