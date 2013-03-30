@@ -29,6 +29,7 @@ public:
     QVariantMap getLoginData();
     ~SettingsDialog();
     void loadConfig();
+    QString getLocalStorageLocation();
 
     
 private slots:

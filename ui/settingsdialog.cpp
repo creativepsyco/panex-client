@@ -121,3 +121,8 @@ void SettingsDialog::on_buttonBox_accepted()
     settings.endGroup();
     settings.sync();
 }
+
+QString SettingsDialog::getLocalStorageLocation()
+{
+    return settings.value("general.localStorageDir", this->defaultDataStorageLocation).toString();
+}
