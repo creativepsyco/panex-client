@@ -134,6 +134,24 @@ void AddPatient::handleViewMode()
  *          Handles the API reply
  * @param aResult
  */
+void AddPatient::populateForm(QVariantMap data)
+{
+    ui->txtAddress->setText(data["address"].toString());
+    ui->txtPatientLastName->setText(data["lastName"].toString());
+    ui->txtPatientFirstName->setText(data["firstName"].toString());
+    ui->txtEmail->setText(data["email"].toString());
+    ui->txtMobileNumber->setText(data["mobileNumber"].toString());
+    ui->txtPhoneNumber->setText(data["phoneNumber"].toString());
+    ui->txtIdNumber->setText(data["identificationNumber"].toString());
+    ui->txtNotes->setText(data["notes"].toString());
+    ui->ethnicityChoice->setCurrentIndex(ui->ethnicityChoice->findText(data["ethnicity"].toString().toUpper()));
+    if (data["gender"].toString().compare("M") == 0)
+        ui->genderChoice->setCurrentIndex(0);
+    else
+        ui->genderChoice->setCurrentIndex(1);
+    ui->dateOfBirth->setDate(QDate::fromString(data["dateOfBirth"].toString(),"yyyy-MM-dd"));
+}
+
 void AddPatient::handleGetPatientAPIReply(QVariantMap aResult)
 {
     QLOG_INFO() << "[Patient View Dialog] Processing View Patient Result" << aResult;
@@ -143,20 +161,7 @@ void AddPatient::handleGetPatientAPIReply(QVariantMap aResult)
     {
         // @emit the correct signal
         QVariantMap data = aResult["data"].toMap();
-        ui->txtAddress->setText(data["address"].toString());
-        ui->txtPatientLastName->setText(data["lastName"].toString());
-        ui->txtPatientFirstName->setText(data["firstName"].toString());
-        ui->txtEmail->setText(data["email"].toString());
-        ui->txtMobileNumber->setText(data["mobileNumber"].toString());
-        ui->txtPhoneNumber->setText(data["phoneNumber"].toString());
-        ui->txtIdNumber->setText(data["identificationNumber"].toString());
-        ui->txtNotes->setText(data["notes"].toString());
-        ui->ethnicityChoice->setCurrentIndex(ui->ethnicityChoice->findText(data["ethnicity"].toString().toUpper()));
-        if (data["gender"].toString().compare("M") == 0)
-            ui->genderChoice->setCurrentIndex(0);
-        else
-            ui->genderChoice->setCurrentIndex(1);
-        ui->dateOfBirth->setDate(QDate::fromString(data["dateOfBirth"].toString(),"yyyy-MM-dd"));
+        populateForm(data);
     }
     else
     {

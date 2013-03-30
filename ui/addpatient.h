@@ -41,6 +41,7 @@ public:
     ~AddPatient();
 
     void disableFormControls();
+    void populateForm(QVariantMap data);
 public slots:
     void show();
     
