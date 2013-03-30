@@ -22,12 +22,16 @@ AddPatient::~AddPatient()
 
 bool AddPatient::validate()
 {
-    // TODO: Validate the various controls
+    foreach(QLineEdit *widget, this->findChildren<QLineEdit*>()) {
+        if (widget->text().length()==0)
+            return false;
+    }
     return true;
 }
 
-void AddPatient::populateDataMap(QVariantMap dataMap)
+QVariantMap AddPatient::populateDataMap()
 {
+    QVariantMap dataMap;
     dataMap.insert("lastName", ui->txtPatientLastName->text());
     dataMap.insert("firstName", ui->txtPatientFirstName->text());
     dataMap.insert("email", ui->txtEmail->text());
@@ -39,6 +43,7 @@ void AddPatient::populateDataMap(QVariantMap dataMap)
     dataMap.insert("ethnicity", ui->ethnicityChoice->currentText());
     dataMap.insert("gender", QString(ui->genderChoice->currentText()[0].toUpper()));
     dataMap.insert("dateOfBirth", ui->dateOfBirth->date().toString("yyyy-MM-dd"));
+    return dataMap;
 }
 
 void AddPatient::on_btnAddPatient_clicked()
@@ -46,13 +51,15 @@ void AddPatient::on_btnAddPatient_clicked()
     // Set up the data to send
     if (this->validate())
     {
-        QVariantMap dataMap;
-        populateDataMap(dataMap);
-
+        QVariantMap dataMap = populateDataMap();
         connect(PanexApi::instance(), SIGNAL(AddPatientResultSignal(QVariantMap)),
                 this, SLOT(handleAddPatientApiResult(QVariantMap)));
 
         PanexApi::instance()->AddPatient(dataMap);
+    }
+    else
+    {
+        Utils::DisplayMessageBox("Validation Error", "Please Fill out all the fields", QMessageBox::Critical);
     }
 }
 
