@@ -82,7 +82,7 @@ void AddPatient::handleAddPatientApiResult(QVariantMap aResult)
     if (result.compare(success) == 0)
     {
         // emit the correct signal
-        Utils::DisplayMessageBox("Success", "Successfully Added the Patient", QMessageBox::Information);
+        Utils::DisplayMessageBox("Success", "Successfully Carried out the operation", QMessageBox::Information);
         QPanexApp::instance()->mainWindow()->patientViewDialog()->GetPatientList();
         this->on_btnReset_clicked();
     }
