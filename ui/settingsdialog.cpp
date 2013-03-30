@@ -2,6 +2,7 @@
 #include "ui_settingsdialog.h"
 #include "changepassword.h"
 #include <QDebug>
+#include <QLineEdit>
 #include "QsLog.h"
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
@@ -9,6 +10,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
+    this->defaultDataStorageLocation = "/panex_client/";
 }
 
 SettingsDialog::~SettingsDialog()
@@ -22,6 +24,18 @@ void SettingsDialog::loadConfig()
     settings.beginGroup("accounts");
     ui->lblUserName->setText(settings.value("email").toString());
     ui->lblAuthToken->setText(settings.value("auth_token").toString());
+    settings.endGroup();
+
+    // General
+    settings.beginGroup("general");
+    if (settings.contains("localStorageDir"))
+    {
+        ui->txtLocalStorage->setText(settings.value("localStorageDir").toString());
+    }
+    else
+    {
+        ui->txtLocalStorage->setText(this->defaultDataStorageLocation);
+    }
     settings.endGroup();
 
     QLOG_INFO() << "[SettingsDialog] settings loaded and applied";
@@ -95,4 +109,15 @@ void SettingsDialog::on_btnChangePassword_clicked()
 {
     ChangePassword *changePasswordDialog = new ChangePassword(this);
     changePasswordDialog->open();
+}
+
+void SettingsDialog::on_buttonBox_accepted()
+{
+    settings.beginGroup("general");
+    if (ui->txtLocalStorage->text().length()>0)
+    {
+        settings.setValue("localStorageDir", ui->txtLocalStorage->text());
+    }
+    settings.endGroup();
+    settings.sync();
 }

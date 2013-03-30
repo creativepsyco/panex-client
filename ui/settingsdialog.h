@@ -34,7 +34,10 @@ public:
 private slots:
     void on_btnChangePassword_clicked();
 
+    void on_buttonBox_accepted();
+
 private:
+    QString defaultDataStorageLocation;
     Ui::SettingsDialog *ui;
 };
 
