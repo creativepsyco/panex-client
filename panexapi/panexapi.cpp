@@ -523,5 +523,6 @@ PatientDataAPI* PanexApi::patientDataAPI()
 {
     PatientDataAPI *pDA = new PatientDataAPI(this, PanexApi::UrlPanex);
     pDA->authToken = this->authToken;
+    pDA->localDataDir = this->localDataDir;
     return pDA;
 }

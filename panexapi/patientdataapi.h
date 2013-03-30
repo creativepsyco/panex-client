@@ -21,14 +21,20 @@
 #include <QStringList>
 #include <QVariantMap>
 #include "form/formpost.h"
+#include "configfile.h"
+
+extern ConfigFile settings;
 
 class PatientDataAPI : public QObject
 {
     Q_OBJECT
 public:
     QString authToken;
+    QString localDataDir;
     explicit PatientDataAPI(QObject *parent = 0, QString rootUrl = "");
     
+    void ensureLocalDirExists();
+    QString createLocalPatientDataDir(QString patientId, QString dataType);
 signals:
     void GenericSignal(QVariantMap dataMap);
     void GenericUploadProgressSignal(qint64 done, qint64 total);
@@ -52,12 +58,16 @@ private slots:
     void processGetPatientDataReply(QNetworkReply* aDataList);
     void processGetDownloadedFileReply(QNetworkReply* aResult);
 
+    QString getLocalStoragePath(QString key);
+    void saveLocalStoragePath(QString key, QString value);
+
 private:
     static QString UrlPanex;
     static QString UrlPatientDataUpload;
     static QString UrlGetPatientDataList;
     static QString UrlGetPatientDataListById;
     static QString UrlDownloadPatientDataFile;
+    static QString FileKeyFormat;
 
     QString filenameFromHTTPContentDisposition(QString aFileName);
 
