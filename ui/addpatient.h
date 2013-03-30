@@ -42,6 +42,7 @@ public:
 
     void disableFormControls();
     void populateForm(QVariantMap data);
+    void populateDataMap(QVariantMap dataMap);
 public slots:
     void show();
     

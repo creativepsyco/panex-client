@@ -26,23 +26,28 @@ bool AddPatient::validate()
     return true;
 }
 
+void AddPatient::populateDataMap(QVariantMap dataMap)
+{
+    dataMap.insert("lastName", ui->txtPatientLastName->text());
+    dataMap.insert("firstName", ui->txtPatientFirstName->text());
+    dataMap.insert("email", ui->txtEmail->text());
+    dataMap.insert("address", ui->txtAddress->toPlainText());
+    dataMap.insert("notes", ui->txtNotes->toPlainText());
+    dataMap.insert("phoneNumber", ui->txtPhoneNumber->text());
+    dataMap.insert("mobileNumber", ui->txtMobileNumber->text());
+    dataMap.insert("identificationNumber", ui->txtIdNumber->text());
+    dataMap.insert("ethnicity", ui->ethnicityChoice->currentText());
+    dataMap.insert("gender", QString(ui->genderChoice->currentText()[0].toUpper()));
+    dataMap.insert("dateOfBirth", ui->dateOfBirth->date().toString("yyyy-MM-dd"));
+}
+
 void AddPatient::on_btnAddPatient_clicked()
 {
     // Set up the data to send
     if (this->validate())
     {
         QVariantMap dataMap;
-        dataMap.insert("lastName", ui->txtPatientLastName->text());
-        dataMap.insert("firstName", ui->txtPatientFirstName->text());
-        dataMap.insert("email", ui->txtEmail->text());
-        dataMap.insert("address", ui->txtAddress->toPlainText());
-        dataMap.insert("notes", ui->txtNotes->toPlainText());
-        dataMap.insert("phoneNumber", ui->txtPhoneNumber->text());
-        dataMap.insert("mobileNumber", ui->txtMobileNumber->text());
-        dataMap.insert("identificationNumber", ui->txtIdNumber->text());
-        dataMap.insert("ethnicity", ui->ethnicityChoice->currentText());
-        dataMap.insert("gender", QString(ui->genderChoice->currentText()[0].toUpper()));
-        dataMap.insert("dateOfBirth", ui->dateOfBirth->date().toString("yyyy-MM-dd"));
+        populateDataMap(dataMap);
 
         connect(PanexApi::instance(), SIGNAL(AddPatientResultSignal(QVariantMap)),
                 this, SLOT(handleAddPatientApiResult(QVariantMap)));
