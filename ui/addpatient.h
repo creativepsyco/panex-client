@@ -43,6 +43,7 @@ public:
     void disableFormControls();
     void populateForm(QVariantMap data);
     QVariantMap populateDataMap();
+    void setupPatientId();
 public slots:
     void show();
     
@@ -52,6 +53,7 @@ private slots:
 
     void on_btnReset_clicked();
     void handleViewMode();
+    void handleEditMode();
 
     void handleGetPatientAPIReply(QVariantMap aResult);
 

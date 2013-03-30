@@ -31,17 +31,22 @@ public:
     
     // Patient Functions
     bool GetPatientInfo(QString patient_id);
+    bool EditPatient(QVariantMap patientData);
 
 signals:
     void GetPatientInfoResultSignal(QVariantMap patientInfo);
-    
+    void EditPatientInfoResultSignal(QVariantMap aResult);
+
 public slots:
+
 private slots:
     void handleGetPatientInfoSlot(QNetworkReply* aReply);
+    void handleEditPatientInfoSlot(QNetworkReply* aReply);
 
 private:
     static QString UrlPanex;
     static QString UrlPatientGetInfo;
+    static QString UrlPatientEditInfo;
 
 };
 

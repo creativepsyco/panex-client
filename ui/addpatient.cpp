@@ -49,13 +49,23 @@ QVariantMap AddPatient::populateDataMap()
 void AddPatient::on_btnAddPatient_clicked()
 {
     // Set up the data to send
-    if (this->validate())
+    if (this->validate() && this->op_mode == NEW_MODE)
     {
         QVariantMap dataMap = populateDataMap();
         connect(PanexApi::instance(), SIGNAL(AddPatientResultSignal(QVariantMap)),
                 this, SLOT(handleAddPatientApiResult(QVariantMap)));
 
         PanexApi::instance()->AddPatient(dataMap);
+    }
+    else if (this->validate() && this->op_mode == EDIT_MODE)
+    {
+        QVariantMap dataMap = populateDataMap();
+        dataMap.insert("id", this->patient_id);
+        PatientAPI* pda = PanexApi::instance()->patientAPI();
+        connect(pda, SIGNAL(EditPatientInfoResultSignal(QVariantMap)),
+                this, SLOT(handleAddPatientApiResult(QVariantMap)));
+
+        pda->EditPatient(dataMap);
     }
     else
     {
@@ -104,8 +114,22 @@ void AddPatient::show()
     }
     else if (op_mode == EDIT_MODE)
     {
-
+        handleEditMode();
+        QWidget::show();
     }
+}
+
+void AddPatient::handleEditMode()
+{
+    setupPatientId();
+    if (this->patient_id.compare("") == 0)
+    {
+        Utils::DisplayMessageBox("Error Encounterd", "Please Select a patient first.", QMessageBox::Critical);
+        return;
+    }
+    PatientAPI* pda = PanexApi::instance()->patientAPI();
+    connect(pda, SIGNAL(GetPatientInfoResultSignal(QVariantMap)), this, SLOT(handleGetPatientAPIReply(QVariantMap)));
+    pda->GetPatientInfo(this->patient_id);
 }
 
 void AddPatient::disableFormControls()
@@ -113,19 +137,24 @@ void AddPatient::disableFormControls()
     foreach(QWidget *widget, this->findChildren<QWidget*>()) {
         widget->setEnabled(false);
     }
-//    ui->txtAddress->setEnabled(false);
-//    ui->txtNotes->setEnabled(false);
-//    ui->btnAddPatient->setEnabled(false);
-//    ui->btnReset->setEnabled(false);
-//    ui->ethnicityChoice->setEnabled(false);
-//    ui->genderChoice->setEnabled(false);
+    //    ui->txtAddress->setEnabled(false);
+    //    ui->txtNotes->setEnabled(false);
+    //    ui->btnAddPatient->setEnabled(false);
+    //    ui->btnReset->setEnabled(false);
+    //    ui->ethnicityChoice->setEnabled(false);
+    //    ui->genderChoice->setEnabled(false);
 }
 
-void AddPatient::handleViewMode()
+void AddPatient::setupPatientId()
 {
     this->patient_id= "";
     if (QPanexApp::instance()->mainWindow()->patientViewDialog())
         this->patient_id = QPanexApp::instance()->mainWindow()->patientViewDialog()->patient_id;
+}
+
+void AddPatient::handleViewMode()
+{
+    setupPatientId();
 
     if (this->patient_id.compare("") == 0)
     {
