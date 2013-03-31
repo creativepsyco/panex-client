@@ -24,6 +24,8 @@ LoginDialog::LoginDialog(QWidget *parent) :
         ui->txt_username->setText(data["email"].toString());
         ui->txt_password->setText(data["password"].toString());
     }
+
+    connect(PanexApi::instance(), SIGNAL(LoginResult(QVariantMap)), this, SLOT(processLoginResult(QVariantMap)));
 }
 
 LoginDialog::~LoginDialog()
@@ -35,8 +37,7 @@ void LoginDialog::on_buttonBox_accepted()
 {
     // Do the Login Sequence
     PanexApi *panexApi = PanexApi::instance();
-    // TODO: Validation
-    connect(panexApi, SIGNAL(LoginResult(QVariantMap)), this, SLOT(processLoginResult(QVariantMap)));
+
     panexApi->LoginUser(ui->txt_username->text(), ui->txt_password->text());
 
     // if remember is clicked
