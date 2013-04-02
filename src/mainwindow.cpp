@@ -13,6 +13,7 @@
 #include "ui/uploadservicedialog.h"
 #include "ui/patientdataupload.h"
 #include "ui/servicerundialog.h"
+#include "systemstatusdialog.h"
 
 #include "global_include.h"
 #include <QVariantMap>
@@ -309,4 +310,10 @@ void MainWindow::on_actionRun_Service_triggered()
 {
     ServiceRunDialog *sRD = new ServiceRunDialog(this);
     sRD->open();
+}
+
+void MainWindow::on_actionView_Server_Status_triggered()
+{
+    SystemStatusDialog* sD = new SystemStatusDialog(this);
+    sD->open();
 }

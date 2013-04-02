@@ -542,3 +542,8 @@ ServiceAPI* PanexApi::serviceAPI()
     pDA->localDataDir = this->localDataDir;
     return pDA;
 }
+
+QString PanexApi::GetRootURL()
+{
+    return PanexApi::UrlPanex;
+}

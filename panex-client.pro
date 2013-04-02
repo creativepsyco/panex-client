@@ -7,6 +7,7 @@ TARGET =
 DEPENDPATH += . panexapi qslog qt-json res src ui
 INCLUDEPATH += . panexapi src qslog qt-json ui
  QT += network
+QT += webkit
 # Input
 HEADERS += panexapi/panexapi.h \
            qslog/QsDebugOutput.h \
@@ -35,7 +36,8 @@ HEADERS += panexapi/panexapi.h \
     panexapi/patientdataapi.h \
     panexapi/patientapi.h \
     panexapi/panexserviceapi.h \
-    panexapi/serviceapi.h
+    panexapi/serviceapi.h \
+    systemstatusdialog.h
 FORMS += ui/aboutdialog.ui \
          ui/addpatient.ui \
          ui/logindialog.ui \
@@ -48,7 +50,8 @@ FORMS += ui/aboutdialog.ui \
     ui/uploadappdialog.ui \
     ui/uploadservicedialog.ui \
     ui/patientdataupload.ui \
-    ui/servicerundialog.ui
+    ui/servicerundialog.ui \
+    systemstatusdialog.ui
 SOURCES += panexapi/panexapi.cpp \
            qslog/QsDebugOutput.cpp \
            qslog/QsLog.cpp \
@@ -74,7 +77,8 @@ SOURCES += panexapi/panexapi.cpp \
     panexapi/patientdataapi.cpp \
     panexapi/patientapi.cpp \
     panexapi/panexserviceapi.cpp \
-    panexapi/serviceapi.cpp
+    panexapi/serviceapi.cpp \
+    systemstatusdialog.cpp
 RESOURCES += res/panexres.qrc
 
 OTHER_FILES += \

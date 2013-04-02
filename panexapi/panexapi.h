@@ -16,6 +16,7 @@ class PanexApi : public QObject
 {
     Q_OBJECT
 public:
+    QString GetRootURL();
     QString authToken;
     QString localDataDir;
     explicit PanexApi(QObject *parent = 0);

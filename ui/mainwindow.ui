@@ -242,6 +242,7 @@
    <addaction name="actionNotifications"/>
    <addaction name="actionRun_Service"/>
    <addaction name="actionUpload_Service"/>
+   <addaction name="actionView_Server_Status"/>
    <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="actionAbout"/>
@@ -426,6 +427,15 @@
    </property>
    <property name="text">
     <string>Run Service</string>
+   </property>
+  </action>
+  <action name="actionView_Server_Status">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Chart_Graph_Ascending.png</normaloff>:/icons/Chart_Graph_Ascending.png</iconset>
+   </property>
+   <property name="text">
+    <string>Server Status</string>
    </property>
   </action>
  </widget>

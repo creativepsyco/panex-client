@@ -69,6 +69,8 @@ private slots:
 
     void on_actionRun_Service_triggered();
 
+    void on_actionView_Server_Status_triggered();
+
 private:
     void setUpConnections();
     void populateServices(QWidget *widget);
