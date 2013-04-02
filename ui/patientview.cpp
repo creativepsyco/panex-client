@@ -78,13 +78,13 @@ void PatientView::HandleGetPatientListApiReplySlot(QVariantMap aResult)
             QVariantMap aPatient = patient.toMap();
             // Add Standard Item
             QList<QStandardItem *> preparedRow = prepareRow(aPatient["id"].toString(),
-                                                            aPatient["lastName"].toString(),
-                                                            aPatient["firstName"].toString(),
-                                                            aPatient["identificationNumber"].toString(),
-                                                            aPatient["email"].toString(),
-                                                            aPatient["gender"].toString(),
-                                                            aPatient["phoneNumber"].toString(),
-                                                            aPatient["notes"].toString());
+                    aPatient["lastName"].toString(),
+                    aPatient["firstName"].toString(),
+                    aPatient["identificationNumber"].toString(),
+                    aPatient["email"].toString(),
+                    aPatient["gender"].toString(),
+                    aPatient["phoneNumber"].toString(),
+                    aPatient["notes"].toString());
             this->patientList->appendRow(preparedRow);
         }
         // Hide the first column - No use to the user
@@ -152,7 +152,7 @@ void PatientView::on_treeViewPatients_activated(const QModelIndex &index)
 
 void PatientView::HandleGetPatientDataApiReplySlot(QVariantMap aResult)
 {
-//    QLOG_DEBUG() << "[PatientView] Data API Reply Recd. "<< aResult;
+    //    QLOG_DEBUG() << "[PatientView] Data API Reply Recd. "<< aResult;
     QString success = "success";
     QString result  = aResult["result"].toString();
     if (result.compare(success) == 0)
@@ -197,7 +197,7 @@ void PatientView::HandleGetPatientDataApiReplySlot(QVariantMap aResult)
 void PatientView::on_treeViewPatients_clicked(const QModelIndex &index)
 {
     this->patient_id = this->patientList->item(index.row(), ID_COLUMN_INDEX)->text();
-//    QLOG_DEBUG() << "[PatientView on_treeViewPatients_clicked]" << this->patient_id << " has been selected";
+    //    QLOG_DEBUG() << "[PatientView on_treeViewPatients_clicked]" << this->patient_id << " has been selected";
 }
 
 #define DATATYPE_COLUMN_INDEX 4
@@ -224,4 +224,19 @@ void PatientView::FileDownloadFinishedSlot(QString path, QString error)
     {
         Utils::DisplayMessageBox(error, "Could not download the file, check network connection and try again in a few minutes", QMessageBox::Critical);
     }
+}
+
+QVariantList PatientView::GetSelectedPatientData()
+{
+    QVariantList list;
+    foreach(QModelIndex index, ui->treePatientData->selectionModel()->selectedRows())
+    {
+        QString file_id = this->patientDataList->item(index.row(), ID_COLUMN_INDEX)->text();
+        QString file_type = this->patientDataList->item(index.row(), DATATYPE_COLUMN_INDEX)->text();
+        QVariantMap aMap;
+        aMap.insert("id", file_id);
+        aMap.insert("dataType", file_type);
+        list.push_back(aMap);
+    }
+    return list;
 }

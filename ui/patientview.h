@@ -2,6 +2,7 @@
 #define PATIENTVIEW_H
 
 #include <QWidget>
+#include <QVariantList>
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QList>
@@ -23,6 +24,8 @@ public:
 
     void setUpListHeaders();
     QString patient_id;
+    QVariantList GetSelectedPatientData();
+
 private slots:
     void HandleGetPatientListApiReplySlot(QVariantMap dataMap);
     void HandleGetPatientDataApiReplySlot(QVariantMap dataListMap);

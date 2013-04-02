@@ -14,42 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SERVICERUNDIALOG_H
-#define SERVICERUNDIALOG_H
+#ifndef PANEXSERVICEAPI_H
+#define PANEXSERVICEAPI_H
 
-#include <QDialog>
-#include <QVariantMap>
+#include <QObject>
+#include "global_include.h"
+#include <QNetworkReply>
 #include <QVariantList>
-#include <QVariant>
-#include <QStandardItemModel>
+#include <QVariantMap>
 
-namespace Ui {
-class ServiceRunDialog;
-}
-
-class ServiceRunDialog : public QDialog
+class PanexServiceAPI : public QObject
 {
     Q_OBJECT
-    
 public:
-    explicit ServiceRunDialog(QWidget *parent = 0);
-    void setInputList(QVariantList theList);
-    ~ServiceRunDialog();
-    
-private slots:
-    void on_btnCancel_clicked();
+    QString authToken;
+    QString localDataDir;
+    explicit PanexServiceAPI(QObject *parent = 0, QString rootUrl = "");
 
-    void on_btnStart_clicked();
-    void handleServiceListReply(QVariantMap aResult);
-    void handleGenericAPIReply(QVariantMap aResult);
+    bool startService(QString service_id, QString patient_id, QString creator_id, QVariantList fileList);
 
+signals:
+    void GenericSignal(QVariantMap result);
+public slots:
+    void handleGenericNetworkReply(QNetworkReply* aReply);
 private:
-    Ui::ServiceRunDialog *ui;
-    QVariantList inputFiles;
-    QString patient_id;
-    QStandardItemModel *serviceListModel;
-
-    void setUpListHeaders();
+    static QString UrlPanex;
+    static QString UrlServiceRunPost;
 };
 
-#endif // SERVICERUNDIALOG_H
+#endif // PANEXSERVICEAPI_H

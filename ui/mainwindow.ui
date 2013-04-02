@@ -240,6 +240,7 @@
    <addaction name="actionUpload_App"/>
    <addaction name="separator"/>
    <addaction name="actionNotifications"/>
+   <addaction name="actionRun_Service"/>
    <addaction name="actionUpload_Service"/>
    <addaction name="separator"/>
    <addaction name="actionSettings"/>
@@ -416,6 +417,15 @@
   <action name="actionView_Selected_Patient">
    <property name="text">
     <string>View Selected Patient</string>
+   </property>
+  </action>
+  <action name="actionRun_Service">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Button_Play_Pause.png</normaloff>:/icons/Button_Play_Pause.png</iconset>
+   </property>
+   <property name="text">
+    <string>Run Service</string>
    </property>
   </action>
  </widget>
