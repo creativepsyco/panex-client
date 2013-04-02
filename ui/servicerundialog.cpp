@@ -138,6 +138,7 @@ void ServiceRunDialog::handleGenericAPIReply(QVariantMap aResult)
     {
         QLOG_DEBUG() << "[ServiceRunDialog] Succesful";
         Utils::DisplayMessageBox("Success", "The operation was carried out successfully", QMessageBox::Information);
+        this->close();
     }
     else
     {
