@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     QPanexApp::registerMainWindow(this);
     this->hide();
     this->frame->setVisible(false);
+    this->frame_3->setVisible(false);
 
     emit showLoginDialog();
 }
