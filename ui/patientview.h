@@ -36,6 +36,7 @@ private slots:
 
     void on_treePatientData_activated(const QModelIndex &index);
     void FileDownloadFinishedSlot(QString path, QString error);
+    void saveServiceListing(QVariantMap aResult);
 
 private:
     QList<QStandardItem *> prepareRow(const QString &first,
@@ -53,6 +54,7 @@ private:
     Ui::PatientView *ui;
     QStandardItemModel *patientList;
     QStandardItemModel *patientDataList;
+    QVariantMap serviceListing;
 };
 
 #endif // PATIENTVIEW_H

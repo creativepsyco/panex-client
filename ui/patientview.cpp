@@ -1,8 +1,12 @@
 #include "patientview.h"
 #include "ui_patientview.h"
+#include "panexapi.h"
+#include "serviceapi.h"
 #include "json.h"
 #include "utils.h"
 #include "global_include.h"
+#include "qpanexapp.h"
+#include "mainwindow.h"
 
 #include <QTreeView>
 #include <QDesktopServices>
@@ -38,7 +42,9 @@ PatientView::PatientView(QWidget *parent) :
     ui->treePatientData->setModel(this->patientDataList);
 
     // Set some connections
-
+    ServiceAPI* sA = PanexApi::instance()->serviceAPI();
+    connect(sA, SIGNAL(ServiceListSignal(QVariantMap)), this, SLOT(saveServiceListing(QVariantMap)));
+    sA->getServiceList();
 }
 
 PatientView::~PatientView()
@@ -51,6 +57,16 @@ void PatientView::GetPatientList()
     connect(PanexApi::instance(), SIGNAL(GetPatientListResultSignal(QVariantMap)),
             this, SLOT(HandleGetPatientListApiReplySlot(QVariantMap)));
     PanexApi::instance()->GetPatientList(ALL_PATIENTS);
+}
+
+void PatientView::saveServiceListing(QVariantMap aResult)
+{
+    this->serviceListing.clear();
+    this->serviceListing.insert("services", aResult["services"].toList());
+    QString LogString("[PatientView] Received %1 services");
+    LogString.arg(this->serviceListing["services"].toList().length());
+    QLOG_INFO() << LogString;
+    QPanexApp::instance()->mainWindow()->statusbar->setStatusTip(LogString);
 }
 
 void PatientView::setUpListHeaders()
