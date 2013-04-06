@@ -11,7 +11,7 @@ QT Desktop Client for Panex
 -----------------
 ####Requirements
   * Requires Qt 4.8.4
-  * Depends on the Panex API as provided by [panex-web-api](2)
+  * Depends on the Panex API as provided by [panex-web-api][2]
 
 
 ###App Screenshots
