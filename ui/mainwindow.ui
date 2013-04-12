@@ -238,6 +238,7 @@
    <addaction name="separator"/>
    <addaction name="actionNew_Patient"/>
    <addaction name="actionPatient_View"/>
+   <addaction name="actionSearch_Patient"/>
    <addaction name="actionUpload_Data"/>
    <addaction name="separator"/>
    <addaction name="actionUpload_App"/>
@@ -439,6 +440,15 @@
    </property>
    <property name="text">
     <string>Server Status</string>
+   </property>
+  </action>
+  <action name="actionSearch_Patient">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Search.png</normaloff>:/icons/Search.png</iconset>
+   </property>
+   <property name="text">
+    <string>Search Patient</string>
    </property>
   </action>
  </widget>

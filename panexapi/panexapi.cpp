@@ -12,6 +12,7 @@
 using namespace QtJson;
 
 // XXX: Must be changed when deploying on the server
+//const QString PanexApi::UrlPanex = "http://panex.mmedwebdemo.d1.comp.nus.edu.sg";
 const QString PanexApi::UrlPanex = "http://localhost:3000";
 const QString PanexApi::UrlUserSignUp = PanexApi::UrlPanex + "/users.json";
 const QString PanexApi::UrlUserLogin = PanexApi::UrlPanex + "/users/sign_in.json";

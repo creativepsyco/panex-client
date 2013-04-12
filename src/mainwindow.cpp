@@ -13,6 +13,7 @@
 #include "ui/uploadservicedialog.h"
 #include "ui/patientdataupload.h"
 #include "ui/servicerundialog.h"
+#include "ui/searchpatientdialog.h"
 #include "systemstatusdialog.h"
 
 #include "global_include.h"
@@ -317,4 +318,10 @@ void MainWindow::on_actionView_Server_Status_triggered()
 {
     SystemStatusDialog* sD = new SystemStatusDialog(this);
     sD->open();
+}
+
+void MainWindow::on_actionSearch_Patient_triggered()
+{
+    SearchPatientDialog* df = new SearchPatientDialog(this);
+    df->open();
 }

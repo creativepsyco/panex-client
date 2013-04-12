@@ -71,6 +71,8 @@ private slots:
 
     void on_actionView_Server_Status_triggered();
 
+    void on_actionSearch_Patient_triggered();
+
 private:
     void setUpConnections();
     void populateServices(QWidget *widget);
