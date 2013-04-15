@@ -14,6 +14,7 @@
 #include "ui/patientdataupload.h"
 #include "ui/servicerundialog.h"
 #include "ui/searchpatientdialog.h"
+#include "ui/applicationdownloaddialog.h"
 #include "systemstatusdialog.h"
 
 #include "global_include.h"
@@ -324,4 +325,10 @@ void MainWindow::on_actionSearch_Patient_triggered()
 {
     SearchPatientDialog* df = new SearchPatientDialog(this);
     df->open();
+}
+
+void MainWindow::on_actionDownload_App_triggered()
+{
+    ApplicationDownloadDialog* ap = new ApplicationDownloadDialog(this);
+    ap->open();
 }

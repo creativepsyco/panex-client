@@ -31,8 +31,14 @@ public:
     explicit ApplicationDownloadDialog(QWidget *parent = 0);
     ~ApplicationDownloadDialog();
     
+private slots:
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
 private:
     Ui::ApplicationDownloadDialog *ui;
+    void updateStatusBar(QString msg);
 };
 
 #endif // APPLICATIONDOWNLOADDIALOG_H

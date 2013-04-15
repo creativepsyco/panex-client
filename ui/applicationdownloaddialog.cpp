@@ -16,6 +16,8 @@
 
 #include "applicationdownloaddialog.h"
 #include "ui_applicationdownloaddialog.h"
+#include <QFileDialog>
+#include "global_include.h"
 
 ApplicationDownloadDialog::ApplicationDownloadDialog(QWidget *parent) :
     QDialog(parent),
@@ -27,4 +29,34 @@ ApplicationDownloadDialog::ApplicationDownloadDialog(QWidget *parent) :
 ApplicationDownloadDialog::~ApplicationDownloadDialog()
 {
     delete ui;
+}
+
+void ApplicationDownloadDialog::on_pushButton_clicked()
+{
+    QFileDialog dialog(this);
+    dialog.setOption(QFileDialog::ShowDirsOnly, true);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setFileMode(QFileDialog::DirectoryOnly);
+    // Set Filter ?
+    if (dialog.exec())
+    {
+        QLOG_DEBUG() << dialog.selectedFiles().count() << dialog.selectedFilter();
+    }
+
+    if (dialog.selectedFiles().count() == 1)
+    {
+        QString msg = "Selected %1 for download app";
+        updateStatusBar(msg.arg(dialog.selectedFiles()[0]));
+    }
+}
+
+void ApplicationDownloadDialog::on_pushButton_2_clicked()
+{
+    this->reject();
+}
+
+void ApplicationDownloadDialog::updateStatusBar(QString msg)
+{
+    QString message = "Message: " + msg;
+    ui->statusText->setText(message);
 }

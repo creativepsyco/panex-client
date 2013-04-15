@@ -242,6 +242,7 @@
    <addaction name="actionUpload_Data"/>
    <addaction name="separator"/>
    <addaction name="actionUpload_App"/>
+   <addaction name="actionDownload_App"/>
    <addaction name="separator"/>
    <addaction name="actionNotifications"/>
    <addaction name="actionRun_Service"/>
@@ -449,6 +450,15 @@
    </property>
    <property name="text">
     <string>Search Patient</string>
+   </property>
+  </action>
+  <action name="actionDownload_App">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Button_Down.png</normaloff>:/icons/Button_Down.png</iconset>
+   </property>
+   <property name="text">
+    <string>Download App</string>
    </property>
   </action>
  </widget>

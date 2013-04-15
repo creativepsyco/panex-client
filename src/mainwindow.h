@@ -73,6 +73,8 @@ private slots:
 
     void on_actionSearch_Patient_triggered();
 
+    void on_actionDownload_App_triggered();
+
 private:
     void setUpConnections();
     void populateServices(QWidget *widget);
