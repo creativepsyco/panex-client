@@ -18,6 +18,9 @@
 #define APPLICATIONDOWNLOADDIALOG_H
 
 #include <QDialog>
+#include <QVariantMap>
+#include <QStandardItem>
+#include <QStandardItemModel>
 
 namespace Ui {
 class ApplicationDownloadDialog;
@@ -31,14 +34,16 @@ public:
     explicit ApplicationDownloadDialog(QWidget *parent = 0);
     ~ApplicationDownloadDialog();
     
+    void setupTreeView(QVariantList appList);
 private slots:
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
-
+    void HandleAppListAPIReply(QVariantMap dataMap);
 private:
     Ui::ApplicationDownloadDialog *ui;
     void updateStatusBar(QString msg);
+    QStandardItemModel *appListModel;
 };
 
 #endif // APPLICATIONDOWNLOADDIALOG_H

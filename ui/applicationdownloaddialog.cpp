@@ -18,12 +18,19 @@
 #include "ui_applicationdownloaddialog.h"
 #include <QFileDialog>
 #include "global_include.h"
+#include "panexapi.h"
+#include <QTreeView>
 
 ApplicationDownloadDialog::ApplicationDownloadDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ApplicationDownloadDialog)
 {
     ui->setupUi(this);
+    appListModel = new QStandardItemModel;
+
+    //  connect and fire
+    connect(PanexApi::instance(), SIGNAL(GenericSignal(QVariantMap)), this, SLOT(HandleAppListAPIReply(QVariantMap)));
+    PanexApi::instance()->GetAppList(0);
 }
 
 ApplicationDownloadDialog::~ApplicationDownloadDialog()
@@ -59,4 +66,33 @@ void ApplicationDownloadDialog::updateStatusBar(QString msg)
 {
     QString message = "Message: " + msg;
     ui->statusText->setText(message);
+}
+
+void ApplicationDownloadDialog::setupTreeView(QVariantList appList)
+{
+    appListModel->clear();
+    foreach(QVariant app, appList)
+    {
+        QVariantMap appMap = app.toMap();
+        QList<QStandardItem *> rowItems;
+        rowItems << new QStandardItem(appMap["name"].toString());
+        rowItems << new QStandardItem(appMap["description"].toString());
+        appListModel->appendRow(rowItems);
+    }
+    ui->treeView->setModel(appListModel);
+}
+
+void ApplicationDownloadDialog::HandleAppListAPIReply(QVariantMap aReply)
+{
+    QString result = aReply["result"].toString();
+    if(result.compare("success") == 0)
+    {
+        updateStatusBar("Successfully loaded Application list");
+        QVariantList appList = aReply["apps"].toList();
+        setupTreeView(appList);
+    }
+    else
+    {
+        Utils::DisplayMessageBox(aReply["errorString"].toString(), aReply["message"].toString() , QMessageBox::Information);
+    }
 }
