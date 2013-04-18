@@ -39,7 +39,8 @@ HEADERS += panexapi/panexapi.h \
     panexapi/serviceapi.h \
     systemstatusdialog.h \
     ui/searchpatientdialog.h \
-    ui/applicationdownloaddialog.h
+    ui/applicationdownloaddialog.h \
+    ui/servicerunbrowserdialog.h
 FORMS += ui/aboutdialog.ui \
          ui/addpatient.ui \
          ui/logindialog.ui \
@@ -55,7 +56,8 @@ FORMS += ui/aboutdialog.ui \
     ui/servicerundialog.ui \
     systemstatusdialog.ui \
     ui/searchpatientdialog.ui \
-    ui/applicationdownloaddialog.ui
+    ui/applicationdownloaddialog.ui \
+    ui/servicerunbrowserdialog.ui
 SOURCES += panexapi/panexapi.cpp \
            qslog/QsDebugOutput.cpp \
            qslog/QsLog.cpp \
@@ -84,7 +86,8 @@ SOURCES += panexapi/panexapi.cpp \
     panexapi/serviceapi.cpp \
     systemstatusdialog.cpp \
     ui/searchpatientdialog.cpp \
-    ui/applicationdownloaddialog.cpp
+    ui/applicationdownloaddialog.cpp \
+    ui/servicerunbrowserdialog.cpp
 RESOURCES += res/panexres.qrc
 
 OTHER_FILES += \

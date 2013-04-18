@@ -15,6 +15,7 @@
 #include "ui/servicerundialog.h"
 #include "ui/searchpatientdialog.h"
 #include "ui/applicationdownloaddialog.h"
+#include "ui/servicerunbrowserdialog.h"
 #include "systemstatusdialog.h"
 
 #include "global_include.h"
@@ -331,4 +332,10 @@ void MainWindow::on_actionDownload_App_triggered()
 {
     ApplicationDownloadDialog* ap = new ApplicationDownloadDialog(this);
     ap->open();
+}
+
+void MainWindow::on_actionResults_triggered()
+{
+    ServiceRunBrowserDialog* sp = new ServiceRunBrowserDialog(this);
+    sp->open();
 }

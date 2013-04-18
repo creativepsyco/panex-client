@@ -244,8 +244,8 @@
    <addaction name="actionUpload_App"/>
    <addaction name="actionDownload_App"/>
    <addaction name="separator"/>
-   <addaction name="actionNotifications"/>
    <addaction name="actionRun_Service"/>
+   <addaction name="actionResults"/>
    <addaction name="actionUpload_Service"/>
    <addaction name="actionView_Server_Status"/>
    <addaction name="separator"/>
@@ -459,6 +459,15 @@
    </property>
    <property name="text">
     <string>Download App</string>
+   </property>
+  </action>
+  <action name="actionResults">
+   <property name="icon">
+    <iconset resource="../res/panexres.qrc">
+     <normaloff>:/icons/Blocknotes.png</normaloff>:/icons/Blocknotes.png</iconset>
+   </property>
+   <property name="text">
+    <string>Results</string>
    </property>
   </action>
  </widget>

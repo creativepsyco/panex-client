@@ -75,6 +75,8 @@ private slots:
 
     void on_actionDownload_App_triggered();
 
+    void on_actionResults_triggered();
+
 private:
     void setUpConnections();
     void populateServices(QWidget *widget);
