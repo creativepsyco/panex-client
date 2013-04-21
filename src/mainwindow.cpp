@@ -102,7 +102,8 @@ void MainWindow::loginSuccessSlot(QVariantMap aResult)
     PanexApi::instance()->authToken = aResult["auth_token"].toString();
     PanexApi::instance()->localDataDir = QPanexApp::instance()->settingsDialog()->getLocalStorageLocation();
     QLOG_DEBUG() << "[MainWindow] Result saved to settings config";
-    PanexApi::instance()->GetAppList(0);
+    //PanexApi::instance()->GetAppList(0);
+    this->on_actionPatient_View_triggered();
     this->show();
 }
 
