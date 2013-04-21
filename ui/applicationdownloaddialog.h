@@ -35,6 +35,7 @@ public:
     ~ApplicationDownloadDialog();
     
     void setupTreeView(QVariantList appList);
+    void setupHeaders();
 private slots:
     void on_pushButton_clicked();
 

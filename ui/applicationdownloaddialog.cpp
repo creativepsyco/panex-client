@@ -20,6 +20,7 @@
 #include "global_include.h"
 #include "panexapi.h"
 #include <QTreeView>
+#include <QDesktopServices>
 
 ApplicationDownloadDialog::ApplicationDownloadDialog(QWidget *parent) :
     QDialog(parent),
@@ -40,21 +41,27 @@ ApplicationDownloadDialog::~ApplicationDownloadDialog()
 
 void ApplicationDownloadDialog::on_pushButton_clicked()
 {
-    QFileDialog dialog(this);
-    dialog.setOption(QFileDialog::ShowDirsOnly, true);
-    dialog.setDirectory(QDir::homePath());
-    dialog.setFileMode(QFileDialog::DirectoryOnly);
-    // Set Filter ?
-    if (dialog.exec())
-    {
-        QLOG_DEBUG() << dialog.selectedFiles().count() << dialog.selectedFilter();
-    }
+    QModelIndexList selectedRow = ui->treeView->selectionModel()->selectedRows();
+    QString id = appListModel->item(selectedRow[0].row(), 2)->text();
+    QString url = (PanexApi::instance()->GetRootURL() + "/apps/%1.zip").arg(id);
+    QUrl theUrl(url);
+    QDesktopServices::openUrl(theUrl);
 
-    if (dialog.selectedFiles().count() == 1)
-    {
-        QString msg = "Selected %1 for download app";
-        updateStatusBar(msg.arg(dialog.selectedFiles()[0]));
-    }
+//    QFileDialog dialog(this);
+//    dialog.setOption(QFileDialog::ShowDirsOnly, true);
+//    dialog.setDirectory(QDir::homePath());
+//    dialog.setFileMode(QFileDialog::DirectoryOnly);
+//    // Set Filter ?
+//    if (dialog.exec())
+//    {
+//        QLOG_DEBUG() << dialog.selectedFiles().count() << dialog.selectedFilter();
+//    }
+
+//    if (dialog.selectedFiles().count() == 1)
+//    {
+//        QString msg = "Selected %1 for download app";
+//        updateStatusBar(msg.arg(dialog.selectedFiles()[0]));
+//    }
 }
 
 void ApplicationDownloadDialog::on_pushButton_2_clicked()
@@ -68,6 +75,13 @@ void ApplicationDownloadDialog::updateStatusBar(QString msg)
     ui->statusText->setText(message);
 }
 
+void ApplicationDownloadDialog::setupHeaders()
+{
+    QStringList labels;
+    labels << "Name" << "Description" << "id";
+    appListModel->setHorizontalHeaderLabels(labels);
+}
+
 void ApplicationDownloadDialog::setupTreeView(QVariantList appList)
 {
     appListModel->clear();
@@ -77,8 +91,10 @@ void ApplicationDownloadDialog::setupTreeView(QVariantList appList)
         QList<QStandardItem *> rowItems;
         rowItems << new QStandardItem(appMap["name"].toString());
         rowItems << new QStandardItem(appMap["description"].toString());
+        rowItems << new QStandardItem(appMap["id"].toString());
         appListModel->appendRow(rowItems);
     }
+    setupHeaders();
     ui->treeView->setModel(appListModel);
 }
 
